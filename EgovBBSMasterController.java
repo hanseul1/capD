@@ -26,7 +26,7 @@ import egovframework.rte.fdl.property.EgovPropertyService;
 import egovframework.rte.ptl.mvc.tags.ui.pagination.PaginationInfo;
 
 
-
+//수정함ㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㄴㅇㅁ
 
 @Controller
 public class EgovBBSMasterController {
