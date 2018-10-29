@@ -42,7 +42,6 @@ import java.net.URL;
 
 public class SignupActivity extends AppCompatActivity {
 
-    private static final int PICK_FROM_ALBUM = 10;
     private EditText textEmail;
     private EditText textName;
     private EditText textPassword;
@@ -67,16 +66,6 @@ public class SignupActivity extends AppCompatActivity {
             getWindow().setStatusBarColor(Color.parseColor(splash_background));
         }
 
-        profile = (ImageView)findViewById(R.id.signupActivity_imageview_profile);
-        profile.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(Intent.ACTION_PICK);
-                intent.setType(MediaStore.Images.Media.CONTENT_TYPE);
-                startActivityForResult(intent,PICK_FROM_ALBUM);
-            }
-        });
-
         textEmail = (EditText)findViewById(R.id.signupActivity_edittext_email);
         textName = (EditText)findViewById(R.id.signupActivity_edittext_name);
         textPassword = (EditText)findViewById(R.id.signupActivity_edittext_password);
@@ -89,7 +78,7 @@ public class SignupActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                if(textEmail.getText().toString() == null || textName.getText().toString() == null || textPassword.getText().toString() == null || imageUri == null){
+                if(textEmail.getText().toString() == null || textName.getText().toString() == null || textPassword.getText().toString() == null){
                     return;
                 }
 
@@ -99,19 +88,11 @@ public class SignupActivity extends AppCompatActivity {
                                     @Override
                                     public void onComplete(@NonNull Task<AuthResult> task) {
                                         final String uid = task.getResult().getUser().getUid();
-                                        UserProfileChangeRequest userProfileChangeRequest = new UserProfileChangeRequest.Builder().setDisplayName(textName.getText().toString()).build();
 
-                                        task.getResult().getUser().updateProfile(userProfileChangeRequest);
 
-                                        FirebaseStorage.getInstance().getReference().child("userImages").child(uid).putFile(imageUri).addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
-                                            @Override
-                                            public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
-                                                @SuppressWarnings("VisibleForTests")
-                                                String imageUrl = task.getResult().getDownloadUrl().toString();
 
                                                 final UserModel userModel = new UserModel();
                                                 userModel.userName = textName.getText().toString();
-                                                userModel.profileImageUrl = imageUrl;
                                                 userModel.userType = radioButton.getText().toString();
                                                 userModel.uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
@@ -124,21 +105,19 @@ public class SignupActivity extends AppCompatActivity {
                                                         String password = textPassword.getText().toString();
                                                         String uid = userModel.uid;
                                                         String token = FirebaseInstanceId.getInstance().getToken();
-                                                        int userType;
+                                                        String userType;
                                                         if(radioButton.getText().toString().equals("청각장애인")){
-                                                            userType = 0;
+                                                            userType = "H";
                                                         }else{
-                                                            userType = 1;
+                                                            userType = "V";
                                                         }
-                                                        int point = 0;
-                                                        String temp = "init";
                                                         InsertUserData insertUserData = new InsertUserData();
-                                                        insertUserData.execute("http://"+IP_ADDRESS+"/insertUser.php",email,password,name,uid,token);
+                                                        insertUserData.execute("http://"+IP_ADDRESS+"/insertUser.php",email,password,name,uid,token,userType);
                                                         SignupActivity.this.finish();
                                                     }
                                                 });
-                                            }
-                                        });
+
+
                                     }
 
                             });
@@ -146,13 +125,6 @@ public class SignupActivity extends AppCompatActivity {
         });
     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if(requestCode == PICK_FROM_ALBUM && resultCode == RESULT_OK){
-            profile.setImageURI(data.getData()); //가운데 뷰를 바꿈
-            imageUri = data.getData(); // 이미지 경로 원본
-        }
-    }
 
     class InsertUserData extends AsyncTask<String,Void,String>{
 
@@ -179,8 +151,9 @@ public class SignupActivity extends AppCompatActivity {
             String name = (String)strings[3];
             String uid = (String)strings[4];
             String token = (String)strings[5];
+            String userType = (String)strings[6];
 
-            String postParameters = "userId=" + userId + "&password=" + password + "&name=" + name + "&uid=" + uid + "&token=" + token;
+            String postParameters = "userId=" + userId + "&password=" + password + "&name=" + name + "&uid=" + uid + "&token=" + token + "&userType=" + userType;
 
             try{
                 URL url = new URL(serverUrl);
