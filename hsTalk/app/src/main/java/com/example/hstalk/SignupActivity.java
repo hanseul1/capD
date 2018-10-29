@@ -54,7 +54,7 @@ public class SignupActivity extends AppCompatActivity {
     private RadioGroup radioGroup;
     private String uid;
 
-    private static String IP_ADDRESS = "10.0.2.2";
+    private static String IP_ADDRESS = "52.231.69.121";
     private static String TAG = "phptest";
 
     @Override
@@ -156,20 +156,16 @@ public class SignupActivity extends AppCompatActivity {
 
     class InsertUserData extends AsyncTask<String,Void,String>{
 
-        ProgressDialog progressDialog;
 
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-
-            progressDialog = ProgressDialog.show(SignupActivity.this,"Please wait",null,true,true);
         }
 
         @Override
         protected void onPostExecute(String result) {
             super.onPostExecute(result);
 
-            progressDialog.dismiss();
             Log.d(TAG, "POST response  - " + result);
         }
 

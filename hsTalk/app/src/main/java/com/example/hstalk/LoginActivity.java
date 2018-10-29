@@ -45,7 +45,7 @@ public class LoginActivity extends AppCompatActivity {
     private FirebaseAuth firebaseAuth;
     private FirebaseAuth.AuthStateListener authStateListener;
 
-    private static String IP_ADDRESS = "10.0.2.2";
+    private static String IP_ADDRESS = "52.231.69.121";
     private static String TAG = "phptest";
     private String mJsonString;
 
