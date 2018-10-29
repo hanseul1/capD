@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "129787767443",
+    "firebase_url": "https://hstalk-71eb3.firebaseio.com",
+    "project_id": "hstalk-71eb3",
+    "storage_bucket": "hstalk-71eb3.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:129787767443:android:3b820526181f70a2",
+        "android_client_info": {
+          "package_name": "com.example.hstalk"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "129787767443-naevms98ogcgirmc6va4iumnc58tvsp7.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.hstalk",
+            "certificate_hash": "66c93af383ae15b0fb4c8267fa34a64d29f706f2"
+          }
+        },
+        {
+          "client_id": "129787767443-536kshesdthb7ju1e51q2f1iojdn9i1i.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD0J_tXzo98vK9fAJn-0hWI1Y_rf6k_ooc"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "129787767443-536kshesdthb7ju1e51q2f1iojdn9i1i.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
