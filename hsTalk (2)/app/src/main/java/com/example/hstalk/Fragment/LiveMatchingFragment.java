@@ -1,59 +1,81 @@
-package com.example.hstalk;
+package com.example.hstalk.Fragment;
 
+import android.app.Fragment;
+import android.app.FragmentTransaction;
 import android.os.AsyncTask;
+import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
+import android.app.AlertDialog;
+import android.widget.Toast;
 
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.iid.FirebaseInstanceId;
-import com.google.firebase.iid.FirebaseInstanceIdService;
+import com.example.hstalk.MainActivity;
+import com.example.hstalk.R;
 
 import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-import okhttp3.FormBody;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.RequestBody;
+public class LiveMatchingFragment extends Fragment {
 
-public class MyFirebaseInstanceIDService extends FirebaseInstanceIdService {
-    private static final String TAG = MyFirebaseInstanceIDService.class.getSimpleName();
+    private static String IP_ADDRESS = "52.231.69.121";
+    private static String TAG ="pushtest";
+    EditText title;
+    EditText body;
+    Button button;
 
-    private static String IP_ADDRESS = "10.0.2.2";
-
-    // 토큰 재생성
+    @Nullable
     @Override
-    public void onTokenRefresh() {
-        // Get updated InstanceID token.
-        String token = FirebaseInstanceId.getInstance().getToken();
-        String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
-        Log.d(TAG, "token = " + token);
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_livematching,container,false);
+        title = (EditText)view.findViewById(R.id.livematching_title);
+        body = (EditText)view.findViewById(R.id.livematching_body);
+        button = (Button)view.findViewById(R.id.livematching_button);
 
-        // 생성한 토큰을 서버로 날려서 저장하기 위해서 만든거
-        sendRegistrationToServer(token,uid);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                //수화통역사들에게 푸시알람 보냄
+                PushNotification push = new PushNotification();
+               push.execute("http://"+IP_ADDRESS+"/push_notification.php",title.getText().toString(),body.getText().toString());
+
+                Toast.makeText(getActivity(),"전송완료",Toast.LENGTH_SHORT).show();
+            }
+        });
+       return view;
+
     }
 
-    private void sendRegistrationToServer(String token, String uid) {
+    class PushNotification extends AsyncTask<String,Void,String>{
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
 
-        InsertToken insertToken = new InsertToken();
-        insertToken.execute("http://" + IP_ADDRESS + "/register.php",token,uid);
+        }
 
-    }
-
-    class InsertToken extends AsyncTask<String,Void,String>{
+        @Override
+        protected void onPostExecute(String result) {
+            super.onPostExecute(result);
+            Log.d(TAG, "POST response  - " + result);
+        }
 
         @Override
         protected String doInBackground(String... strings) {
 
             String serverUrl = (String)strings[0];
-            String token = (String)strings[1];
-            String uid = (String)strings[2];
+            String title = (String)strings[1];
+            String body = (String)strings[2];
 
-            String postParameters = "token=" + token + "&uid=" + uid;
+            String postParameters = "title=" + title + "&body=" + body ;
 
             try{
                 URL url = new URL(serverUrl);

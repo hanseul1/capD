@@ -3,6 +3,8 @@ package com.example.hstalk;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.drawable.AnimationDrawable;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -10,12 +12,14 @@ import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatDialog;
 import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
@@ -56,6 +60,8 @@ public class SignupActivity extends AppCompatActivity {
     private static String IP_ADDRESS = "52.231.69.121";
     private static String TAG = "phptest";
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -81,7 +87,22 @@ public class SignupActivity extends AppCompatActivity {
                 if(textEmail.getText().toString() == null || textName.getText().toString() == null || textPassword.getText().toString() == null){
                     return;
                 }
+               // final ProgressDialog pd = ProgressDialog.show(SignupActivity.this, "회원가입", "잠시만 기다려주세요...");
+                final AppCompatDialog pd = new AppCompatDialog(SignupActivity.this);
+                pd.setCancelable(false);
+                pd.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+                pd.setContentView(R.layout.progress_loading);
+                pd.show();
+                final ImageView img_loading_frame = (ImageView) pd.findViewById(R.id.iv_frame_loading);
+                final AnimationDrawable frameAnimation = (AnimationDrawable) img_loading_frame.getBackground();
+                img_loading_frame.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        frameAnimation.start();
+                    }
+                });
 
+                TextView tv_progress_message = (TextView) pd.findViewById(R.id.tv_progress_message);
                 FirebaseAuth.getInstance()
                         .createUserWithEmailAndPassword(textEmail.getText().toString(), textPassword.getText().toString())
                         .addOnCompleteListener(SignupActivity.this, new OnCompleteListener<AuthResult>() {
@@ -90,20 +111,15 @@ public class SignupActivity extends AppCompatActivity {
                                         final String uid = task.getResult().getUser().getUid();
 
 
-
                                                 final UserModel userModel = new UserModel();
                                                 userModel.userName = textName.getText().toString();
                                                 userModel.userType = radioButton.getText().toString();
                                                 userModel.uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
-                                                FirebaseDatabase.getInstance().getReference().child("users").child(uid).setValue(userModel).addOnSuccessListener(new OnSuccessListener<Void>() {
-                                                    @Override
-                                                    public void onSuccess(Void aVoid) {
                                                         //mysql DB 에 회원정보 저장(user table)
                                                         String email = textEmail.getText().toString();
                                                         String name = textName.getText().toString();
                                                         String password = textPassword.getText().toString();
-                                                        String uid = userModel.uid;
                                                         String token = FirebaseInstanceId.getInstance().getToken();
                                                         String userType;
                                                         if(radioButton.getText().toString().equals("청각장애인")){
@@ -113,10 +129,8 @@ public class SignupActivity extends AppCompatActivity {
                                                         }
                                                         InsertUserData insertUserData = new InsertUserData();
                                                         insertUserData.execute("http://"+IP_ADDRESS+"/insertUser.php",email,password,name,uid,token,userType);
+                                                       pd.dismiss();
                                                         SignupActivity.this.finish();
-                                                    }
-                                                });
-
 
                                     }
 
@@ -126,18 +140,20 @@ public class SignupActivity extends AppCompatActivity {
     }
 
 
+
+
     class InsertUserData extends AsyncTask<String,Void,String>{
 
 
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
+
         }
 
         @Override
         protected void onPostExecute(String result) {
             super.onPostExecute(result);
-
             Log.d(TAG, "POST response  - " + result);
         }
 
@@ -203,4 +219,6 @@ public class SignupActivity extends AppCompatActivity {
             }
         }
     }
+
+
 }
