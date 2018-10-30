@@ -22,7 +22,6 @@
         <activity android:name=".SignupActivity" />
         <activity android:name=".MainActivity" />
         <activity android:name=".chat.MessageActivity" />
-        <activity android:name=".SettingActivity" />
 
         <!-- 서비스 태그 추가 -->
         <service android:name=".MyFirebaseMessagingService">
@@ -36,6 +35,7 @@
             </intent-filter>
         </service>
 
+        <activity android:name=".MatchingActivity"></activity>
     </application>
 
 </manifest>

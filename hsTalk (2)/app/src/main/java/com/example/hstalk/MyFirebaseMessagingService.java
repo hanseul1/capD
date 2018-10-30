@@ -12,6 +12,8 @@ import android.os.Bundle;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.messaging.RemoteMessage;
 
 import java.util.Map;
@@ -35,6 +37,8 @@ public class MyFirebaseMessagingService extends com.google.firebase.messaging.Fi
 
         String channelId = "channel";
         String channelName = "Channel Name";
+        String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+
         NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
@@ -47,11 +51,12 @@ public class MyFirebaseMessagingService extends com.google.firebase.messaging.Fi
             notificationManager.createNotificationChannel(mChannel);
         }
 
-        Intent intent = new Intent(this, MainActivity.class);
-        //번들에 수신한 메세지를 담아서 메인액티비티로 넘겨 보자.
+        Intent intent = new Intent(this, MatchingActivity.class);
+        //번들에 수신한 메세지를 담아서 액티비티로 넘겨 보자.
         Bundle bundle = new Bundle();
         bundle.putString("title", title);
         bundle.putString("body", message);
+        bundle.putString("user", uid);
         intent.putExtras(bundle);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 
