@@ -12,6 +12,8 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.app.AlertDialog;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.Toast;
 
 import com.example.hstalk.MainActivity;
@@ -28,9 +30,12 @@ public class LiveMatchingFragment extends Fragment {
 
     private static String IP_ADDRESS = "52.231.69.121";
     private static String TAG ="pushtest";
-    EditText title;
-    EditText body;
-    Button button;
+    private EditText title;
+    private EditText body;
+    private Button button;
+    private RadioGroup radioGroup;
+    private RadioButton pay;
+    private String payment;
 
     @Nullable
     @Override
@@ -39,6 +44,9 @@ public class LiveMatchingFragment extends Fragment {
         title = (EditText)view.findViewById(R.id.livematching_title);
         body = (EditText)view.findViewById(R.id.livematching_body);
         button = (Button)view.findViewById(R.id.livematching_button);
+        radioGroup = (RadioGroup)view.findViewById(R.id.livematching_radiogroup);
+        pay = (RadioButton)view.findViewById(R.id.livematching_radiobutton_pay);
+
 
         button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -46,7 +54,13 @@ public class LiveMatchingFragment extends Fragment {
 
                 //수화통역사들에게 푸시알람 보냄
                 PushNotification push = new PushNotification();
-               push.execute("http://"+IP_ADDRESS+"/push_notification.php",title.getText().toString(),body.getText().toString());
+
+                if(pay.isChecked()){
+                    payment = "pay";
+                }else{
+                    payment = "free";
+                }
+                push.execute("http://"+IP_ADDRESS+"/push_notification.php",title.getText().toString(),body.getText().toString(),payment);
 
                 Toast.makeText(getActivity(),"전송완료",Toast.LENGTH_SHORT).show();
             }
@@ -74,8 +88,9 @@ public class LiveMatchingFragment extends Fragment {
             String serverUrl = (String)strings[0];
             String title = (String)strings[1];
             String body = (String)strings[2];
+            String payments = (String)strings[3];
 
-            String postParameters = "title=" + title + "&body=" + body ;
+            String postParameters = "title=" + title + "&body=" + body + "&payment=" + payments ;
 
             try{
                 URL url = new URL(serverUrl);

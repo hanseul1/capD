@@ -27,6 +27,28 @@
             android:layout_height="wrap_content" />
     </android.support.design.widget.TextInputLayout>
 
+    <RadioGroup
+        android:id="@+id/livematching_radiogroup"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_gravity="center">
+
+        <RadioButton
+            android:id="@+id/livematching_radiobutton_pay"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="50dp"
+            android:text="유료"/>
+
+        <RadioButton
+            android:id="@+id/livematching_radiobutton_free"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:checked="true"
+            android:text="무료"/>
+    </RadioGroup>
+
     <Button
         android:id="@+id/livematching_button"
         android:layout_width="wrap_content"

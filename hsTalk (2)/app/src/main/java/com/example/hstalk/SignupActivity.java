@@ -51,11 +51,11 @@ public class SignupActivity extends AppCompatActivity {
     private EditText textPassword;
     private Button signupB;
     private String splash_background;
-    private ImageView profile;
-    private Uri imageUri;
-    private RadioButton radioButton;
+    private RadioButton userTypeH;
+    private RadioButton userTypeV;
     private RadioGroup radioGroup;
     private String uid;
+    private String userType;
 
     private static String IP_ADDRESS = "52.231.69.121";
     private static String TAG = "phptest";
@@ -78,7 +78,8 @@ public class SignupActivity extends AppCompatActivity {
         signupB = (Button)findViewById(R.id.signupActivity_button_signup);
         signupB.setBackgroundColor(Color.parseColor(splash_background));
         radioGroup = (RadioGroup)findViewById(R.id.signupactivity_radiogroup);
-        radioButton = (RadioButton)findViewById(radioGroup.getCheckedRadioButtonId());
+        userTypeH = (RadioButton)findViewById(R.id.signupactivity_radiobutton_hear);
+        userTypeV = (RadioButton)findViewById(R.id.signupactivity_radiobutton_trans);
 
         signupB.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -113,20 +114,20 @@ public class SignupActivity extends AppCompatActivity {
 
                                                 final UserModel userModel = new UserModel();
                                                 userModel.userName = textName.getText().toString();
-                                                userModel.userType = radioButton.getText().toString();
                                                 userModel.uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+                                                if(userTypeH.isChecked()){
+                                                    userType = "H";
+                                                }else{
+                                                    userType = "V";
+                                                }
+                                                userModel.userType = userType;
 
                                                         //mysql DB 에 회원정보 저장(user table)
                                                         String email = textEmail.getText().toString();
                                                         String name = textName.getText().toString();
                                                         String password = textPassword.getText().toString();
                                                         String token = FirebaseInstanceId.getInstance().getToken();
-                                                        String userType;
-                                                        if(radioButton.getText().toString().equals("청각장애인")){
-                                                            userType = "H";
-                                                        }else{
-                                                            userType = "V";
-                                                        }
+
                                                         InsertUserData insertUserData = new InsertUserData();
                                                         insertUserData.execute("http://"+IP_ADDRESS+"/insertUser.php",email,password,name,uid,token,userType);
                                                        pd.dismiss();
@@ -138,8 +139,6 @@ public class SignupActivity extends AppCompatActivity {
             }
         });
     }
-
-
 
 
     class InsertUserData extends AsyncTask<String,Void,String>{
