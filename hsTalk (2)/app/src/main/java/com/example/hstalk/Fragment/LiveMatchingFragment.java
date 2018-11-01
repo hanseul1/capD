@@ -33,9 +33,9 @@ public class LiveMatchingFragment extends Fragment {
     private EditText title;
     private EditText body;
     private Button button;
-    private RadioGroup radioGroup;
+    private RadioButton free;
     private RadioButton pay;
-    private String payment;
+    private String payment = "free";
 
     @Nullable
     @Override
@@ -44,8 +44,25 @@ public class LiveMatchingFragment extends Fragment {
         title = (EditText)view.findViewById(R.id.livematching_title);
         body = (EditText)view.findViewById(R.id.livematching_body);
         button = (Button)view.findViewById(R.id.livematching_button);
-        radioGroup = (RadioGroup)view.findViewById(R.id.livematching_radiogroup);
         pay = (RadioButton)view.findViewById(R.id.livematching_radiobutton_pay);
+        free = (RadioButton)view.findViewById(R.id.livematching_radiobutton_free);
+        pay.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view) {
+              payment = "pay";
+            }
+        });
+
+
+        free.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view) {
+                payment = "free";
+            }
+        });
+
+
+
 
 
         button.setOnClickListener(new View.OnClickListener() {
@@ -55,11 +72,7 @@ public class LiveMatchingFragment extends Fragment {
                 //수화통역사들에게 푸시알람 보냄
                 PushNotification push = new PushNotification();
 
-                if(pay.isChecked()){
-                    payment = "pay";
-                }else{
-                    payment = "free";
-                }
+
                 push.execute("http://"+IP_ADDRESS+"/push_notification.php",title.getText().toString(),body.getText().toString(),payment);
 
                 Toast.makeText(getActivity(),"전송완료",Toast.LENGTH_SHORT).show();
