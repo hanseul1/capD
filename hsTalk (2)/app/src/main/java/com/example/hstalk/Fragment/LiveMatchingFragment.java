@@ -18,6 +18,7 @@ import android.widget.Toast;
 
 import com.example.hstalk.MainActivity;
 import com.example.hstalk.R;
+import com.google.firebase.auth.FirebaseAuth;
 
 import java.io.BufferedReader;
 import java.io.InputStream;
@@ -46,24 +47,19 @@ public class LiveMatchingFragment extends Fragment {
         button = (Button)view.findViewById(R.id.livematching_button);
         pay = (RadioButton)view.findViewById(R.id.livematching_radiobutton_pay);
         free = (RadioButton)view.findViewById(R.id.livematching_radiobutton_free);
+
         pay.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
               payment = "pay";
             }
         });
-
-
         free.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
                 payment = "free";
             }
         });
-
-
-
-
 
         button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -72,8 +68,10 @@ public class LiveMatchingFragment extends Fragment {
                 //수화통역사들에게 푸시알람 보냄
                 PushNotification push = new PushNotification();
 
-
-                push.execute("http://"+IP_ADDRESS+"/push_notification.php",title.getText().toString(),body.getText().toString(),payment);
+                String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+                push.execute("http://"+IP_ADDRESS+"/push_notification.php",title.getText().toString(),body.getText().toString(),payment,uid);
+                title.setText("");
+                body.setText("");
 
                 Toast.makeText(getActivity(),"전송완료",Toast.LENGTH_SHORT).show();
             }
@@ -102,8 +100,9 @@ public class LiveMatchingFragment extends Fragment {
             String title = (String)strings[1];
             String body = (String)strings[2];
             String payments = (String)strings[3];
+            String uid = (String)strings[4];
 
-            String postParameters = "title=" + title + "&body=" + body + "&payment=" + payments ;
+            String postParameters = "title=" + title + "&body=" + body + "&payment=" + payments + "&uid=" + uid ;
 
             try{
                 URL url = new URL(serverUrl);
