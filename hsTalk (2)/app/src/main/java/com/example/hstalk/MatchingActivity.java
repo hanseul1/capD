@@ -10,6 +10,7 @@ import android.widget.Button;
 import android.widget.ListAdapter;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 
@@ -32,8 +33,11 @@ public class MatchingActivity extends AppCompatActivity {
     private static String TAG ="pushtest";
     private static final String TAG_JSON = "getpush";
     private static final String TAG_PUSH = "pushId";
+    private static final String TAG_PROVIDER = "providerId";
     String mJsonString;
     String pushId;
+    String providerId;
+    TextView doneText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,19 +54,30 @@ public class MatchingActivity extends AppCompatActivity {
         TextView titleText = (TextView)findViewById(R.id.matchingactivity_textview_title);
         TextView bodyText = (TextView)findViewById(R.id.matchingactivity_textview_body);
         Button button = (Button)findViewById(R.id.matchingactivity_button);
+        doneText = (TextView)findViewById(R.id.matchingactivity_textview_donetext);
         titleText.setText(title);
         bodyText.setText(body);
 
         GetPush push = new GetPush();
         push.execute("http://" + IP_ADDRESS + "/getPush.php",title,body);
 
+        if(providerId == "none"){
+            button.setVisibility(View.INVISIBLE);
+        }else{
+            doneText.setVisibility(View.INVISIBLE);
+        }
+
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                //service 테이블에 providerId 저장 및 푸시 전달
                 String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+                UpdateProvider task = new UpdateProvider();
+                task.execute("http://" + IP_ADDRESS + "/matching_complete.php",uid,pushId);
+
+                Toast.makeText(MatchingActivity.this,"매칭완료",Toast.LENGTH_SHORT).show();
             }
         });
-
 
     }
 
@@ -146,14 +161,68 @@ public class MatchingActivity extends AppCompatActivity {
                 JSONArray jsonArray = jsonObject.getJSONArray(TAG_JSON);
                 JSONObject item = jsonArray.getJSONObject(0);
 
-                String id = item.getString(TAG_PUSH);
-                pushId = id;
+                pushId = item.getString(TAG_PUSH);
+                providerId = item.getString(TAG_PROVIDER);
             }
 
         } catch (JSONException e) {
             Log.d(TAG, "showResult : ", e);
         }
+    }
 
+    class UpdateProvider extends AsyncTask<String,Void,String>{
 
+        @Override
+        protected String doInBackground(String... strings) {
+
+            String serverUrl = (String)strings[0];
+            String uid = (String)strings[1];
+            String pushId2 = (String)strings[2];
+
+            String postParameters = "uid=" + uid + "&pushId=" + pushId2;
+
+            try {
+                URL url = new URL(serverUrl);
+                HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
+
+                httpURLConnection.setReadTimeout(5000);
+                httpURLConnection.setConnectTimeout(5000);
+                httpURLConnection.setRequestMethod("POST");
+                httpURLConnection.setDoInput(true);
+                httpURLConnection.connect();
+
+                OutputStream outputStream = httpURLConnection.getOutputStream();
+                outputStream.write(postParameters.getBytes("UTF-8"));
+                outputStream.flush();
+                outputStream.close();
+
+                int responseStatusCode = httpURLConnection.getResponseCode();
+
+                Log.d(TAG, "response code - " + responseStatusCode);
+
+                InputStream inputStream;
+                if(responseStatusCode == HttpURLConnection.HTTP_OK) {
+                    inputStream = httpURLConnection.getInputStream();
+                }
+                else{
+                    inputStream = httpURLConnection.getErrorStream();
+                }
+
+                InputStreamReader inputStreamReader = new InputStreamReader(inputStream, "UTF-8");
+                BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
+                StringBuilder sb = new StringBuilder();
+                String line;
+
+                while((line = bufferedReader.readLine()) != null){
+                    sb.append(line);
+                }
+                bufferedReader.close();
+
+                return sb.toString().trim();
+            } catch (Exception e) {
+                Log.d(TAG, "InsertData: Error ", e);
+                return null;
+            }
+        }
     }
 }
