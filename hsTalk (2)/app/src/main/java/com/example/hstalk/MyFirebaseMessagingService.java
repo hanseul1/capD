@@ -58,29 +58,51 @@ public class MyFirebaseMessagingService extends com.google.firebase.messaging.Fi
             notificationManager.createNotificationChannel(mChannel);
         }
 
-        Intent intent = new Intent(this, MatchingActivity.class);
-        //번들에 수신한 메세지를 담아서 액티비티로 넘겨 보자.
-        Bundle bundle = new Bundle();
-        bundle.putString("title", title);
-        bundle.putString("body", message);
-        bundle.putString("user", uid);
-        intent.putExtras(bundle);
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        String titletemp = "실시간 매칭이 성사되었습니다!";
+        if(title.equals(titletemp)){
+            Intent intent1 = new Intent(this,VideoActivity.class);
+            intent1.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 
-        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0 /* Request code */, intent,
-                PendingIntent.FLAG_CANCEL_CURRENT);
+            PendingIntent pendingIntent1 = PendingIntent.getActivity(this, 0 /* Request code */, intent1,
+                    PendingIntent.FLAG_CANCEL_CURRENT);
 
-        Uri defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
-        NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this,channelId)
-                .setLargeIcon(BitmapFactory.decodeResource(getResources(), android.R.drawable.ic_dialog_info))
-                .setSmallIcon(R.mipmap.ic_launcher)
-                .setContentTitle(title)
-                .setContentText(message)
-                .setAutoCancel(true)
-                .setSound(defaultSoundUri)
-                .setContentIntent(pendingIntent);
+            Uri defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+            NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this,channelId)
+                    .setLargeIcon(BitmapFactory.decodeResource(getResources(), R.drawable.suhwa_logo))
+                    .setSmallIcon(R.mipmap.ic_launcher)
+                    .setContentTitle(title)
+                    .setContentText(message)
+                    .setAutoCancel(true)
+                    .setSound(defaultSoundUri)
+                    .setContentIntent(pendingIntent1);
 
 
-        notificationManager.notify(0 /* ID of notification */, notificationBuilder.build());
+            notificationManager.notify(0 /* ID of notification */, notificationBuilder.build());
+        }else{
+            Intent intent2 = new Intent(this, MatchingActivity.class);
+            //번들에 수신한 메세지를 담아서 액티비티로 넘겨 보자.
+            Bundle bundle = new Bundle();
+            bundle.putString("title", title);
+            bundle.putString("body", message);
+            bundle.putString("user", uid);
+            intent2.putExtras(bundle);
+            intent2.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+
+            PendingIntent pendingIntent2 = PendingIntent.getActivity(this, 0 /* Request code */, intent2,
+                    PendingIntent.FLAG_CANCEL_CURRENT);
+
+            Uri defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+            NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this,channelId)
+                    .setLargeIcon(BitmapFactory.decodeResource(getResources(), R.drawable.suhwa_logo))
+                    .setSmallIcon(R.mipmap.ic_launcher)
+                    .setContentTitle(title)
+                    .setContentText(message)
+                    .setAutoCancel(true)
+                    .setSound(defaultSoundUri)
+                    .setContentIntent(pendingIntent2);
+
+
+            notificationManager.notify(0 /* ID of notification */, notificationBuilder.build());
+        }
     }
 }

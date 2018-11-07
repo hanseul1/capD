@@ -35,7 +35,8 @@
             </intent-filter>
         </service>
 
-        <activity android:name=".MatchingActivity"></activity>
+        <activity android:name=".MatchingActivity" />
+        <activity android:name=".VideoActivity"></activity>
     </application>
 
 </manifest>
