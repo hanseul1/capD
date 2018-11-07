@@ -58,7 +58,6 @@ public class LoginActivity extends AppCompatActivity {
 
         firebaseRemoteConfig = FirebaseRemoteConfig.getInstance();
         firebaseAuth = FirebaseAuth.getInstance();
-        firebaseAuth.signOut();
 
         String splash_background = firebaseRemoteConfig.getString(getString(R.string.rc_color));
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -77,6 +76,10 @@ public class LoginActivity extends AppCompatActivity {
         login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if(id.getText().toString().length() == 0 || password.getText().toString().length() == 0){
+                    Toast.makeText(LoginActivity.this,"로그인 오류",Toast.LENGTH_SHORT).show();
+                    return;
+                }
                 loginEvent();
             }
         });

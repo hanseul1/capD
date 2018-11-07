@@ -41,6 +41,17 @@
             android:inputType="textPassword"/>
     </android.support.design.widget.TextInputLayout>
 
+    <android.support.design.widget.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <EditText
+            android:id="@+id/signupActivity_edittext_passwordcheck"
+            android:hint="비밀번호확인"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textPassword" />
+    </android.support.design.widget.TextInputLayout>
+
         <RadioGroup
             android:id="@+id/signupactivity_radiogroup"
             android:layout_width="wrap_content"
@@ -50,7 +61,7 @@
 
             <RadioButton
                 android:id="@+id/signupactivity_radiobutton_hear"
-                android:layout_width="100dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:checked="true"
                 android:layout_marginRight="50dp"
@@ -58,7 +69,7 @@
 
             <RadioButton
                 android:id="@+id/signupactivity_radiobutton_trans"
-                android:layout_width="100dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="수화통역사"/>
 

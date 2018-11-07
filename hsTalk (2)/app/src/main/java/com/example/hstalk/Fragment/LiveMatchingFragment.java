@@ -34,6 +34,7 @@ public class LiveMatchingFragment extends Fragment {
     private EditText title;
     private EditText body;
     private Button button;
+    private Button logout;
     private RadioButton free;
     private RadioButton pay;
     private String payment = "free";
@@ -47,6 +48,7 @@ public class LiveMatchingFragment extends Fragment {
         button = (Button)view.findViewById(R.id.livematching_button);
         pay = (RadioButton)view.findViewById(R.id.livematching_radiobutton_pay);
         free = (RadioButton)view.findViewById(R.id.livematching_radiobutton_free);
+        logout = (Button)view.findViewById(R.id.logout);
 
         pay.setOnClickListener(new View.OnClickListener(){
             @Override
@@ -74,6 +76,13 @@ public class LiveMatchingFragment extends Fragment {
                 body.setText("");
 
                 Toast.makeText(getActivity(),"전송완료",Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        logout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FirebaseAuth.getInstance().signOut();
             }
         });
        return view;

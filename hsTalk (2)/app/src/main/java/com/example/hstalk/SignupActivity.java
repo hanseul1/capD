@@ -13,6 +13,8 @@ import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatDialog;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.View;
@@ -23,6 +25,7 @@ import android.widget.ProgressBar;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.hstalk.model.UserModel;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -49,6 +52,7 @@ public class SignupActivity extends AppCompatActivity {
     private EditText textEmail;
     private EditText textName;
     private EditText textPassword;
+    private EditText textPwCheck;
     private Button signupB;
     private String splash_background;
     private RadioButton userTypeH;
@@ -75,17 +79,43 @@ public class SignupActivity extends AppCompatActivity {
         textEmail = (EditText)findViewById(R.id.signupActivity_edittext_email);
         textName = (EditText)findViewById(R.id.signupActivity_edittext_name);
         textPassword = (EditText)findViewById(R.id.signupActivity_edittext_password);
+        textPwCheck = (EditText)findViewById(R.id.signupActivity_edittext_passwordcheck);
         signupB = (Button)findViewById(R.id.signupActivity_button_signup);
         signupB.setBackgroundColor(Color.parseColor(splash_background));
         radioGroup = (RadioGroup)findViewById(R.id.signupactivity_radiogroup);
         userTypeH = (RadioButton)findViewById(R.id.signupactivity_radiobutton_hear);
         userTypeV = (RadioButton)findViewById(R.id.signupactivity_radiobutton_trans);
 
+        textPwCheck.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                String pw = textPassword.getText().toString();
+                String check = textPwCheck.getText().toString();
+
+                if(pw.equals(check)){
+                    textPwCheck.setCompoundDrawablesWithIntrinsicBounds(null,null,getResources().getDrawable(R.drawable.baseline_check_circle_black_18dp),null);
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+            }
+        });
+
         signupB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                if(textEmail.getText().toString() == null || textName.getText().toString() == null || textPassword.getText().toString() == null){
+                if(textEmail.getText().toString().length() == 0 || textName.getText().toString().length() == 0 || textPassword.getText().toString().length() == 0){
+                    Toast.makeText(SignupActivity.this,"회원가입 오류",Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                if(!textPassword.getText().toString().equals(textPwCheck.getText().toString())){
+                    Toast.makeText(SignupActivity.this,"비밀번호가 일치하지 않습니다,",Toast.LENGTH_SHORT).show();
                     return;
                 }
                // final ProgressDialog pd = ProgressDialog.show(SignupActivity.this, "회원가입", "잠시만 기다려주세요...");
