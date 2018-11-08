@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.MenuItem;
 
+import com.example.hstalk.Fragment.BoardFragment;
 import com.example.hstalk.Fragment.ChatFragment;
 import com.example.hstalk.Fragment.LiveMatchingFragment;
 import com.example.hstalk.Fragment.PeopleFragment;
@@ -36,6 +37,9 @@ public class MainActivity extends AppCompatActivity {
                         return true;
                     case R.id.action_livematching :
                         getFragmentManager().beginTransaction().replace(R.id.mainactivity_framelayout, new LiveMatchingFragment()).commit();
+                        return true;
+                    case R.id.action_board :
+                        getFragmentManager().beginTransaction().replace(R.id.mainactivity_framelayout, new BoardFragment()).commit();
                         return true;
 
                 }
