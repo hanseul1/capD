@@ -2,17 +2,21 @@ package com.example.hstalk.Fragment;
 
 import android.app.Fragment;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.hstalk.R;
+import com.example.hstalk.model.BoardActivity;
 
 import java.util.ArrayList;
 
@@ -37,6 +41,27 @@ public class BoardFragment extends Fragment {
 
         ListView lv = (ListView)view.findViewById(R.id.listView1);
         lv.setAdapter(adapter);
+
+        lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view,
+                                    int position, long id) {
+                // 상세정보 화면으로 이동하기(인텐트 날리기)
+                // 1. 다음화면을 만든다
+                // 2. AndroidManifest.xml 에 화면을 등록한다
+                // 3. Intent 객체를 생성하여 날린다
+                Intent intent = new Intent(
+                        getActivity(), // 현재화면의 제어권자
+                        BoardActivity.class); // 다음넘어갈 화면
+
+                // intent 객체에 데이터를 실어서 보내기
+                // 리스트뷰 클릭시 인텐트 (Intent) 생성하고 position 값을 이용하여 인텐트로 넘길값들을 넘긴다
+                intent.putExtra("title", title.get(position).title);
+
+                startActivity(intent);
+            }
+        });
+
 
 
         return view;
@@ -85,7 +110,7 @@ class MyAdapter extends BaseAdapter { // 리스트 뷰의 아답타
 }
 
 class Title { //
-    String title = ""; // 곡 title
+    String title = ""; // title
     int img; // 이미지
     public Title(String title, int img) {
         super();

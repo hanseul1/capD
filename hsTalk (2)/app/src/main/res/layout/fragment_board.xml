@@ -11,6 +11,7 @@
         android:typeface="monospace"
         android:textStyle="bold"
         android:textSize="30sp"
+        android:textColor="#000"
         android:text="수화해듀오 게시판"/>
         <!--android:textAppearance="?android:attr/textAppearanceLarge" -->
 
