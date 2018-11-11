@@ -21,11 +21,11 @@
         <menu>
             <item
                 android:id="@+id/nav_livematching"
-                android:icon="@drawable/baseline_assignment_24"
+                android:icon="@drawable/livematch"
                 android:title="실시간 매칭" />
             <item
-                android:id="@+id/nav_resmatching"
-                android:icon="@drawable/livematch"
+                android:id="@+id/nav_board"
+                android:icon="@drawable/baseline_assignment_24"
                 android:title="예약 매칭" />
         </menu>
     </item>

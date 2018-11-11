@@ -21,9 +21,6 @@ public class BoardFragment extends Fragment {
     private static String TAG ="boardtest";
     ArrayList<Title> title = new ArrayList<Title>();
 
-
-
-
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
@@ -46,7 +43,6 @@ public class BoardFragment extends Fragment {
 
     }
 }
-
 
 class MyAdapter extends BaseAdapter { // 리스트 뷰의 아답타
     Context context;
@@ -87,11 +83,6 @@ class MyAdapter extends BaseAdapter { // 리스트 뷰의 아답타
         return convertView;
     }
 }
-
-
-
-
-
 
 class Title { //
     String title = ""; // 곡 title

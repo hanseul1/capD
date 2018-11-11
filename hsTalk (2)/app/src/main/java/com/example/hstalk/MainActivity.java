@@ -58,7 +58,8 @@ public class MainActivity extends AppCompatActivity
                         getFragmentManager().beginTransaction().replace(R.id.content_main, new LiveMatchingFragment()).commit();
                         break;
                     case R.id.action_board :
-                        getFragmentManager().beginTransaction().replace(R.id.mainactivity_framelayout, new BoardFragment()).commit();
+                        getFragmentManager().beginTransaction().replace(R.id.content_main, new BoardFragment()).commit();
+                        break;
                 }
                 DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
                 drawer.closeDrawer(GravityCompat.START);
@@ -122,8 +123,9 @@ public class MainActivity extends AppCompatActivity
             case R.id.nav_livematching:
                 fragment = new LiveMatchingFragment();
                 break;
-            case R.id.nav_resmatching:
-//                fragment = new
+            case R.id.nav_board:
+                fragment = new BoardFragment();
+                break;
         }
 
         if(fragment != null){
