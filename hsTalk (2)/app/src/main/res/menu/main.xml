@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/action_people"
+        android:icon="@drawable/baseline_people_24"
+        android:title="People"/>
+    <item
+        android:id="@+id/action_chat"
+        android:icon="@drawable/baseline_chat_24"
+        android:title="간단 수화번역기"/>
+    <item
+        android:id="@+id/action_livematching"
+        android:icon="@drawable/livematch"
+        android:title="실시간매칭"/>
+    <item
+        android:id="@+id/action_resmatching"
+        android:icon="@drawable/baseline_assignment_24"
+        android:title="예약매칭"/>
+</menu>

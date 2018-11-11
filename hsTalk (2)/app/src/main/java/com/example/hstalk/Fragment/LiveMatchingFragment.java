@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.app.AlertDialog;
+import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
@@ -42,7 +43,7 @@ public class LiveMatchingFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_livematching,container,false);
+        View view = (LinearLayout)inflater.inflate(R.layout.fragment_livematching,container,false);
         title = (EditText)view.findViewById(R.id.livematching_title);
         body = (EditText)view.findViewById(R.id.livematching_body);
         button = (Button)view.findViewById(R.id.livematching_button);

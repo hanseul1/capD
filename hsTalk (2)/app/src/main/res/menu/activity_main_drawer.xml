@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+    <item android:title="Translator">
+        <menu>
+
+            <item
+                android:id="@+id/nav_first_layout"
+                android:icon="@drawable/baseline_people_24"
+                android:title="People" />
+            <item
+                android:id="@+id/nav_second_layout"
+                android:icon="@drawable/baseline_chat_24"
+                android:title="간단 수화번역기" />
+        </menu>
+    </item>
+
+    <item android:title="Matching">
+        <menu>
+            <item
+                android:id="@+id/nav_livematching"
+                android:icon="@drawable/baseline_assignment_24"
+                android:title="실시간 매칭" />
+            <item
+                android:id="@+id/nav_resmatching"
+                android:icon="@drawable/livematch"
+                android:title="예약 매칭" />
+        </menu>
+    </item>
+
+</menu>

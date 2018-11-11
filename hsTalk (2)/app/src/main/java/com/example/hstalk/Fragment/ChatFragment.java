@@ -12,6 +12,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -43,13 +45,14 @@ public class ChatFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.fragment_chat,container,false);
+        View view = (LinearLayout) inflater.inflate(R.layout.fragment_chat,container,false);
         RecyclerView recyclerView = (RecyclerView)view.findViewById(R.id.chatfragment_recyclerview);
         recyclerView.setAdapter(new ChatRecyclerViewAdpater());
         recyclerView.setLayoutManager(new LinearLayoutManager(inflater.getContext()));
 
         return view;
     }
+
 
     class ChatRecyclerViewAdpater extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
 
