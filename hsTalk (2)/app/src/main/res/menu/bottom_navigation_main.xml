@@ -2,20 +2,16 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:id="@+id/action_people"
-        android:icon="@drawable/baseline_people_black_24"
-        android:title="People"/>
-    <item
-        android:id="@+id/action_chat"
-        android:icon="@drawable/baseline_chat_black_24"
-        android:title="Chat"/>
-    <item
         android:id="@+id/action_livematching"
-        android:icon="@drawable/livematch"
+        android:icon="@drawable/baseline_access_alarms_black_24"
         android:title="실시간매칭"/>
     <item
         android:id="@+id/action_board"
         android:icon="@drawable/baseline_assignment_black_24"
         android:title="예약매칭"/>
+    <item
+        android:id="@+id/action_setting"
+        android:icon="@drawable/baseline_settings_black_24"
+        android:title="설정"/>
 
 </menu>

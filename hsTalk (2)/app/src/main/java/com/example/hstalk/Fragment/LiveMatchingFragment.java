@@ -2,6 +2,7 @@ package com.example.hstalk.Fragment;
 
 import android.app.Fragment;
 import android.app.FragmentTransaction;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -17,8 +18,10 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
+import com.example.hstalk.LoginActivity;
 import com.example.hstalk.MainActivity;
 import com.example.hstalk.R;
+import com.example.hstalk.SignupActivity;
 import com.google.firebase.auth.FirebaseAuth;
 
 import java.io.BufferedReader;
@@ -35,7 +38,6 @@ public class LiveMatchingFragment extends Fragment {
     private EditText title;
     private EditText body;
     private Button button;
-    private Button logout;
     private RadioButton free;
     private RadioButton pay;
     private String payment = "free";
@@ -49,7 +51,6 @@ public class LiveMatchingFragment extends Fragment {
         button = (Button)view.findViewById(R.id.livematching_button);
         pay = (RadioButton)view.findViewById(R.id.livematching_radiobutton_pay);
         free = (RadioButton)view.findViewById(R.id.livematching_radiobutton_free);
-        logout = (Button)view.findViewById(R.id.logout);
 
         pay.setOnClickListener(new View.OnClickListener(){
             @Override
@@ -80,12 +81,6 @@ public class LiveMatchingFragment extends Fragment {
             }
         });
 
-        logout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                FirebaseAuth.getInstance().signOut();
-            }
-        });
        return view;
 
     }

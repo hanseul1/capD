@@ -3,6 +3,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:showIn="navigation_view">
 
+    <item
+        android:id="@+id/button_logout"
+        android:title="로그아웃"/>
+
     <item android:title="Translator">
         <menu>
 
@@ -21,7 +25,7 @@
         <menu>
             <item
                 android:id="@+id/nav_livematching"
-                android:icon="@drawable/livematch"
+                android:icon="@drawable/baseline_access_alarms_black_24"
                 android:title="실시간 매칭" />
             <item
                 android:id="@+id/nav_board"

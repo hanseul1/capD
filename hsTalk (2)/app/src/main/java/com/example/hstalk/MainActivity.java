@@ -50,12 +50,6 @@ public class MainActivity extends AppCompatActivity
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 int id = item.getItemId();
                 switch(id){
-                    case R.id.action_people:
-                        getFragmentManager().beginTransaction().replace(R.id.content_main, new PeopleFragment()).commit();
-                        break;
-                    case R.id.action_chat:
-                        getFragmentManager().beginTransaction().replace(R.id.content_main, new ChatFragment()).commit();
-                        break;
                     case R.id.action_livematching:
                         getFragmentManager().beginTransaction().replace(R.id.content_main, new LiveMatchingFragment()).commit();
                         break;
@@ -116,6 +110,12 @@ public class MainActivity extends AppCompatActivity
         Fragment fragment = null;
         int id = item.getItemId();
         switch(id){
+            case R.id.button_logout :
+                FirebaseAuth.getInstance().signOut();
+                Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+                startActivity(intent);
+                MainActivity.this.finish();
+                break;
             case R.id.nav_first_layout:
                 fragment = new PeopleFragment();
                 break;
