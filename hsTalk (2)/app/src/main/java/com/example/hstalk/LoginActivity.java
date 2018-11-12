@@ -2,6 +2,7 @@ package com.example.hstalk;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -21,7 +22,6 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -34,6 +34,11 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 
+
+
+import com.example.hstalk.Retrofit.ResponseBody.ResponseGetUserInfo;
+import com.example.hstalk.Retrofit.RetroClient;
+import com.example.hstalk.Retrofit.RetroCallback;
 public class LoginActivity extends AppCompatActivity {
 
     private EditText id;
@@ -96,6 +101,10 @@ public class LoginActivity extends AppCompatActivity {
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
                 FirebaseUser user = firebaseAuth.getCurrentUser();
                 if(user != null){
+
+                    getUserInfo(user.getEmail());
+                    SharedPreferences pref = getSharedPreferences("pref",MODE_PRIVATE);
+                    Toast.makeText(LoginActivity.this,pref.getString("name","")+"님 환영합니다.",Toast.LENGTH_SHORT).show();
                     //로그인
                     Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                     startActivity(intent);
@@ -117,6 +126,7 @@ public class LoginActivity extends AppCompatActivity {
                             //로그인 실패했을 때
                             Toast.makeText(LoginActivity.this, task.getException().getMessage(), Toast.LENGTH_SHORT).show();
                         }
+
                     }
                 });
     }
@@ -132,4 +142,38 @@ public class LoginActivity extends AppCompatActivity {
         super.onStop();
         firebaseAuth.removeAuthStateListener(authStateListener);
     }
+
+    protected  void getUserInfo(String id){
+        RetroClient retroClient = RetroClient.getInstance(this).createBaseApi();
+        retroClient.getUserInfo(id, new RetroCallback() {
+            @Override
+            public void onError(Throwable t) {
+
+                Toast.makeText(LoginActivity.this,t.toString(),Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onSuccess(int code, Object receivedData) {
+
+                ResponseGetUserInfo data = (ResponseGetUserInfo) receivedData;
+                SharedPreferences pref = getSharedPreferences( "pref" , MODE_PRIVATE);
+                SharedPreferences.Editor ed = pref.edit();
+                ed.putString( "name" , String.valueOf(data.name));
+                ed.putString("deviceId",String.valueOf(data.deviceId));
+                ed.putInt( "point" , data.point );
+                ed.putString("push",String.valueOf(data.push));
+                ed.putString("userType",String.valueOf(data.userType));
+                ed.putString("uid",String.valueOf(data.uid));
+                ed.commit();
+            }
+
+            @Override
+            public void onFailure(int code) {
+                Toast.makeText(LoginActivity.this,"fail",Toast.LENGTH_SHORT).show();
+
+            }
+        });
+
+    }
+
 }
