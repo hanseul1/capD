@@ -50,6 +50,7 @@ public class MatchingActivity extends AppCompatActivity {
         String user = bundle.getString("user");
         String title = bundle.getString("title");
         String body = bundle.getString("body");
+        String ruid = bundle.getString("receiver");
 
         TextView titleText = (TextView)findViewById(R.id.matchingactivity_textview_title);
         TextView bodyText = (TextView)findViewById(R.id.matchingactivity_textview_body);

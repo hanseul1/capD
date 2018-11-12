@@ -36,15 +36,16 @@ public class MyFirebaseMessagingService extends com.google.firebase.messaging.Fi
         Map<String, String> data = remoteMessage.getData();
         String title = data.get("title");
         String message = data.get("body");
+        String uid = data.get("uid");
 
-        sendNotification(title, message);
+        sendNotification(title, message, uid);
     }
 
-    private void sendNotification(String title, String message) {
+    private void sendNotification(String title, String message, String ruid) {
 
         String channelId = "channel";
         String channelName = "Channel Name";
-        String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        String puid = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
         NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 
@@ -84,7 +85,8 @@ public class MyFirebaseMessagingService extends com.google.firebase.messaging.Fi
             Bundle bundle = new Bundle();
             bundle.putString("title", title);
             bundle.putString("body", message);
-            bundle.putString("user", uid);
+            bundle.putString("user", puid);
+            bundle.putString("receiver", ruid);
             intent2.putExtras(bundle);
             intent2.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 
