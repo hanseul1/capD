@@ -8,21 +8,13 @@ import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.media.RingtoneManager;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.messaging.RemoteMessage;
 
-import java.io.BufferedReader;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.util.Map;
 
 public class MyFirebaseMessagingService extends com.google.firebase.messaging.FirebaseMessagingService {
@@ -61,7 +53,7 @@ public class MyFirebaseMessagingService extends com.google.firebase.messaging.Fi
 
         String titletemp = "실시간 매칭이 성사되었습니다!";
         if(title.equals(titletemp)){
-            Intent intent1 = new Intent(this,VideoActivity.class);
+            Intent intent1 = new Intent(this,VideoChatActivity.class);
             intent1.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 
             PendingIntent pendingIntent1 = PendingIntent.getActivity(this, 0 /* Request code */, intent1,

@@ -37,7 +37,7 @@
         </service>
 
         <activity android:name=".MatchingActivity" />
-        <activity android:name=".VideoActivity"></activity>
+        <activity android:name=".VideoChatActivity"></activity>
     </application>
 
 </manifest>

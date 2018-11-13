@@ -3,7 +3,7 @@ package com.example.hstalk;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
-public class VideoActivity extends AppCompatActivity {
+public class VideoChatActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
