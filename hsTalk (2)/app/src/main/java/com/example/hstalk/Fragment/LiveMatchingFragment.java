@@ -86,7 +86,7 @@ public class LiveMatchingFragment extends Fragment {
 
                 //수화통역사들에게 푸시알람 보냄
                 PushNotification push = new PushNotification();
-                user = FirebaseAuth.getInstance().getCurrentUser().getDisplayName();
+                user = FirebaseAuth.getInstance().getCurrentUser().getUid();
                 stdByChannel = user + Constants.STDBY_SUFFIX;
                 push.execute("http://"+IP_ADDRESS+"/push_notification.php",title.getText().toString(),body.getText().toString(),payment,user);
                 title.setText("");

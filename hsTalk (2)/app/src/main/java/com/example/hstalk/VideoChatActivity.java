@@ -79,7 +79,6 @@ public class VideoChatActivity extends ListActivity {
     private Thread  backPressedThread = null;
     private final int REQ_CODE_SPEECH_INPUT = 100;
     private Intent intent;
-    private Handler handler;
     SpeechRecognizer mRecognizer;
     private final int MY_PERMISSION_REQUEST_CODE = 100;
 

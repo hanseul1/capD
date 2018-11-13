@@ -65,9 +65,6 @@ public class MatchingActivity extends AppCompatActivity {
         receiver = bundle.getString("receiver");
         stdByChannel = user + Constants.STDBY_SUFFIX;
 
-        Log.d("태그", receiver);
-        Log.d("태그", user);
-
         TextView titleText = (TextView)findViewById(R.id.matchingactivity_textview_title);
         TextView bodyText = (TextView)findViewById(R.id.matchingactivity_textview_body);
         Button button = (Button)findViewById(R.id.matchingactivity_button);

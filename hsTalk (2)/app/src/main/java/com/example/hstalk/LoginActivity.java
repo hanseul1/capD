@@ -104,13 +104,13 @@ public class LoginActivity extends AppCompatActivity {
                 if(user != null){
 
                     getUserInfo(user.getEmail());
-                    SharedPreferences pref = getSharedPreferences("pref",MODE_PRIVATE);
-                    Toast.makeText(LoginActivity.this,pref.getString("name","")+"님 환영합니다.",Toast.LENGTH_SHORT).show();
 
                     SharedPreferences sp = getSharedPreferences(Constants.SHARED_PREFS, MODE_PRIVATE);
                     SharedPreferences.Editor editor = sp.edit();
-                    editor.putString(Constants.USER_NAME, user.getDisplayName());
+                    editor.putString(Constants.USER_NAME, user.getUid());
                     editor.apply();
+
+                    Toast.makeText(LoginActivity.this,sp.getString(Constants.USER_NAME,"")+"님 환영합니다.",Toast.LENGTH_SHORT).show();
                     //로그인
                     Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                     startActivity(intent);
