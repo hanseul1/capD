@@ -16,8 +16,8 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.List;
 
-import me.kevingleason.androidrtc.R;
-import me.kevingleason.androidrtc.adt.ChatMessage;
+import com.example.hstalk.R;
+import com.example.hstalk.adt.ChatMessage;
 
 
 /**

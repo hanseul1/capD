@@ -1,6 +1,6 @@
 package com.example.hstalk.adt;
 
-import me.kevingleason.androidrtc.util.Constants;
+import com.example.hstalk.util.Constants;
 
 /**
  * Created by GleasonK on 7/31/15.

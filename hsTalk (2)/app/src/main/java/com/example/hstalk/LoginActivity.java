@@ -16,6 +16,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.hstalk.model.UserModel;
+import com.example.hstalk.util.Constants;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -105,6 +106,11 @@ public class LoginActivity extends AppCompatActivity {
                     getUserInfo(user.getEmail());
                     SharedPreferences pref = getSharedPreferences("pref",MODE_PRIVATE);
                     Toast.makeText(LoginActivity.this,pref.getString("name","")+"님 환영합니다.",Toast.LENGTH_SHORT).show();
+
+                    SharedPreferences sp = getSharedPreferences(Constants.SHARED_PREFS, MODE_PRIVATE);
+                    SharedPreferences.Editor editor = sp.edit();
+                    editor.putString(Constants.USER_NAME, user.getDisplayName());
+                    editor.apply();
                     //로그인
                     Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                     startActivity(intent);

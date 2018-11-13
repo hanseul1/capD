@@ -1,23 +1,26 @@
 package com.example.hstalk;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ListAdapter;
-import android.widget.SimpleAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.hstalk.util.Constants;
 import com.google.firebase.auth.FirebaseAuth;
+import com.pubnub.api.Callback;
+import com.pubnub.api.Pubnub;
+import com.pubnub.api.PubnubError;
+import com.pubnub.api.PubnubException;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.w3c.dom.Text;
 
 import java.io.BufferedReader;
 import java.io.InputStream;
@@ -25,7 +28,6 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.HashMap;
 
 public class MatchingActivity extends AppCompatActivity {
 
@@ -34,6 +36,15 @@ public class MatchingActivity extends AppCompatActivity {
     private static final String TAG_JSON = "getpush";
     private static final String TAG_PUSH = "pushId";
     private static final String TAG_PROVIDER = "providerId";
+
+    private SharedPreferences sharedPreferences;
+    private String stdByChannel;
+    private String user;
+    private String title;
+    private String body;
+    private String receiver;
+    private Pubnub mPubNub;
+
     String mJsonString;
     String pushId;
     String providerId;
@@ -47,10 +58,15 @@ public class MatchingActivity extends AppCompatActivity {
         Intent intent = getIntent();
         Bundle bundle = intent.getExtras();
 
-        String user = bundle.getString("user");
-        String title = bundle.getString("title");
-        String body = bundle.getString("body");
-        String ruid = bundle.getString("receiver");
+        sharedPreferences = getSharedPreferences(Constants.SHARED_PREFS, MODE_PRIVATE);
+        user = sharedPreferences.getString(Constants.USER_NAME,"");
+        title = bundle.getString("title");
+        body = bundle.getString("body");
+        receiver = bundle.getString("receiver");
+        stdByChannel = user + Constants.STDBY_SUFFIX;
+
+        Log.d("태그", receiver);
+        Log.d("태그", user);
 
         TextView titleText = (TextView)findViewById(R.id.matchingactivity_textview_title);
         TextView bodyText = (TextView)findViewById(R.id.matchingactivity_textview_body);
@@ -61,6 +77,8 @@ public class MatchingActivity extends AppCompatActivity {
 
         GetPush push = new GetPush();
         push.execute("http://" + IP_ADDRESS + "/getPush.php",title,body);
+
+        initPubNub();
 
         if(providerId == "none"){
             button.setVisibility(View.INVISIBLE);
@@ -76,10 +94,22 @@ public class MatchingActivity extends AppCompatActivity {
                 UpdateProvider task = new UpdateProvider();
                 task.execute("http://" + IP_ADDRESS + "/matching_complete.php",uid,pushId);
 
+                makeCall(v);
+
                 Toast.makeText(MatchingActivity.this,"매칭완료",Toast.LENGTH_SHORT).show();
             }
         });
 
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        if(this.mPubNub==null){
+            initPubNub();
+        } else {
+            subscribeStdBy();
+        }
     }
 
     class GetPush extends AsyncTask<String,Void,String> {
@@ -225,5 +255,122 @@ public class MatchingActivity extends AppCompatActivity {
                 return null;
             }
         }
+    }
+
+    public void makeCall(View view){
+        String callNum = receiver;
+        if (callNum.isEmpty() || callNum.equals(user)){
+            showToast("Enter a valid user ID to call.");
+            return;
+        }
+        else
+            showToast("Hi");
+        dispatchCall(callNum);
+    }
+
+    private void showToast(final String message){
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                Toast.makeText(MatchingActivity.this, message, Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    public void initPubNub(){
+        this.mPubNub  = new Pubnub(Constants.PUB_KEY, Constants.SUB_KEY);
+        this.mPubNub.setUUID(user);
+        subscribeStdBy();
+    }
+
+    private void setUserStatus(String status){
+        try {
+            JSONObject state = new JSONObject();
+            state.put(Constants.JSON_STATUS, status);
+            this.mPubNub.setState(this.stdByChannel, user, state, new Callback() {
+                @Override
+                public void successCallback(String channel, Object message) {
+                    Log.d("MA-sUS","State Set: " + message.toString());
+                }
+            });
+        } catch (JSONException e){
+            e.printStackTrace();
+        }
+    }
+
+    private void dispatchIncomingCall(String userId){
+        showToast("Call from: " + userId);
+        Intent intent = new Intent(MatchingActivity.this, IncomingCallActivity.class);
+        intent.putExtra(Constants.USER_NAME, user);
+        intent.putExtra(Constants.CALL_USER, userId);
+        startActivity(intent);
+    }
+
+    private void subscribeStdBy(){
+        try {
+            this.mPubNub.subscribe(this.stdByChannel, new Callback() {
+                @Override
+                public void successCallback(String channel, Object message) {
+                    Log.d("MA-iPN", "MESSAGE: " + message.toString());
+                    if (!(message instanceof JSONObject)) return; // Ignore if not JSONObject
+                    JSONObject jsonMsg = (JSONObject) message;
+                    try {
+                        if (!jsonMsg.has(Constants.JSON_CALL_USER)) return;     //Ignore Signaling messages.
+                        String user = jsonMsg.getString(Constants.JSON_CALL_USER);
+                        showToast("calling");
+                        dispatchIncomingCall(user);
+                    } catch (JSONException e){
+                        e.printStackTrace();
+                    }
+                }
+
+                @Override
+                public void connectCallback(String channel, Object message) {
+                    Log.d("MA-iPN", "CONNECTED: " + message.toString());
+                    setUserStatus(Constants.STATUS_AVAILABLE);
+                }
+
+                @Override
+                public void errorCallback(String channel, PubnubError error) {
+                    Log.d("MA-iPN","ERROR: " + error.toString());
+                }
+            });
+        } catch (PubnubException e){
+            Log.d("HERE","HEREEEE");
+            e.printStackTrace();
+        }
+    }
+
+    public void dispatchCall(final String callNum){
+        final String callNumStdBy = callNum + Constants.STDBY_SUFFIX;
+        this.mPubNub.hereNow(callNumStdBy, new Callback() {
+            @Override
+            public void successCallback(String channel, Object message) {
+                Log.d("MA-dC", "HERE_NOW: " +" CH - " + callNumStdBy + " " + message.toString());
+                try {
+                    int occupancy = ((JSONObject) message).getInt(Constants.JSON_OCCUPANCY);
+                    if (occupancy == 0) {
+                        showToast("User is not online!");
+                        return;
+                    }
+                    JSONObject jsonCall = new JSONObject();
+                    jsonCall.put(Constants.JSON_CALL_USER, user);
+                    jsonCall.put(Constants.JSON_CALL_TIME, System.currentTimeMillis());
+                    mPubNub.publish(callNumStdBy, jsonCall, new Callback() {
+                        @Override
+                        public void successCallback(String channel, Object message) {
+                            Log.d("MA-dC", "SUCCESS: " + message.toString());
+                            Intent intent = new Intent(MatchingActivity.this, VideoChatActivity.class);
+                            intent.putExtra(Constants.USER_NAME, user);
+                            intent.putExtra(Constants.CALL_USER, callNum);  // Only accept from this number?
+                            intent.putExtra("dialed", true);
+                            startActivity(intent);
+                        }
+                    });
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
     }
 }

@@ -61,6 +61,10 @@
             android:theme="@android:style/Theme.NoTitleBar.Fullscreen" >
 
         </activity>
+        <activity
+            android:name="com.example.hstalk.IncomingCallActivity"
+            android:label="@string/title_activity_incoming_call">
+        </activity>
     </application>
 
 </manifest>
