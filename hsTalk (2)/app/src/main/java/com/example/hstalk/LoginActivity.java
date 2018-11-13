@@ -157,15 +157,18 @@ public class LoginActivity extends AppCompatActivity {
             public void onSuccess(int code, Object receivedData) {
 
                 ResponseGetUserInfo data = (ResponseGetUserInfo) receivedData;
-                SharedPreferences pref = getSharedPreferences( "pref" , MODE_PRIVATE);
-                SharedPreferences.Editor ed = pref.edit();
-                ed.putString( "name" , String.valueOf(data.name));
+                SharedPreferences sharedPreferences = getSharedPreferences( Constants.SHARED_PREFS , MODE_PRIVATE);
+                SharedPreferences.Editor ed = sharedPreferences.edit();
+                ed.clear();
+                ed.commit();
+                ed.putString( Constants.USER_NAME , String.valueOf(data.name));
                 ed.putString("deviceId",String.valueOf(data.deviceId));
                 ed.putInt( "point" , data.point );
                 ed.putString("push",String.valueOf(data.push));
                 ed.putString("userType",String.valueOf(data.userType));
                 ed.putString("uid",String.valueOf(data.uid));
                 ed.commit();
+                Toast.makeText(LoginActivity.this,sharedPreferences.getString(Constants.USER_NAME,"")+"님 환영합니다.",Toast.LENGTH_SHORT).show();
             }
 
             @Override
