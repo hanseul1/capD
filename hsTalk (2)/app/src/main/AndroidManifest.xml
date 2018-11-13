@@ -2,7 +2,24 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.hstalk">
 
+    <!-- WebRTC Dependencies -->
+    <uses-feature android:name="android.hardware.camera" />
+    <uses-feature android:name="android.hardware.camera.autofocus" />
+    <uses-feature
+        android:glEsVersion="0x00020000"
+        android:required="true" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
+
+    <!-- PubNub Dependencies -->
+    <!--<uses-permission android:name="android.permission.INTERNET" />-->
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
+    <permission android:name="com.example.hstalk.permission.C2D_MESSAGE" android:protectionLevel="signature" />
+    <uses-permission android:name="your.package.name.permission.C2D_MESSAGE" />
 
     <application
         android:allowBackup="true"
@@ -37,7 +54,17 @@
         </service>
 
         <activity android:name=".MatchingActivity" />
-        <activity android:name=".VideoActivity"></activity>
+        <activity
+            android:name="com.example.hstalk.VideoChatActivity"
+            android:label="@string/title_activity_video_chat"
+            android:windowSoftInputMode="stateHidden"
+            android:theme="@android:style/Theme.NoTitleBar.Fullscreen" >
+
+        </activity>
+        <activity
+            android:name="com.example.hstalk.IncomingCallActivity"
+            android:label="@string/title_activity_incoming_call">
+        </activity>
     </application>
 
 </manifest>

@@ -29,6 +29,7 @@ import com.example.hstalk.Fragment.BoardFragment;
 import com.example.hstalk.Fragment.ChatFragment;
 import com.example.hstalk.Fragment.LiveMatchingFragment;
 import com.example.hstalk.Fragment.PeopleFragment;
+import com.example.hstalk.util.Constants;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.iid.FirebaseInstanceId;
@@ -114,6 +115,10 @@ public class MainActivity extends AppCompatActivity
         switch(id){
             case R.id.button_logout :
                 FirebaseAuth.getInstance().signOut();
+                SharedPreferences sharedPreferences = getSharedPreferences(Constants.SHARED_PREFS,MODE_PRIVATE);
+                SharedPreferences.Editor edit = sharedPreferences.edit();
+                edit.remove(Constants.USER_NAME);
+                edit.apply();
                 Intent intent = new Intent(MainActivity.this, LoginActivity.class);
                 startActivity(intent);
                 MainActivity.this.finish();
