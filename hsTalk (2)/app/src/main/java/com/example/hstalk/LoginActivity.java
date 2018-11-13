@@ -105,12 +105,6 @@ public class LoginActivity extends AppCompatActivity {
 
                     getUserInfo(user.getEmail());
 
-                    SharedPreferences sp = getSharedPreferences(Constants.SHARED_PREFS, MODE_PRIVATE);
-                    SharedPreferences.Editor editor = sp.edit();
-                    editor.putString(Constants.USER_NAME, user.getUid());
-                    editor.apply();
-
-                    Toast.makeText(LoginActivity.this,sp.getString(Constants.USER_NAME,"")+"님 환영합니다.",Toast.LENGTH_SHORT).show();
                     //로그인
                     Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                     startActivity(intent);
@@ -164,6 +158,9 @@ public class LoginActivity extends AppCompatActivity {
                 ResponseGetUserInfo data = (ResponseGetUserInfo) receivedData;
                 SharedPreferences pref = getSharedPreferences( "pref" , MODE_PRIVATE);
                 SharedPreferences.Editor ed = pref.edit();
+                ed.clear();
+                ed.commit();
+
                 ed.putString( "name" , String.valueOf(data.name));
                 ed.putString("deviceId",String.valueOf(data.deviceId));
                 ed.putInt( "point" , data.point );
@@ -171,6 +168,7 @@ public class LoginActivity extends AppCompatActivity {
                 ed.putString("userType",String.valueOf(data.userType));
                 ed.putString("uid",String.valueOf(data.uid));
                 ed.commit();
+                Toast.makeText(LoginActivity.this,pref.getString("name","")+"님 환영합니다.",Toast.LENGTH_SHORT).show();
             }
 
             @Override
