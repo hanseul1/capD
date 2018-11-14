@@ -105,6 +105,11 @@ public class LoginActivity extends AppCompatActivity {
 
                     getUserInfo(user.getEmail());
 
+                    SharedPreferences sharedPreferences = getSharedPreferences( Constants.SHARED_PREFS , MODE_PRIVATE);
+                    SharedPreferences.Editor ed = sharedPreferences.edit();
+                    ed.putString("email",user.getEmail());
+                    ed.commit();
+
 
                     //로그인
                     Intent intent = new Intent(LoginActivity.this, MainActivity.class);
@@ -145,6 +150,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     protected  void getUserInfo(String id){
+
         RetroClient retroClient = RetroClient.getInstance(this).createBaseApi();
         retroClient.getUserInfo(id, new RetroCallback() {
             @Override
