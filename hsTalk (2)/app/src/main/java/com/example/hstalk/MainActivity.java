@@ -1,18 +1,10 @@
 package com.example.hstalk;
 
 import android.app.Fragment;
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
-import android.content.SharedPreferences;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -21,15 +13,11 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.support.v7.app.AppCompatActivity;
-import android.widget.Button;
-import android.widget.LinearLayout;
-import android.widget.Toast;
 
 import com.example.hstalk.Fragment.BoardFragment;
-import com.example.hstalk.Fragment.ChatFragment;
 import com.example.hstalk.Fragment.LiveMatchingFragment;
-import com.example.hstalk.Fragment.PeopleFragment;
 import com.example.hstalk.util.Constants;
+import com.example.hstalk.Fragment.SettingPreferenceFragment;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.iid.FirebaseInstanceId;
@@ -58,6 +46,9 @@ public class MainActivity extends AppCompatActivity
                         break;
                     case R.id.action_board :
                         getFragmentManager().beginTransaction().replace(R.id.content_main, new BoardFragment()).commit();
+                        break;
+                    case R.id.action_setting :
+                        getFragmentManager().beginTransaction().replace(R.id.content_main, new SettingPreferenceFragment()).commit();
                         break;
                 }
                 DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -124,10 +115,8 @@ public class MainActivity extends AppCompatActivity
                 MainActivity.this.finish();
                 break;
             case R.id.nav_first_layout:
-                fragment = new PeopleFragment();
                 break;
             case R.id.nav_second_layout:
-                fragment = new ChatFragment();
                 break;
             case R.id.nav_livematching:
                 fragment = new LiveMatchingFragment();
