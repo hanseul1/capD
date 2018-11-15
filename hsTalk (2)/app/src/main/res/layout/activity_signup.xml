@@ -1,90 +1,90 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+xmlns:app="http://schemas.android.com/apk/res-auto"
+xmlns:tools="http://schemas.android.com/tools"
+android:layout_width="match_parent"
+android:layout_height="match_parent"
+android:gravity="center"
+tools:context=".SignupActivity"
+android:orientation="vertical"
+android:background="@color/colorTheme">
+
+
+<android.support.design.widget.TextInputLayout
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:gravity="center"
-    tools:context=".SignupActivity"
-    android:orientation="vertical"
-    android:background="@color/colorTheme">
-
-
-    <android.support.design.widget.TextInputLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <EditText
-            android:id="@+id/signupActivity_edittext_email"
-            android:hint="이메일"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-    </android.support.design.widget.TextInputLayout>
-
-    <android.support.design.widget.TextInputLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <EditText
-            android:id="@+id/signupActivity_edittext_name"
-            android:hint="이름"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-    </android.support.design.widget.TextInputLayout>
-
-    <android.support.design.widget.TextInputLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <EditText
-            android:id="@+id/signupActivity_edittext_password"
-            android:hint="비밀번호"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:inputType="textPassword"/>
-    </android.support.design.widget.TextInputLayout>
-
-    <android.support.design.widget.TextInputLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <EditText
-            android:id="@+id/signupActivity_edittext_passwordcheck"
-            android:hint="비밀번호확인"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:inputType="textPassword" />
-    </android.support.design.widget.TextInputLayout>
-
-        <RadioGroup
-            android:id="@+id/signupactivity_radiogroup"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_gravity="center">
-
-            <RadioButton
-                android:id="@+id/signupactivity_radiobutton_hear"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:checked="true"
-                android:layout_marginRight="50dp"
-                android:text="청각장애인"/>
-
-            <RadioButton
-                android:id="@+id/signupactivity_radiobutton_trans"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="수화통역사"/>
-
-        </RadioGroup>
-
-    <Button
-        android:text="회원가입"
-        android:id="@+id/signupActivity_button_signup"
-        android:background="@color/colorButton"
-        android:textColor="@android:color/white"
-        android:textStyle="bold"
+    android:layout_height="wrap_content">
+    <EditText
+        android:id="@+id/signupActivity_edittext_email"
+        android:hint="이메일"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
-    <TextView
-        android:id="@+id/dbtest_textview"
+</android.support.design.widget.TextInputLayout>
+
+<android.support.design.widget.TextInputLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <EditText
+        android:id="@+id/signupActivity_edittext_name"
+        android:hint="이름"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+</android.support.design.widget.TextInputLayout>
+
+<android.support.design.widget.TextInputLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <EditText
+        android:id="@+id/signupActivity_edittext_password"
+        android:hint="비밀번호"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="textPassword"/>
+</android.support.design.widget.TextInputLayout>
+
+<android.support.design.widget.TextInputLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <EditText
+        android:id="@+id/signupActivity_edittext_passwordcheck"
+        android:hint="비밀번호확인"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="textPassword" />
+</android.support.design.widget.TextInputLayout>
+
+<RadioGroup
+    android:id="@+id/signupactivity_radiogroup"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:layout_gravity="center">
+
+    <RadioButton
+        android:id="@+id/signupactivity_radiobutton_hear"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:checked="true"
+        android:layout_marginRight="50dp"
+        android:text="청각장애인"/>
+
+    <RadioButton
+        android:id="@+id/signupactivity_radiobutton_trans"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="수화통역사"/>
+
+</RadioGroup>
+
+<Button
+    android:text="회원가입"
+    android:id="@+id/signupActivity_button_signup"
+    android:background="@color/colorButton"
+    android:textColor="@android:color/white"
+    android:textStyle="bold"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content" />
+<TextView
+    android:id="@+id/dbtest_textview"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content" />
 </LinearLayout>

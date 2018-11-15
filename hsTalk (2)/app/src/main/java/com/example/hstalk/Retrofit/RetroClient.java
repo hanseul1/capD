@@ -2,6 +2,7 @@ package com.example.hstalk.Retrofit;
 
 import android.content.Context;
 
+import com.example.hstalk.Retrofit.ResponseBody.ResponseCreateBoard;
 import com.example.hstalk.Retrofit.ResponseBody.ResponseGet;
 import com.example.hstalk.Retrofit.ResponseBody.ResponseGetUserInfo;
 import com.example.hstalk.Retrofit.RequestBody.RequestPut;
@@ -92,6 +93,22 @@ public class RetroClient {
             }
         });
 
+    }
+
+    public void CreateBoard(HashMap<String, Object> parameters, final RetroCallback callback){
+        apiService.CreateBoard(parameters).enqueue(new Callback<ResponseCreateBoard>() {
+            @Override
+            public void onResponse(Call<ResponseCreateBoard> call, Response<ResponseCreateBoard> response) {
+                if (response.isSuccessful()) {
+                    callback.onSuccess(response.code(), response.body());
+                } else {
+                    callback.onFailure(response.code());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseCreateBoard> call, Throwable t) { callback.onError(t);}
+        });
     }
 
 

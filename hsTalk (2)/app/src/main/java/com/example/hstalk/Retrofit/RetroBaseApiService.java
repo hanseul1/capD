@@ -1,6 +1,7 @@
 package com.example.hstalk.Retrofit;
 
 import com.example.hstalk.Retrofit.RequestBody.RequestPut;
+import com.example.hstalk.Retrofit.ResponseBody.ResponseCreateBoard;
 import com.example.hstalk.Retrofit.ResponseBody.ResponseGet;
 import com.example.hstalk.Retrofit.ResponseBody.ResponseGetUserInfo;
 
@@ -31,6 +32,9 @@ public interface RetroBaseApiService {
     @GET("/getUserInfo.php")
     Call<ResponseGetUserInfo> getUserInfo(@Query("user_Id") String id);
 
+    @FormUrlEncoded
+    @POST("/CreateBoard.php")
+    Call<ResponseCreateBoard> CreateBoard(@FieldMap HashMap<String, Object> parameters);
 
     @FormUrlEncoded
     @POST("/posts")
