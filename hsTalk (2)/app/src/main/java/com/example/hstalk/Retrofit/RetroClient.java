@@ -95,10 +95,10 @@ public class RetroClient {
 
     }
 
-    public void CreateBoard(HashMap<String, Object> parameters, final RetroCallback callback){
-        apiService.CreateBoard(parameters).enqueue(new Callback<ResponseCreateBoard>() {
+    public void createBoard(HashMap<String, Object> parameters, final RetroCallback callback){
+        apiService.CreateBoard(parameters).enqueue(new Callback<Void>() {
             @Override
-            public void onResponse(Call<ResponseCreateBoard> call, Response<ResponseCreateBoard> response) {
+            public void onResponse(Call<Void> call, Response<Void> response) {
                 if (response.isSuccessful()) {
                     callback.onSuccess(response.code(), response.body());
                 } else {
@@ -107,7 +107,7 @@ public class RetroClient {
             }
 
             @Override
-            public void onFailure(Call<ResponseCreateBoard> call, Throwable t) { callback.onError(t);}
+            public void onFailure(Call<Void> call, Throwable t) { callback.onError(t);}
         });
     }
 

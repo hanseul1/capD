@@ -34,7 +34,7 @@ public interface RetroBaseApiService {
 
     @FormUrlEncoded
     @POST("/CreateBoard.php")
-    Call<ResponseCreateBoard> CreateBoard(@FieldMap HashMap<String, Object> parameters);
+    Call<Void> CreateBoard(@FieldMap HashMap<String, Object> parameters);
 
     @FormUrlEncoded
     @POST("/posts")

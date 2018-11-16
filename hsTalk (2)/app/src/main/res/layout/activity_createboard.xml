@@ -23,12 +23,12 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <Button
-            android:id="@+id/button_start_date"
+            android:id="@+id/createboard_button_date"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:text="시작 날짜"/>
+            android:text="날짜"/>
         <TextView
-            android:id="@+id/textview_start_date"
+            android:id="@+id/createboard_textview_date"
             android:layout_marginLeft="3dp"
             android:gravity="center_vertical"
             android:layout_width="wrap_content"
@@ -57,32 +57,6 @@
     </android.support.design.widget.TextInputLayout>
 
 
-
-
-
-
-
-
-    <android.support.design.widget.TextInputLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <Button
-            android:id="@+id/button_end_date"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:text="종료 날짜"/>
-        <TextView
-            android:id="@+id/textview_end_date"
-            android:layout_marginLeft="3dp"
-            android:gravity="center_vertical"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent" />
-    </android.support.design.widget.TextInputLayout>
-
-
-
-
-
     <android.support.design.widget.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -107,7 +81,7 @@
         android:layout_height="wrap_content">
 
         <EditText
-            android:id="@+id/edit_body"
+            android:id="@+id/edit_description"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:gravity="top"
@@ -119,14 +93,14 @@
     </android.support.design.widget.TextInputLayout>
 
     <RadioGroup
-        android:id="@+id/radiogroup"
+        android:id="@+id/createboard_radiogroup"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:layout_gravity="center">
 
         <RadioButton
-            android:id="@+id/radio_pay"
+            android:id="@+id/createboard_radio_pay"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:checked="true"
@@ -134,7 +108,7 @@
             android:text="유료"/>
 
         <RadioButton
-            android:id="@+id/radio_free"
+            android:id="@+id/createboard_radio_free"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="무료"/>

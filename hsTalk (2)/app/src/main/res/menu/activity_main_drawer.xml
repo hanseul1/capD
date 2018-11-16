@@ -5,6 +5,7 @@
 
     <item
         android:id="@+id/button_logout"
+        android:icon="@drawable/baseline_exit_to_app_black_24"
         android:title="로그아웃"/>
 
     <item android:title="Translator">
