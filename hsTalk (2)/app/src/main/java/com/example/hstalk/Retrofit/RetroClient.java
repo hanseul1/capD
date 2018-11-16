@@ -4,6 +4,7 @@ import android.content.Context;
 
 import com.example.hstalk.Retrofit.ResponseBody.ResponseCreateBoard;
 import com.example.hstalk.Retrofit.ResponseBody.ResponseGet;
+import com.example.hstalk.Retrofit.ResponseBody.ResponseGetBoardList;
 import com.example.hstalk.Retrofit.ResponseBody.ResponseGetUserInfo;
 import com.example.hstalk.Retrofit.RequestBody.RequestPut;
 
@@ -62,21 +63,6 @@ public class RetroClient {
 
 
     public void getUserInfo(String id, final RetroCallback callback) {
-//        apiService.getUserInfo(id).enqueue(new Callback<List<ResponseGetUserInfo>>() {
-//            @Override
-//            public void onResponse(Call<List<ResponseGetUserInfo>> call, Response<List<ResponseGetUserInfo>> response) {
-//                if(response.isSuccessful()){
-//                    callback.onSuccess(response.code(),response.body());
-//                } else {
-//                    callback.onFailure(response.code());
-//                }
-//            }
-//
-//            @Override
-//            public void onFailure(Call<List<ResponseGetUserInfo>> call, Throwable t) {
-//                    callback.onError(t);
-//            }
-//        });
         apiService.getUserInfo(id).enqueue(new Callback<ResponseGetUserInfo>() {
             @Override
             public void onResponse(Call<ResponseGetUserInfo> call, Response<ResponseGetUserInfo> response) {
@@ -111,17 +97,10 @@ public class RetroClient {
         });
     }
 
-
-
-
-
-
-
-
-    public void getFirst(String id, final RetroCallback callback) {
-        apiService.getFirst(id).enqueue(new Callback<ResponseGet>() {
+    public void getBoardList(final RetroCallback callback){
+        apiService.getBoardList().enqueue(new Callback<List<ResponseGetBoardList>>() {
             @Override
-            public void onResponse(Call<ResponseGet> call, Response<ResponseGet> response) {
+            public void onResponse(Call<List<ResponseGetBoardList>> call, Response<List<ResponseGetBoardList>> response) {
                 if (response.isSuccessful()) {
                     callback.onSuccess(response.code(), response.body());
                 } else {
@@ -130,104 +109,10 @@ public class RetroClient {
             }
 
             @Override
-            public void onFailure(Call<ResponseGet> call, Throwable t) {
-                callback.onError(t);
+            public void onFailure(Call<List<ResponseGetBoardList>> call, Throwable t) {
+
             }
         });
     }
 
-
-
-
-
-
-    public void getSecond(String id, final RetroCallback callback) {
-        apiService.getSecond(id).enqueue(new Callback<List<ResponseGet>>() {
-            @Override
-            public void onResponse(Call<List<ResponseGet>> call, Response<List<ResponseGet>> response) {
-                if (response.isSuccessful()) {
-                    callback.onSuccess(response.code(), response.body());
-                } else {
-                    callback.onFailure(response.code());
-                }
-            }
-
-            @Override
-            public void onFailure(Call<List<ResponseGet>> call, Throwable t) {
-                callback.onError(t);
-            }
-        });
-    }
-
-    public void postFirst(HashMap<String, Object> parameters, final RetroCallback callback) {
-        apiService.postFirst(parameters).enqueue(new Callback<ResponseGet>() {
-            @Override
-            public void onResponse(Call<ResponseGet> call, Response<ResponseGet> response) {
-                if (response.isSuccessful()) {
-                    callback.onSuccess(response.code(), response.body());
-                } else {
-                    callback.onFailure(response.code());
-                }
-            }
-
-            @Override
-            public void onFailure(Call<ResponseGet> call, Throwable t) {
-                callback.onError(t);
-            }
-        });
-    }
-
-    public void putFirst(HashMap<String, Object> parameters, final RetroCallback callback) {
-        apiService.putFirst(new RequestPut(parameters)).enqueue(new Callback<ResponseGet>() {
-            @Override
-            public void onResponse(Call<ResponseGet> call, Response<ResponseGet> response) {
-                if (response.isSuccessful()) {
-                    callback.onSuccess(response.code(), response.body());
-                } else {
-                    callback.onFailure(response.code());
-                }
-            }
-
-            @Override
-            public void onFailure(Call<ResponseGet> call, Throwable t) {
-                callback.onError(t);
-            }
-        });
-    }
-
-    public void patchFirst(String title, final RetroCallback callback) {
-        apiService.patchFirst(title).enqueue(new Callback<ResponseGet>() {
-            @Override
-            public void onResponse(Call<ResponseGet> call, Response<ResponseGet> response) {
-                if (response.isSuccessful()) {
-                    callback.onSuccess(response.code(), response.body());
-                } else {
-                    callback.onFailure(response.code());
-                }
-            }
-
-            @Override
-            public void onFailure(Call<ResponseGet> call, Throwable t) {
-                callback.onError(t);
-            }
-        });
-    }
-
-    public void deleteFirst(final RetroCallback callback) {
-        apiService.deleteFirst().enqueue(new Callback<ResponseBody>() {
-            @Override
-            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                if (response.isSuccessful()) {
-                    callback.onSuccess(response.code(), response.body());
-                } else {
-                    callback.onFailure(response.code());
-                }
-            }
-
-            @Override
-            public void onFailure(Call<ResponseBody> call, Throwable t) {
-                callback.onError(t);
-            }
-        });
-    }
 }

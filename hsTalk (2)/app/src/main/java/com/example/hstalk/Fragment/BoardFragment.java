@@ -3,34 +3,33 @@ package com.example.hstalk.Fragment;
 import android.app.Fragment;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.hstalk.CreateBoardActivity;
 import com.example.hstalk.R;
-import com.example.hstalk.util.Constants;
-
-import org.w3c.dom.Text;
+import com.example.hstalk.Retrofit.ResponseBody.ResponseGetBoardList;
+import com.example.hstalk.Retrofit.RetroCallback;
+import com.example.hstalk.Retrofit.RetroClient;
 
 import java.util.ArrayList;
+import java.util.List;
 
-import static android.content.Context.MODE_PRIVATE;
+import static android.app.PendingIntent.getActivity;
 
 public class BoardFragment extends Fragment {
     private static String IP_ADDRESS = "52.231.69.121";
     private static String TAG ="boardtest";
-    ArrayList<Title> title = new ArrayList<Title>();
+    ArrayList<ListItem> title = new ArrayList<ListItem>();
+    ListView lv;
 
     @Nullable
     @Override
@@ -38,30 +37,13 @@ public class BoardFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_board,container,false);
         TextView tv1 =(TextView)view.findViewById(R.id.textView1);
         ImageButton create = (ImageButton)view.findViewById(R.id.imageButton1);
-        String Type;
-        SharedPreferences pref = this.getActivity().getSharedPreferences( Constants.SHARED_PREFS , MODE_PRIVATE);
-        Type=pref.getString("userType","");
+        ImageButton temp = (ImageButton)view.findViewById(R.id.imageButton2);
+
+        lv = (ListView)view.findViewById(R.id.listView1);
+
+        getBoardList();
 
 
-     if(Type.equals("V") || Type.equals("E")){
-         tv1.setText("통역 해주세요");
-                     title.add(new Title("Test1", "Test 1번 입니다", "2018/11/12/13:22", "pjs"));
-            title.add(new Title("Test2", "Test 2번 입니다", "2018/11/12/14:31", "cmh"));
-
-     }
-     else{
-         tv1.setText("통역 해드려요");
-         title.add(new Title("Test3", "Test 3번 입니다", "2018/11/12/17:48", "jhs"));
-     }
-
-        //게시글 눌러서 내용확인
-        MyAdapter adapter = new MyAdapter(
-                getActivity(), // 현재화면의 제어권자
-                R.layout.item_board,  // 리스트뷰의 한행의 레이아웃
-                title);         // 데이터
-
-        ListView lv = (ListView)view.findViewById(R.id.listView1);
-        lv.setAdapter(adapter);
 
        create.setOnClickListener(new View.OnClickListener() {
            @Override
@@ -97,18 +79,47 @@ public class BoardFragment extends Fragment {
 //        });
 
 
-
         return view;
 
+    }
+
+    protected void getBoardList(){
+        RetroClient retroClient = RetroClient.getInstance(getActivity()).createBaseApi();
+        retroClient.getBoardList(new RetroCallback() {
+            @Override
+            public void onError(Throwable t) {
+                Toast.makeText(getActivity(),t.toString(),Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onSuccess(int code, Object receivedData) {
+                List<ResponseGetBoardList> data = (List<ResponseGetBoardList>) receivedData;
+                for(int i=0; i<data.size(); i++){
+                    title.add(new ListItem(data.get(i).title,data.get(i).description,data.get(i).created_at,data.get(i).writeId));
+                }
+
+                //게시글 눌러서 내용확인
+                MyAdapter adapter = new MyAdapter(
+                        getActivity(), // 현재화면의 제어권자
+                        R.layout.item_board,  // 리스트뷰의 한행의 레이아웃
+                        title);         // 데이터
+                lv.setAdapter(adapter);
+            }
+
+            @Override
+            public void onFailure(int code) {
+                Toast.makeText(getActivity(),"fail",Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 }
 
 class MyAdapter extends BaseAdapter { // 리스트 뷰의 아답타
     Context context;
     int layout;
-    ArrayList<Title> title;
+    ArrayList<ListItem> title;
     LayoutInflater inf;
-    public MyAdapter(Context context, int layout, ArrayList<Title> title) {
+    public MyAdapter(Context context, int layout, ArrayList<ListItem> title) {
         this.context = context;
         this.layout = layout;
         this.title = title;
@@ -137,7 +148,7 @@ class MyAdapter extends BaseAdapter { // 리스트 뷰의 아답타
         TextView tvBody = (TextView)convertView.findViewById(R.id.board_body);
         TextView tvDate = (TextView)convertView.findViewById(R.id.board_date);
         TextView tvWriter = (TextView)convertView.findViewById(R.id.board_writer);
-        Title m = title.get(position);
+        ListItem m = title.get(position);
         tvTitle.setText(m.title);
         tvBody.setText(m.body);
         tvDate.setText(m.date);
@@ -145,17 +156,18 @@ class MyAdapter extends BaseAdapter { // 리스트 뷰의 아답타
         return convertView;
     }
 }
-class Title { //
+class ListItem { //
     String title = ""; // title
     String body = "";
     String date = "";
     String writer = "";
-    public Title(String title, String body, String date, String writer) {
+    public ListItem(String title, String body, String date, String writer) {
         super();
         this.title = title;
         this.body = body;
         this.date = date;
         this.writer = writer;
     }
-    public Title() {}
+    public ListItem() {}
 }
+
