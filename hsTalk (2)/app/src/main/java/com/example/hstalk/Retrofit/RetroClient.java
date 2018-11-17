@@ -2,16 +2,13 @@ package com.example.hstalk.Retrofit;
 
 import android.content.Context;
 
-import com.example.hstalk.Retrofit.ResponseBody.ResponseCreateBoard;
-import com.example.hstalk.Retrofit.ResponseBody.ResponseGet;
 import com.example.hstalk.Retrofit.ResponseBody.ResponseGetBoardList;
+import com.example.hstalk.Retrofit.ResponseBody.ResponseGetComments;
 import com.example.hstalk.Retrofit.ResponseBody.ResponseGetUserInfo;
-import com.example.hstalk.Retrofit.RequestBody.RequestPut;
 
 import java.util.HashMap;
 import java.util.List;
 
-import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -110,6 +107,42 @@ public class RetroClient {
 
             @Override
             public void onFailure(Call<List<ResponseGetBoardList>> call, Throwable t) {
+
+            }
+        });
+    }
+
+    public void commentBoard(HashMap<String, Object> parameters, final RetroCallback callback){
+        apiService.commentBoard(parameters).enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(Call<Void> call, Response<Void> response) {
+                if (response.isSuccessful()) {
+                    callback.onSuccess(response.code(), response.body());
+                } else {
+                    callback.onFailure(response.code());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Void> call, Throwable t) {
+
+            }
+        });
+    }
+
+    public void getComments(int id, final RetroCallback callback){
+        apiService.getComments(id).enqueue(new Callback<List<ResponseGetComments>>() {
+            @Override
+            public void onResponse(Call<List<ResponseGetComments>> call, Response<List<ResponseGetComments>> response) {
+                if (response.isSuccessful()) {
+                    callback.onSuccess(response.code(), response.body());
+                } else {
+                    callback.onFailure(response.code());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<ResponseGetComments>> call, Throwable t) {
 
             }
         });

@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".BoardActivity">
+
+
+    <TextView
+        android:id="@+id/boardactivity_textview_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="25dp"
+        android:layout_margin="30dp"
+        android:text="제목"/>
+
+    <TextView
+        android:id="@+id/boardactivity_textview_description"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:layout_below="@+id/boardactivity_textview_title"
+        android:text="본문내용"
+        android:layout_marginHorizontal="15dp"
+        android:textSize="20dp"/>
+
+    <TextView
+        android:id="@+id/boardactivity_textview_reply"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/boardactivity_textview_description"
+        android:textSize="15dp"
+        android:layout_marginLeft="20dp"
+        android:text="댓글"/>
+
+    <ListView
+        android:id="@+id/boardactivity_listview"
+        android:layout_below="@+id/boardactivity_textview_reply"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+    </ListView>
+
+    <EditText
+        android:id="@+id/boardactivity_edittext_reply"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_alignParentBottom="true"
+        android:background="@color/white"
+        android:hint="댓글 입력"/>
+
+    <Button
+        android:id="@+id/boardactivity_button_input"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:text="입력"/>
+
+</RelativeLayout>

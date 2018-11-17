@@ -1,6 +1,7 @@
 package com.example.hstalk;
 
 import android.app.TimePickerDialog;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -15,6 +16,7 @@ import android.widget.Toast;
 
 import com.example.hstalk.Retrofit.RetroCallback;
 import com.example.hstalk.Retrofit.RetroClient;
+import com.example.hstalk.util.Constants;
 import com.google.firebase.auth.FirebaseAuth;
 
 import org.w3c.dom.Text;
@@ -112,7 +114,8 @@ public class CreateBoardActivity extends AppCompatActivity  {
         finish.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                writer = FirebaseAuth.getInstance().getCurrentUser().getUid();
+                SharedPreferences sharedPreferences = getSharedPreferences( Constants.SHARED_PREFS , MODE_PRIVATE);
+                writer = sharedPreferences.getString(Constants.USER_NAME,"");
                 title = editTitle.getText().toString();
                 startAt = textViewDate.getText().toString() + " " + textViewStartTime.getText().toString();
                 endAt = textViewDate.getText().toString() +  " " + textViewEndTime.getText().toString();

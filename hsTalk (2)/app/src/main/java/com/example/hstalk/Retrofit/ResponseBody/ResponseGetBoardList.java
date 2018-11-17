@@ -2,6 +2,7 @@ package com.example.hstalk.Retrofit.ResponseBody;
 
 public class ResponseGetBoardList {
 
+    public int postId;
     public final String title;
     public final String writeId;
     public final String started_at;
@@ -10,8 +11,9 @@ public class ResponseGetBoardList {
     public final String description;
     public final int freeState;
 
-    public ResponseGetBoardList(String title, String writeId, String started_at, String ended_at,
+    public ResponseGetBoardList(int postId, String title, String writeId, String started_at, String ended_at,
                                 String created_at, String description, int freeState){
+        this.postId = postId;
         this.title = title;
         this.writeId = writeId;
         this.started_at = started_at;
