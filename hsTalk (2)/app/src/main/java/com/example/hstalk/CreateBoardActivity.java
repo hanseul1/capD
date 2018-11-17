@@ -1,6 +1,7 @@
 package com.example.hstalk;
 
 import android.app.TimePickerDialog;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -14,6 +15,7 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import com.example.hstalk.Fragment.BoardFragment;
 import com.example.hstalk.Retrofit.RetroCallback;
 import com.example.hstalk.Retrofit.RetroClient;
 import com.example.hstalk.util.Constants;
@@ -131,6 +133,7 @@ public class CreateBoardActivity extends AppCompatActivity  {
                 postState = 0;
 
                 createBoard();
+                setResult(RESULT_OK);
                 CreateBoardActivity.this.finish();
             }
         });

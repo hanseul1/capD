@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
 xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:tools="http://schemas.android.com/tools"
 android:id="@+id/activity_main"
 android:layout_width="match_parent"
@@ -10,7 +10,8 @@ android:padding="5dp" >
     android:padding="5dp"
     android:background="#ffe5e5"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:id="@+id/top">
     <TextView
         android:id="@+id/textView1"
         android:layout_width="270dp"
@@ -40,5 +41,8 @@ android:padding="5dp" >
 <ListView
     android:id="@+id/listView1"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" />
-</LinearLayout>
+    android:layout_height="wrap_content"
+    android:layout_below="@id/top">
+</ListView>
+
+</RelativeLayout>

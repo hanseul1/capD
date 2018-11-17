@@ -53,7 +53,8 @@ public class BoardFragment extends Fragment {
                                Intent intent = new Intent(
                         getActivity(), // 현재화면의 제어권자
                         CreateBoardActivity.class); // 다음넘어갈 화면
-                        startActivity(intent);
+//                        startActivity(intent);
+                        startActivityForResult(intent,3000);
 
            }
        });
@@ -91,6 +92,16 @@ public class BoardFragment extends Fragment {
         return view;
 
     }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        lv.setAdapter(null);
+        title.clear();
+        getBoardList();
+
+    }
+
 
     protected void getBoardList(){
         RetroClient retroClient = RetroClient.getInstance(getActivity()).createBaseApi();

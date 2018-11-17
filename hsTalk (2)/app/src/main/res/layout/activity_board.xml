@@ -1,4 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
+
+
+
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -14,6 +17,7 @@
         android:layout_height="wrap_content"
         android:textSize="25dp"
         android:layout_margin="30dp"
+        android:background="@drawable/edit_text_form"
         android:text="제목"/>
 
     <TextView
@@ -22,6 +26,7 @@
         android:layout_height="200dp"
         android:layout_below="@+id/boardactivity_textview_title"
         android:text="본문내용"
+        android:background="@drawable/edit_text_form"
         android:layout_marginHorizontal="15dp"
         android:textSize="20dp"/>
 
@@ -34,11 +39,13 @@
         android:layout_marginLeft="20dp"
         android:text="댓글"/>
 
+
     <ListView
         android:id="@+id/boardactivity_listview"
         android:layout_below="@+id/boardactivity_textview_reply"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_above="@id/boardactivity_edittext_reply">
     </ListView>
 
     <EditText
@@ -58,3 +65,4 @@
         android:text="입력"/>
 
 </RelativeLayout>
+

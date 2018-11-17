@@ -1,8 +1,10 @@
 package com.example.hstalk;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -45,7 +47,6 @@ public class BoardActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_board);
-
         TextView titleText = (TextView)findViewById(R.id.boardactivity_textview_title);
         TextView body = (TextView)findViewById(R.id.boardactivity_textview_description);
         listView = (ListView)findViewById(R.id.boardactivity_listview);
@@ -80,9 +81,11 @@ public class BoardActivity extends AppCompatActivity {
             }
         });
 
+
     }
 
     protected void getComments(int id){
+
         RetroClient retroClient = RetroClient.getInstance(this).createBaseApi();
         retroClient.getComments(id, new RetroCallback() {
             @Override
@@ -96,7 +99,6 @@ public class BoardActivity extends AppCompatActivity {
                 for(int i=0; i<data.size(); i++){
                     listItem.add(new ListItem(data.get(i).writeId, data.get(i).body, data.get(i).created_at));
                 }
-
                 MyAdapter adapter = new MyAdapter(BoardActivity.this, R.layout.item_reply, listItem);
                 listView.setAdapter(adapter);
 
@@ -130,6 +132,9 @@ public class BoardActivity extends AppCompatActivity {
             @Override
             public void onSuccess(int code, Object receivedData) {
                 Toast.makeText(BoardActivity.this,"댓글 작성 완료",Toast.LENGTH_SHORT).show();
+                listView.setAdapter(null);
+                listItem.clear();
+                getComments(postId);
             }
 
             @Override
