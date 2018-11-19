@@ -165,10 +165,10 @@ class MyAdapter extends BaseAdapter { // 리스트 뷰의 아답타
             convertView = inf.inflate(layout, null);
         }
 
-        TextView tvTitle = (TextView)convertView.findViewById(R.id.board_title);
-        TextView tvBody = (TextView)convertView.findViewById(R.id.board_body);
-        TextView tvDate = (TextView)convertView.findViewById(R.id.board_date);
-        TextView tvWriter = (TextView)convertView.findViewById(R.id.board_writer);
+        TextView tvTitle = (TextView)convertView.findViewById(R.id.boarditem_title);
+        TextView tvBody = (TextView)convertView.findViewById(R.id.boarditem_body);
+        TextView tvDate = (TextView)convertView.findViewById(R.id.boarditem_date);
+        TextView tvWriter = (TextView)convertView.findViewById(R.id.boarditem_writer);
         ListItem m = title.get(position);
         tvTitle.setText(m.title);
         tvBody.setText(m.body);

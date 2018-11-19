@@ -5,10 +5,12 @@ android:id="@+id/activity_main"
 android:layout_width="match_parent"
 android:layout_height="match_parent"
 android:orientation="vertical"
-android:padding="5dp" >
+    android:layout_marginBottom="55dp">
+
 <LinearLayout
     android:padding="5dp"
-    android:background="#ffe5e5"
+    android:layout_marginTop="10dp"
+    android:background="@color/colorTheme"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:id="@+id/top">
@@ -16,10 +18,11 @@ android:padding="5dp" >
         android:id="@+id/textView1"
         android:layout_width="270dp"
         android:layout_height="wrap_content"
-        android:layout_gravity="left"
+        android:layout_gravity="center"
         android:textColor="#000"
-        android:textSize="30sp"
-        android:textStyle="bold"
+        android:textSize="20sp"
+        android:textAlignment="center"
+        android:text="예약매칭 게시판"
         android:typeface="monospace" />
     <ImageButton
         android:id="@+id/imageButton1"
