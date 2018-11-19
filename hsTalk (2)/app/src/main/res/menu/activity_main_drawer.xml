@@ -12,12 +12,8 @@
         <menu>
 
             <item
-                android:id="@+id/nav_first_layout"
-                android:icon="@drawable/baseline_people_24"
-                android:title="People" />
-            <item
-                android:id="@+id/nav_second_layout"
-                android:icon="@drawable/baseline_chat_24"
+                android:id="@+id/nav_action_chat"
+                android:icon="@drawable/baseline_contacts_black_24"
                 android:title="간단 수화번역기" />
         </menu>
     </item>
@@ -25,13 +21,39 @@
     <item android:title="Matching">
         <menu>
             <item
-                android:id="@+id/nav_livematching"
-                android:icon="@drawable/baseline_access_alarms_black_24"
-                android:title="실시간 매칭" />
-            <item
-                android:id="@+id/nav_board"
+                android:id="@+id/nav_action_board"
                 android:icon="@drawable/baseline_assignment_24"
-                android:title="예약 매칭" />
+                android:title="예약매칭" />
+            <item
+                android:id="@+id/nav_action_livematching"
+                android:icon="@drawable/baseline_access_alarms_black_24"
+                android:title="실시간매칭" />
+        </menu>
+    </item>
+
+    <item android:title="My Page">
+        <menu>
+            <item
+                android:id="@+id/nav_action_myPost"
+                android:icon="@drawable/baseline_account_circle_24"
+                android:title="내가 쓴 글" />
+            <item
+                android:id="@+id/nav_action_myRechat"
+                android:icon="@drawable/baseline_chat_black_24"
+                android:title="내가 댓글 단 글" />
+            <item
+                android:id="@+id/nav_action_matchingInfo"
+                android:icon="@drawable/baseline_people_black_24"
+                android:title="매칭 정보" />
+        </menu>
+    </item>
+
+    <item android:title="Others">
+        <menu>
+            <item
+                android:id="@+id/nav_action_setting"
+                android:icon="@drawable/baseline_settings_black_24"
+                android:title="설정" />
         </menu>
     </item>
 

@@ -155,7 +155,6 @@ public class LoginActivity extends AppCompatActivity {
         retroClient.getUserInfo(id, new RetroCallback() {
             @Override
             public void onError(Throwable t) {
-
                 Toast.makeText(LoginActivity.this,t.toString(),Toast.LENGTH_SHORT).show();
             }
 
@@ -183,7 +182,5 @@ public class LoginActivity extends AppCompatActivity {
 
             }
         });
-
     }
-
 }
