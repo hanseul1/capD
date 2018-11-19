@@ -156,6 +156,10 @@ public class MainActivity extends AppCompatActivity
             case R.id.nav_action_setting:
                 fragment = new SettingPreferenceFragment();
                 break;
+            case R.id.nav_action_matchingInfo:
+                Intent intent2 = new Intent(MainActivity.this, MatchingInfoActivity.class);
+                startActivity(intent2);
+                break;
         }
 
         if(fragment != null){

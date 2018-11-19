@@ -4,7 +4,11 @@ import com.example.hstalk.Retrofit.RequestBody.RequestPut;
 import com.example.hstalk.Retrofit.ResponseBody.ResponseGet;
 import com.example.hstalk.Retrofit.ResponseBody.ResponseGetBoardList;
 import com.example.hstalk.Retrofit.ResponseBody.ResponseGetComments;
+import com.example.hstalk.Retrofit.ResponseBody.ResponseGetStartDateByPI;
+import com.example.hstalk.Retrofit.ResponseBody.ResponseGetStartDateByRI;
 import com.example.hstalk.Retrofit.ResponseBody.ResponseGetUserInfo;
+import com.example.hstalk.Retrofit.ResponseBody.ResponseGetUserNameByPI;
+import com.example.hstalk.Retrofit.ResponseBody.ResponseGetUserNameByRI;
 
 import java.util.HashMap;
 import java.util.List;
@@ -34,6 +38,14 @@ public interface RetroBaseApiService {
     Call<ResponseGetUserInfo> getUserInfo(@Query("user_Id") String id);
     @GET("/getBoardList.php")
     Call<List<ResponseGetBoardList>> getBoardList();
+    @GET("/getStartDateByPI.php")
+    Call<ResponseGetStartDateByPI> getStartDateByPI(@Query("PI") String id);
+    @GET("/getStartDateByRI.php")
+    Call<ResponseGetStartDateByRI> getStartDateByRI(@Query("RI") String id);
+    @GET("/getUserNameByPI.php")
+    Call<ResponseGetUserNameByPI> getUserNameByPI(@Query("PI") String id);
+    @GET("/getUserNameByRI.php")
+    Call<ResponseGetUserNameByRI> getUserNameByRI(@Query("RI") String id);
     @GET("/getComments.php")
     Call<List<ResponseGetComments>> getComments(@Query("postId") int id);
 

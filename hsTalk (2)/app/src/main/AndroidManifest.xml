@@ -45,6 +45,7 @@
         <activity android:name=".MainActivity" />
         <activity android:name=".CreateBoardActivity" />
         <activity android:name=".chat.MessageActivity" />
+       <activity android:name=".MatchingInfoActivity"/>
 
         <!-- 서비스 태그 추가 -->
         <service android:name=".MyFirebaseMessagingService">

@@ -4,7 +4,11 @@ import android.content.Context;
 
 import com.example.hstalk.Retrofit.ResponseBody.ResponseGetBoardList;
 import com.example.hstalk.Retrofit.ResponseBody.ResponseGetComments;
+import com.example.hstalk.Retrofit.ResponseBody.ResponseGetStartDateByPI;
+import com.example.hstalk.Retrofit.ResponseBody.ResponseGetStartDateByRI;
 import com.example.hstalk.Retrofit.ResponseBody.ResponseGetUserInfo;
+import com.example.hstalk.Retrofit.ResponseBody.ResponseGetUserNameByPI;
+import com.example.hstalk.Retrofit.ResponseBody.ResponseGetUserNameByRI;
 
 import java.util.HashMap;
 import java.util.List;
@@ -77,7 +81,76 @@ public class RetroClient {
         });
 
     }
+    public void getStartDateByPI(String id, final RetroCallback callback){
+        apiService.getStartDateByPI(id).enqueue(new Callback<ResponseGetStartDateByPI>() {
+            @Override
+            public void onResponse(Call<ResponseGetStartDateByPI> call, Response<ResponseGetStartDateByPI> response) {
+                if(response.isSuccessful()){
+                    callback.onSuccess(response.code(),response.body());
+                } else{
+                    callback.onFailure(response.code());
+                }
+            }
 
+            @Override
+            public void onFailure(Call<ResponseGetStartDateByPI> call, Throwable t) {
+                callback.onError(t);
+            }
+        });
+    }
+    public void getStartDateByRI(String id, final RetroCallback callback){
+        apiService.getStartDateByRI(id).enqueue(new Callback<ResponseGetStartDateByRI>() {
+            @Override
+            public void onResponse(Call<ResponseGetStartDateByRI> call, Response<ResponseGetStartDateByRI> response) {
+                if(response.isSuccessful()){
+                    callback.onSuccess(response.code(),response.body());
+                } else{
+                    callback.onFailure(response.code());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseGetStartDateByRI> call, Throwable t) {
+                callback.onError(t);
+            }
+        });
+    }
+    public void getUserNameByPI(String id, final RetroCallback callback){
+        apiService.getUserNameByPI(id).enqueue(new Callback<ResponseGetUserNameByPI>(){
+
+            @Override
+            public void onResponse(Call<ResponseGetUserNameByPI> call, Response<ResponseGetUserNameByPI> response) {
+                if(response.isSuccessful()){
+                    callback.onSuccess(response.code(),response.body());
+                } else{
+                    callback.onFailure(response.code());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseGetUserNameByPI> call, Throwable t) {
+                callback.onError(t);
+            }
+        });
+    }
+    public void getUserNameByRI(String id, final RetroCallback callback){
+        apiService.getUserNameByRI(id).enqueue(new Callback<ResponseGetUserNameByRI>(){
+
+            @Override
+            public void onResponse(Call<ResponseGetUserNameByRI> call, Response<ResponseGetUserNameByRI> response) {
+                if(response.isSuccessful()){
+                    callback.onSuccess(response.code(),response.body());
+                } else{
+                    callback.onFailure(response.code());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseGetUserNameByRI> call, Throwable t) {
+                callback.onError(t);
+            }
+        });
+    }
     public void createBoard(HashMap<String, Object> parameters, final RetroCallback callback){
         apiService.CreateBoard(parameters).enqueue(new Callback<Void>() {
             @Override

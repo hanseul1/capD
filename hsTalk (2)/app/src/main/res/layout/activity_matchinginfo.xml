@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_matchinginfo"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:layout_marginBottom="55dp">
+
+    <LinearLayout
+        android:padding="5dp"
+        android:layout_marginTop="10dp"
+        android:background="@color/colorTheme"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/top">
+
+        <TextView
+            android:id="@+id/textView1"
+            android:layout_width="270dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="나의 매칭 정보"
+            android:textAlignment="center"
+            android:textColor="#000"
+            android:textSize="20sp"
+            android:typeface="monospace" />
+
+    </LinearLayout>
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="90dp"
+        android:orientation="vertical">
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/matchinginfo_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="15dp"
+                android:textSize="20dp"
+                android:textStyle="bold"
+                android:text="이름" />
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:id="@+id/matchinginfo_start_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="15dp"
+                android:textStyle="bold"
+                android:text="시작 시간 :" />
+
+            <TextView
+                android:id="@+id/matchinginfo_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="15dp"
+                android:text="내용" />
+        </android.support.design.widget.TextInputLayout>
+
+
+        <Button
+            android:id="@+id/matchinginfo_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="수락" />
+
+    </LinearLayout>
+
+</RelativeLayout>
