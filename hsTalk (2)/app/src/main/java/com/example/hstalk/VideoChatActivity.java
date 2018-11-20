@@ -418,13 +418,6 @@ public class VideoChatActivity extends ListActivity {
                         remoteStream.videoTracks.get(0).addRenderer(new VideoRenderer(remoteRender));
                         VideoRendererGui.update(remoteRender, 0, 0, 100, 100, VideoRendererGui.ScalingType.SCALE_ASPECT_FILL, false);
                         VideoRendererGui.update(localRender, 72, 65, 25, 25, VideoRendererGui.ScalingType.SCALE_ASPECT_FIT, true);
-                        intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
-                        intent.putExtra(RecognizerIntent.EXTRA_CALLING_PACKAGE, getPackageName());
-                        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, "ko-KR");
-
-                        mRecognizer = SpeechRecognizer.createSpeechRecognizer(VideoChatActivity.this);
-                        mRecognizer.setRecognitionListener(recognitionListener);
-                        mRecognizer.startListening(intent);
 
                     }
                     catch (Exception e){ e.printStackTrace(); }
