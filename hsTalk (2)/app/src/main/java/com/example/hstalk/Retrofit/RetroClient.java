@@ -2,6 +2,7 @@ package com.example.hstalk.Retrofit;
 
 import android.content.Context;
 
+import com.example.hstalk.Retrofit.ResponseBody.ResponseGetBoard;
 import com.example.hstalk.Retrofit.ResponseBody.ResponseGetBoardList;
 import com.example.hstalk.Retrofit.ResponseBody.ResponseGetComments;
 import com.example.hstalk.Retrofit.ResponseBody.ResponseGetStartDateByPI;
@@ -216,6 +217,24 @@ public class RetroClient {
 
             @Override
             public void onFailure(Call<List<ResponseGetComments>> call, Throwable t) {
+
+            }
+        });
+    }
+
+    public void getBoard(int id, final RetroCallback callback){
+        apiService.getBoard(id).enqueue(new Callback<ResponseGetBoard>() {
+            @Override
+            public void onResponse(Call<ResponseGetBoard> call, Response<ResponseGetBoard> response) {
+                if (response.isSuccessful()) {
+                    callback.onSuccess(response.code(), response.body());
+                } else {
+                    callback.onFailure(response.code());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseGetBoard> call, Throwable t) {
 
             }
         });

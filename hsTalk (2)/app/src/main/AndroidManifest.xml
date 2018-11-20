@@ -64,11 +64,12 @@
             android:name=".VideoChatActivity"
             android:label="@string/title_activity_video_chat"
             android:theme="@android:style/Theme.NoTitleBar.Fullscreen"
-            android:windowSoftInputMode="stateHidden"></activity>
+            android:windowSoftInputMode="stateHidden" />
         <activity
             android:name=".IncomingCallActivity"
-            android:label="@string/title_activity_incoming_call"></activity>
-        <activity android:name=".BoardActivity"></activity>
+            android:label="@string/title_activity_incoming_call" />
+        <activity android:name=".BoardActivity" />
+        <activity android:name=".ReserveMatchingActivity"></activity>
     </application>
 
 </manifest>

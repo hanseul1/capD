@@ -4,9 +4,11 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,6 +24,12 @@ import com.example.hstalk.Retrofit.RetroCallback;
 import com.example.hstalk.Retrofit.RetroClient;
 import com.example.hstalk.util.Constants;
 
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -31,6 +39,7 @@ import java.util.Locale;
 
 public class BoardActivity extends AppCompatActivity {
 
+    private static String IP_ADDRESS = "52.231.69.121";
     int postId;
     String title;
     String writer;
@@ -42,6 +51,9 @@ public class BoardActivity extends AppCompatActivity {
     ArrayList<ListItem> listItem = new ArrayList<ListItem>();
     ListView listView;
     EditText comment;
+    String user;
+
+    private static String TAG ="pushtest";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,10 +65,11 @@ public class BoardActivity extends AppCompatActivity {
         comment = (EditText)findViewById(R.id.boardactivity_edittext_reply);
         Button button = (Button)findViewById(R.id.boardactivity_button_input);
 
-        //listItem.add(new ListItem("한슬","댓글테스트ㅡㅡ으으으","2018-11-17 21:24:00"));
-
         Intent intent = getIntent();
         Bundle extras = intent.getExtras();
+
+        SharedPreferences sharedPreferences = getSharedPreferences( Constants.SHARED_PREFS , MODE_PRIVATE);
+        user = sharedPreferences.getString(Constants.USER_NAME,"");
 
         postId = extras.getInt("postId");
         title = extras.getString("title");
@@ -99,7 +112,7 @@ public class BoardActivity extends AppCompatActivity {
                 for(int i=0; i<data.size(); i++){
                     listItem.add(new ListItem(data.get(i).writeId, data.get(i).body, data.get(i).created_at));
                 }
-                MyAdapter adapter = new MyAdapter(BoardActivity.this, R.layout.item_reply, listItem);
+                MyAdapter adapter = new MyAdapter(BoardActivity.this, R.layout.item_reply, listItem, user, writer);
                 listView.setAdapter(adapter);
 
             }
@@ -145,47 +158,135 @@ public class BoardActivity extends AppCompatActivity {
 
 
     }
-}
-class MyAdapter extends BaseAdapter { // 리스트 뷰의 아답타
-    Context context;
-    int layout;
-    ArrayList<ListItem> listItem;
-    LayoutInflater inf;
-    public MyAdapter(Context context, int layout, ArrayList<ListItem> listItem) {
-        this.context = context;
-        this.layout = layout;
-        this.listItem = listItem;
-        inf = (LayoutInflater)context.getSystemService
-                (Context.LAYOUT_INFLATER_SERVICE);
+
+    class MyAdapter extends BaseAdapter { // 리스트 뷰의 아답타
+        Context context;
+        int layout;
+        ArrayList<ListItem> listItem;
+        LayoutInflater inf;
+        String user;
+        String writer;
+        String id;
+        public MyAdapter(Context context, int layout, ArrayList<ListItem> listItem, String user, String writer) {
+            this.context = context;
+            this.layout = layout;
+            this.listItem = listItem;
+            this.user = user;
+            this.writer = writer;
+            inf = (LayoutInflater)context.getSystemService
+                    (Context.LAYOUT_INFLATER_SERVICE);
+        }
+        @Override
+        public int getCount() {
+            return listItem.size();
+        }
+        @Override
+        public Object getItem(int position) {
+            return listItem.get(position);
+        }
+        @Override
+        public long getItemId(int position) {
+            return position;
+        }
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+            if (convertView==null) {
+                convertView = inf.inflate(layout, null);
+            }
+
+            TextView name = (TextView)convertView.findViewById(R.id.replyitem_name);
+            TextView body = (TextView)convertView.findViewById(R.id.replyitem_content);
+            TextView time = (TextView)convertView.findViewById(R.id.replyitem_time);
+            Button button = (Button)convertView.findViewById(R.id.replyitem_button);
+            ListItem m = listItem.get(position);
+            name.setText(m.name);
+            body.setText(m.body);
+            time.setText(m.time);
+            id = m.name;
+
+            if(user.equals(writer)){
+                button.setVisibility(View.VISIBLE);
+            }else{
+                button.setVisibility(View.INVISIBLE);
+            }
+
+            button.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    BoardPush push = new BoardPush();
+                    push.execute("http://" + IP_ADDRESS + "/boardPush.php",id,user);
+                }
+            });
+            return convertView;
+        }
     }
-    @Override
-    public int getCount() {
-        return listItem.size();
-    }
-    @Override
-    public Object getItem(int position) {
-        return listItem.get(position);
-    }
-    @Override
-    public long getItemId(int position) {
-        return position;
-    }
-    @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
-        if (convertView==null) {
-            convertView = inf.inflate(layout, null);
+
+    class BoardPush extends AsyncTask<String,Void,String>{
+
+        @Override
+        protected void onPostExecute(String result) {
+            super.onPostExecute(result);
+            Toast.makeText(BoardActivity.this, "매칭신청 알림 전송 완료", Toast.LENGTH_SHORT).show();
         }
 
-        TextView name = (TextView)convertView.findViewById(R.id.replyitem_name);
-        TextView body = (TextView)convertView.findViewById(R.id.replyitem_content);
-        TextView time = (TextView)convertView.findViewById(R.id.replyitem_time);
-        ListItem m = listItem.get(position);
-        name.setText(m.name);
-        body.setText(m.body);
-        time.setText(m.time);
-        return convertView;
+        @Override
+        protected String doInBackground(String... strings) {
+            String serverUrl = (String)strings[0];
+            String id = (String)strings[1];
+            String sender = (String)strings[2];
+
+            String postParameters = "id=" + id + "&sender=" + sender + "&postId=" + postId;
+
+            try{
+                URL url = new URL(serverUrl);
+                HttpURLConnection httpURLConnection = (HttpURLConnection)url.openConnection();
+
+                httpURLConnection.setReadTimeout(100000000);
+                httpURLConnection.setConnectTimeout(100000000);
+                httpURLConnection.setRequestMethod("POST");
+                httpURLConnection.connect();
+
+                OutputStream outputStream = httpURLConnection.getOutputStream();
+                outputStream.write(postParameters.getBytes("UTF-8"));
+                outputStream.flush();
+                outputStream.close();
+
+                int responseStatusCode = httpURLConnection.getResponseCode();
+                Log.d(TAG, "POST response code - " + responseStatusCode);
+
+                InputStream inputStream;
+                if(responseStatusCode == HttpURLConnection.HTTP_OK) {
+                    inputStream = httpURLConnection.getInputStream();
+                }
+                else{
+                    inputStream = httpURLConnection.getErrorStream();
+                }
+
+
+                InputStreamReader inputStreamReader = new InputStreamReader(inputStream, "UTF-8");
+                BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
+
+                StringBuilder sb = new StringBuilder();
+                String line = null;
+
+                while((line = bufferedReader.readLine()) != null){
+                    sb.append(line);
+                }
+
+
+                bufferedReader.close();
+
+
+                return sb.toString();
+            }catch (Exception e){
+                Log.d(TAG, "InsertData: Error ", e);
+
+                return new String("Error: " + e.getMessage());
+            }
+        }
     }
 }
+
 
 
 class ListItem{
