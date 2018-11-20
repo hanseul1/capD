@@ -99,26 +99,26 @@ public class MyFirebaseMessagingService extends com.google.firebase.messaging.Fi
             notificationManager.notify(0 /* ID of notification */, notificationBuilder.build());
 
         }
-//        else if(title.equals(boardCompleteTitle)){
-//            Intent intent3 = new Intent(this,MatchingInfoActivity.class);
-//
-//            PendingIntent pendingIntent3 = PendingIntent.getActivity(this, 0 /* Request code */, intent3,
-//                    PendingIntent.FLAG_CANCEL_CURRENT);
-//
-//            Uri defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
-//            NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this,channelId)
-//                    .setLargeIcon(BitmapFactory.decodeResource(getResources(), R.drawable.suhwa_logo))
-//                    .setSmallIcon(R.mipmap.ic_launcher)
-//                    .setContentTitle(title)
-//                    .setContentText(message)
-//                    .setAutoCancel(true)
-//                    .setSound(defaultSoundUri)
-//                    .setContentIntent(pendingIntent3);
-//
-//
-//            notificationManager.notify(0 /* ID of notification */, notificationBuilder.build());
-//
-//        }
+        else if(title.equals(boardCompleteTitle)){
+            Intent intent3 = new Intent(this,MatchingInfoActivity.class);
+
+            PendingIntent pendingIntent3 = PendingIntent.getActivity(this, 0 /* Request code */, intent3,
+                    PendingIntent.FLAG_CANCEL_CURRENT);
+
+            Uri defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+            NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this,channelId)
+                    .setLargeIcon(BitmapFactory.decodeResource(getResources(), R.drawable.suhwa_logo))
+                    .setSmallIcon(R.mipmap.ic_launcher)
+                    .setContentTitle(title)
+                    .setContentText(message)
+                    .setAutoCancel(true)
+                    .setSound(defaultSoundUri)
+                    .setContentIntent(pendingIntent3);
+
+
+            notificationManager.notify(0 /* ID of notification */, notificationBuilder.build());
+
+        }
         else{
             Intent intent4 = new Intent(this, MatchingActivity.class);
             //번들에 수신한 메세지를 담아서 액티비티로 넘겨 보자.
