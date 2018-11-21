@@ -4,6 +4,7 @@ import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -28,10 +29,10 @@ public class MatchingInfoActivity extends AppCompatActivity {
         setContentView(R.layout.activity_matchinginfo);
         String type,uid,date;
         SharedPreferences sharedPreferences = getSharedPreferences( Constants.SHARED_PREFS , MODE_PRIVATE);
-        type = sharedPreferences.getString("type","");
+        type = sharedPreferences.getString("userType","");
         uid = sharedPreferences.getString("uid","");
         //started_at 받아올 변수
-        if(!(type.equals("E") || type.equals("V"))) {
+        if(type=="E" || type=="V") {
             //providerId 를 가지고 있는 사람의 이름
             getStartDateByPI(uid);
             getUserNameByPI(uid);
@@ -170,7 +171,7 @@ public class MatchingInfoActivity extends AppCompatActivity {
         Date date = new Date(now);
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         String getTime = sdf.format(date);
-        getTime = "2018-11-20 05:20:12";
+        startTime = "2018-11-20 05:20:12";
 
 
         SimpleDateFormat f = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -187,7 +188,14 @@ public class MatchingInfoActivity extends AppCompatActivity {
         else{
                 accept.setClickable(false);
         }
-        Toast.makeText(MatchingInfoActivity.this,String.valueOf(min),Toast.LENGTH_SHORT).show();
+
+
+       accept.setOnClickListener(new View.OnClickListener() {
+           @Override
+           public void onClick(View view) {
+
+           }
+       });
 
     }
 }

@@ -168,6 +168,8 @@ public class MainActivity extends AppCompatActivity
                 break;
             case R.id.nav_action_chat:
 //                fragment = new
+                Intent intent3 = new Intent(MainActivity.this, ChatActivity.class);
+                startActivity(intent3);
                 break;
             case R.id.nav_action_livematching:
                 fragment = new LiveMatchingFragment();

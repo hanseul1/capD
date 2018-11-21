@@ -103,7 +103,6 @@ public class LiveMatchingFragment extends Fragment {
     public void initPubNub(){
         this.mPubNub  = new Pubnub(Constants.PUB_KEY, Constants.SUB_KEY);
         this.mPubNub.setUUID(user);
-        subscribeStdBy();
     }
 
     private void dispatchIncomingCall(String userId){
@@ -114,40 +113,7 @@ public class LiveMatchingFragment extends Fragment {
         startActivity(intent);
     }
 
-    private void subscribeStdBy(){
-        try {
-            this.mPubNub.subscribe(this.stdByChannel, new Callback() {
-                @Override
-                public void successCallback(String channel, Object message) {
-                    Log.d("MA-iPN", "MESSAGE: " + message.toString());
-                    if (!(message instanceof JSONObject)) return; // Ignore if not JSONObject
-                    JSONObject jsonMsg = (JSONObject) message;
-                    try {
-                        if (!jsonMsg.has(Constants.JSON_CALL_USER)) return;     //Ignore Signaling messages.
-                        String user = jsonMsg.getString(Constants.JSON_CALL_USER);
 
-                        dispatchIncomingCall(user);
-                    } catch (JSONException e){
-                        e.printStackTrace();
-                    }
-                }
-
-                @Override
-                public void connectCallback(String channel, Object message) {
-                    Log.d("MA-iPN", "CONNECTED: " + message.toString());
-                    setUserStatus(Constants.STATUS_AVAILABLE);
-                }
-
-                @Override
-                public void errorCallback(String channel, PubnubError error) {
-                    Log.d("MA-iPN","ERROR: " + error.toString());
-                }
-            });
-        } catch (PubnubException e){
-            Log.d("HERE","HEREEEE");
-            e.printStackTrace();
-        }
-    }
     private void setUserStatus(String status){
         try {
             JSONObject state = new JSONObject();
