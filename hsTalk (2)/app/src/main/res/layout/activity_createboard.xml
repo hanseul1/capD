@@ -1,111 +1,143 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="center"
-    android:orientation="vertical"
-    android:background="@color/colorTheme">
+    android:orientation="vertical">
 
-
-    <android.support.design.widget.TextInputLayout
+    <RelativeLayout
+        android:id="@+id/createboard_layout1"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="70dp"
+        android:gravity="center"
+        android:layout_marginTop="10dp"
+        android:layout_alignParentTop="true">
+
+        <TextView
+            android:id="@+id/createboard_text_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="제목"
+            android:textSize="15dp"
+            android:layout_marginLeft="20dp"
+            android:layout_alignParentTop="true"
+            />
         <EditText
             android:id="@+id/Edit_Title"
-            android:hint="제목"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-    </android.support.design.widget.TextInputLayout>
+            android:layout_below="@+id/createboard_text_title"
+            android:layout_width="350dp"
+            android:layout_height="40dp"
+            android:background="@drawable/rounded_edittext"/>
+    </RelativeLayout>
 
-    <android.support.design.widget.TextInputLayout
+
+
+    <RelativeLayout
+        android:id="@+id/createboard_layout"
+        android:layout_below="@+id/createboard_layout1"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:gravity="center"
+        android:layout_height="390dp">
+
+        <TextView
+            android:id="@+id/createboard_layout_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="날짜 및 시간 설정"
+            android:layout_marginLeft="10dp"
+            android:layout_marginBottom="5dp"
+            android:layout_alignParentTop="true"
+            />
 
         <Button
             android:id="@+id/createboard_button_date"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/createboard_layout_text"
             android:layout_marginLeft="5dp"
-            android:background="@color/colorButton"
+            android:background="@drawable/my_button"
             android:text="날짜"
             android:textColor="@android:color/white" />
         <TextView
             android:id="@+id/createboard_textview_date"
-            android:layout_marginLeft="7dp"
-            android:gravity="center_vertical"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="25dp"
+            android:textSize="20dp"
+            android:layout_toRightOf="@+id/createboard_button_date"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent" />
-
-    </android.support.design.widget.TextInputLayout>
-
-
-
-    <android.support.design.widget.TextInputLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+            android:layout_height="wrap_content" />
 
         <Button
             android:id="@+id/button_start_time"
-            android:background="@color/colorButton"
+            android:background="@drawable/my_button"
             android:textColor="@android:color/white"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/createboard_button_date"
+            android:layout_marginTop="5dp"
             android:layout_marginLeft="5dp"
             android:text="시작 시간"/>
         <TextView
             android:id="@+id/textview_start_time"
-            android:layout_marginLeft="7dp"
-            android:gravity="center_vertical"
+            android:layout_marginLeft="10dp"
+            android:textSize="20dp"
+            android:layout_marginTop="25dp"
+            android:layout_toRightOf="@+id/button_start_time"
+            android:layout_below="@+id/createboard_textview_date"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent" />
-    </android.support.design.widget.TextInputLayout>
+            android:text="          "
+            android:layout_height="wrap_content" />
 
-
-    <android.support.design.widget.TextInputLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
         <Button
             android:id="@+id/button_end_time"
-            android:background="@color/colorButton"
+            android:background="@drawable/my_button"
             android:textColor="@android:color/white"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_marginLeft="5dp"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/textview_start_time"
+            android:layout_below="@+id/createboard_button_date"
+            android:layout_marginTop="5dp"
+            android:layout_marginLeft="20dp"
             android:text="종료 시간"/>
         <TextView
             android:id="@+id/textview_end_time"
-            android:layout_marginLeft="7dp"
-            android:gravity="center_vertical"
+            android:layout_marginLeft="10dp"
+            android:layout_toRightOf="@+id/button_end_time"
+            android:textSize="20dp"
+            android:layout_below="@+id/createboard_textview_date"
+            android:layout_marginTop="25dp"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent" />
-    </android.support.design.widget.TextInputLayout>
+            android:layout_height="wrap_content" />
 
-
-
-    <android.support.design.widget.TextInputLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        <TextView
+            android:id="@+id/createboard_layout_body"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="세부 내용"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_below="@+id/button_end_time"/>
 
         <EditText
             android:id="@+id/edit_description"
-            android:layout_width="fill_parent"
+            android:layout_width="350dp"
             android:layout_height="wrap_content"
-            android:gravity="top"
             android:inputType="text|textMultiLine"
             android:minLines="10"
-            android:background="#fff"
-            android:hint="내용을 입력하세요"/>
-
-    </android.support.design.widget.TextInputLayout>
+            android:background="@drawable/rounded_edittext"
+            android:layout_below="@+id/createboard_layout_body"/>
+    </RelativeLayout>
 
     <RadioGroup
         android:id="@+id/createboard_radiogroup"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_above="@+id/button_finish"
+        android:layout_marginBottom="10dp"
         android:orientation="horizontal"
-        android:layout_gravity="center">
+        android:gravity="center">
 
         <RadioButton
             android:id="@+id/createboard_radio_pay"
@@ -130,9 +162,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/colorButton"
-        android:layout_marginTop="7dp"
         android:text="신청하기"
         android:textColor="@android:color/white"
+        android:layout_alignParentBottom="true"
         android:textStyle="bold" />
 
-</LinearLayout>
+</RelativeLayout>
