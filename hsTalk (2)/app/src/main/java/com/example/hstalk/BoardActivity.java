@@ -154,7 +154,7 @@ public class BoardActivity extends AppCompatActivity {
         String createdAt =  df.format(new Date());
         data.put("created_at", createdAt);
         data.put("body", comment);
-        Toast.makeText(BoardActivity.this,name,Toast.LENGTH_SHORT).show();
+//        Toast.makeText(BoardActivity.this,name,Toast.LENGTH_SHORT).show();
 
         RetroClient retroClient = RetroClient.getInstance(this).createBaseApi();
         retroClient.commentBoard(data, new RetroCallback() {
