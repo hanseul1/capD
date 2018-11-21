@@ -32,7 +32,14 @@ public class MatchingInfoActivity extends AppCompatActivity {
         type = sharedPreferences.getString("userType","");
         uid = sharedPreferences.getString("uid","");
         //started_at 받아올 변수
-        if(type=="E" || type=="V") {
+        if( type.equals("E")) {
+            //providerId 를 가지고 있는 사람의 이름
+            getStartDateByPI(uid);
+            getUserNameByPI(uid);
+
+
+        }
+        else if( type.equals("V")) {
             //providerId 를 가지고 있는 사람의 이름
             getStartDateByPI(uid);
             getUserNameByPI(uid);
@@ -80,7 +87,6 @@ public class MatchingInfoActivity extends AppCompatActivity {
         });
     }
     protected  void getStartDateByRI(String id){
-        Toast.makeText(MatchingInfoActivity.this,"RI",Toast.LENGTH_SHORT).show();
 
         RetroClient retroClient = RetroClient.getInstance(this).createBaseApi();
         retroClient.getStartDateByRI(id, new RetroCallback() {
