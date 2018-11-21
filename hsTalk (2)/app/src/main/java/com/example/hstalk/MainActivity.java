@@ -188,11 +188,11 @@ public class MainActivity extends AppCompatActivity
                 fragment = new MyPostFragment();
                 break;
             case R.id.nav_action_myReply:
-                Intent i= new Intent(this, BoardActivity.class);
-                String userName = getData();
-                i.putExtra("userName", userName);
-                startActivity(i);
                 fragment = new MyReplyFragment();
+//                Intent i= new Intent(this, MyReplyFragment.class);
+//                String userName = getData();
+//                i.putExtra("userName", userName);
+//                startActivity(i);
                 break;
 
         }

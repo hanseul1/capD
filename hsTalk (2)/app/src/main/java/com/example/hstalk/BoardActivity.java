@@ -57,6 +57,7 @@ public class BoardActivity extends AppCompatActivity {
     ListView listView;
     EditText comment;
     String user;
+//    private static String userName = null;
     List<ResponseGetComments> data;
     boolean isWriteComment = false;
 
@@ -114,12 +115,8 @@ public class BoardActivity extends AppCompatActivity {
             @Override
             public void onSuccess(int code, Object receivedData) {
                 data = (List<ResponseGetComments>) receivedData;
-//                Intent intent = getIntent();
-//                String userName = intent.getStringExtra("userName");
+//                Toast.makeText(BoardActivity.this,userName,Toast.LENGTH_SHORT).show();
                 for (int i = 0; i < data.size(); i++) {
-//                    if(userName.equals(data.get(i).writeId))
-//                        isWriteComment = true;
-
                     listItem.add(new ListItem(data.get(i).writeId, data.get(i).body, data.get(i).created_at));
                 }
                 MyAdapter adapter = new MyAdapter(BoardActivity.this, R.layout.item_reply, listItem, user, writer);
@@ -134,14 +131,18 @@ public class BoardActivity extends AppCompatActivity {
         });
     }
 
-    public boolean getDidWriteComment(){
-        if(isWriteComment == true) {
-            isWriteComment = false;
-            return true;
-        }
+//    public boolean getDidWriteComment(){
+//        if(isWriteComment == true) {
+//            isWriteComment = false;
+//            return true;
+//        }
+//
+//        return false;
+//    }
 
-        return false;
-    }
+//    public void setUserName(String userName){
+//        this.userName = userName;
+//    }
 
     protected void commentBoard(String comment){
         HashMap<String, Object> data = new HashMap<>();

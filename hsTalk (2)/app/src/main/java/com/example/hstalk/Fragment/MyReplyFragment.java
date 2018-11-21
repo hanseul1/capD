@@ -29,18 +29,18 @@ import java.util.List;
 public class MyReplyFragment extends Fragment {
     private static String IP_ADDRESS = "52.231.69.121";
     private static String TAG ="myreplytest";
-    private static boolean didWriteComment = false;
+//    String userName = null;
     ArrayList<ListItem> title = new ArrayList<ListItem>();
     ListView lv;
 
 
-    @Override
-    public void onAttach(Context context){
-        super.onAttach(context);
-        if(getActivity() != null && getActivity() instanceof BoardActivity){
-            didWriteComment = ((BoardActivity)getActivity()).getDidWriteComment();
-        }
-    }
+//    @Override
+//    public void onAttach(Context context){
+//        super.onAttach(context);
+//        if(getActivity() != null && getActivity() instanceof MainActivity){
+//            userName = ((MainActivity)getActivity()).getData();
+//        }
+//    }
 
     @Nullable
     @Override
@@ -88,7 +88,6 @@ public class MyReplyFragment extends Fragment {
         getBoardList();
     }
 
-
     protected void getBoardList(){
         RetroClient retroClient = RetroClient.getInstance(getActivity()).createBaseApi();
         retroClient.getBoardList(new RetroCallback() {
@@ -100,12 +99,13 @@ public class MyReplyFragment extends Fragment {
             @Override
             public void onSuccess(int code, Object receivedData) {
                 List<ResponseGetBoardList> data = (List<ResponseGetBoardList>) receivedData;
-
+//                BoardActivity ba = new BoardActivity();
+//                ba.setUserName(userName);
                 for(int i=0; i<data.size(); i++){
-                    //if(didWriteComment) {
+//                    if(ba.getDidWriteComment()) {
                         title.add(new ListItem(data.get(i).postId, data.get(i).title, data.get(i).description, data.get(i).created_at, data.get(i).started_at,
                                 data.get(i).ended_at, data.get(i).writeId, data.get(i).freeState));
-                    //}
+//                    }
                 }
 
                 //게시글 눌러서 내용확인
@@ -188,6 +188,5 @@ class MyReplyListItem {
         this.freeState = freeState;
     }
     public MyReplyListItem() {}
-
 
 }
