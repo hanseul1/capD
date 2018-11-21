@@ -8,52 +8,44 @@
     android:layout_marginBottom="55dp">
 
     <LinearLayout
-        android:id="@+id/top"
+        android:id="@+id/myreplyTop"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
         android:layout_alignParentStart="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
+        android:layout_height="50dp"
         android:background="@color/colorTheme"
         android:padding="5dp">
 
         <TextView
-            android:id="@+id/textView1"
-            android:layout_width="280dp"
+            android:id="@+id/myreplyTextView1"
+            android:layout_width="320dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginLeft="10dp"
-            android:text="예약매칭 게시판"
+            android:layout_alignParentBottom="true"
+            android:text="댓글 단 글"
             android:textColor="#000"
             android:textSize="20sp"
             android:textStyle="bold"
             android:typeface="monospace" />
 
-        <ImageButton
-            android:id="@+id/imageButton1"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_gravity="right"
-            android:layout_marginRight="5dp"
-            android:background="#00ff0000"
-            android:src="@drawable/rounded_add" />
-
-        <ImageButton
-            android:id="@+id/imageButton2"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_gravity="right"
-            android:layout_marginLeft="5dp"
-            android:background="#00ff0000"
-            android:src="@drawable/magnifier" />
+        <!--<ImageButton-->
+        <!--android:id="@+id/myreplyButton_refresh"-->
+        <!--android:layout_width="40dp"-->
+        <!--android:layout_height="40dp"-->
+        <!--android:layout_gravity="right"-->
+        <!--android:layout_marginRight="5dp"-->
+        <!--android:background="#00ff0000"-->
+        <!--android:src="@drawable/refresh" />-->
     </LinearLayout>
 
     <ListView
-        android:id="@+id/listView1"
+        android:id="@+id/myreplyListView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/top"
-        android:layout_alignParentBottom="true"
-        android:layout_marginTop="0dp"></ListView>
+        android:layout_below="@id/myreplyTop"
+        android:layout_alignParentBottom="true">
+    </ListView>
 
 </RelativeLayout>

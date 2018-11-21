@@ -38,9 +38,9 @@
                 android:icon="@drawable/baseline_account_circle_24"
                 android:title="내가 쓴 글" />
             <item
-                android:id="@+id/nav_action_myRechat"
+                android:id="@+id/nav_action_myReply"
                 android:icon="@drawable/baseline_chat_black_24"
-                android:title="내가 댓글 단 글" />
+                android:title="댓글 단 글" />
             <item
                 android:id="@+id/nav_action_matchingInfo"
                 android:icon="@drawable/baseline_people_black_24"

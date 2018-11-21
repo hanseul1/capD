@@ -15,10 +15,15 @@
         android:id="@+id/boardactivity_textview_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="25dp"
-        android:layout_margin="30dp"
+        android:layout_marginTop="30dp"
+        android:layout_marginBottom="30dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
         android:background="@drawable/edit_text_form"
-        android:text="제목"/>
+        android:text="제목"
+        android:textSize="25dp" />
 
     <TextView
         android:id="@+id/boardactivity_textview_description"
@@ -36,7 +41,9 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/boardactivity_textview_description"
         android:textSize="15dp"
+        android:layout_marginTop="20dp"
         android:layout_marginLeft="20dp"
+        android:layout_marginBottom="5dp"
         android:text="댓글"/>
 
 
@@ -53,16 +60,18 @@
         android:layout_width="match_parent"
         android:layout_height="40dp"
         android:layout_alignParentBottom="true"
-        android:background="@color/white"
+        android:background="@color/colorTheme"
         android:hint="댓글 입력"/>
 
     <Button
         android:id="@+id/boardactivity_button_input"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="40dp"
         android:layout_alignParentRight="true"
         android:layout_alignParentBottom="true"
-        android:text="입력"/>
+        android:background="@color/colorButton"
+        android:text="입력"
+        android:textColor="@android:color/white" />
 
 </RelativeLayout>
 

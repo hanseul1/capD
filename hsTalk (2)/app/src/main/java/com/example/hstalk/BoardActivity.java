@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.os.Build;
 import android.os.AsyncTask;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -23,6 +25,9 @@ import com.example.hstalk.Retrofit.ResponseBody.ResponseGetComments;
 import com.example.hstalk.Retrofit.RetroCallback;
 import com.example.hstalk.Retrofit.RetroClient;
 import com.example.hstalk.util.Constants;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.remoteconfig.FirebaseRemoteConfig;
 
 import java.io.BufferedReader;
 import java.io.InputStream;
@@ -52,6 +57,8 @@ public class BoardActivity extends AppCompatActivity {
     ListView listView;
     EditText comment;
     String user;
+    List<ResponseGetComments> data;
+    boolean isWriteComment = false;
 
     private static String TAG ="pushtest";
 
@@ -94,11 +101,9 @@ public class BoardActivity extends AppCompatActivity {
             }
         });
 
-
     }
 
     protected void getComments(int id){
-
         RetroClient retroClient = RetroClient.getInstance(this).createBaseApi();
         retroClient.getComments(id, new RetroCallback() {
             @Override
@@ -108,8 +113,13 @@ public class BoardActivity extends AppCompatActivity {
 
             @Override
             public void onSuccess(int code, Object receivedData) {
-                List<ResponseGetComments> data = (List<ResponseGetComments>) receivedData;
-                for(int i=0; i<data.size(); i++){
+                data = (List<ResponseGetComments>) receivedData;
+//                Intent intent = getIntent();
+//                String userName = intent.getStringExtra("userName");
+                for (int i = 0; i < data.size(); i++) {
+//                    if(userName.equals(data.get(i).writeId))
+//                        isWriteComment = true;
+
                     listItem.add(new ListItem(data.get(i).writeId, data.get(i).body, data.get(i).created_at));
                 }
                 MyAdapter adapter = new MyAdapter(BoardActivity.this, R.layout.item_reply, listItem, user, writer);
@@ -124,6 +134,15 @@ public class BoardActivity extends AppCompatActivity {
         });
     }
 
+    public boolean getDidWriteComment(){
+        if(isWriteComment == true) {
+            isWriteComment = false;
+            return true;
+        }
+
+        return false;
+    }
+
     protected void commentBoard(String comment){
         HashMap<String, Object> data = new HashMap<>();
         SharedPreferences sharedPreferences = getSharedPreferences( Constants.SHARED_PREFS , MODE_PRIVATE);
@@ -134,6 +153,7 @@ public class BoardActivity extends AppCompatActivity {
         String createdAt =  df.format(new Date());
         data.put("created_at", createdAt);
         data.put("body", comment);
+        Toast.makeText(BoardActivity.this,name,Toast.LENGTH_SHORT).show();
 
         RetroClient retroClient = RetroClient.getInstance(this).createBaseApi();
         retroClient.commentBoard(data, new RetroCallback() {
@@ -286,8 +306,6 @@ public class BoardActivity extends AppCompatActivity {
         }
     }
 }
-
-
 
 class ListItem{
     String name = "";

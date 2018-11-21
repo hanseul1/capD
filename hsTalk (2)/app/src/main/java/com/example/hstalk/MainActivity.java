@@ -25,9 +25,10 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-
 import com.example.hstalk.Fragment.BoardFragment;
 import com.example.hstalk.Fragment.LiveMatchingFragment;
+import com.example.hstalk.Fragment.MyPostFragment;
+import com.example.hstalk.Fragment.MyReplyFragment;
 import com.example.hstalk.util.Constants;
 import com.example.hstalk.Fragment.SettingPreferenceFragment;
 import com.google.firebase.auth.FirebaseAuth;
@@ -80,7 +81,7 @@ public class MainActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-//네비게이션바에 이름과 이메일을 표시하는 기능을 동작하는 함수
+        //네비게이션바에 이름과 이메일을 표시하는 기능을 동작하는 함수
         infoViewer(navigationView);
 
         passPushTokenToServer();
@@ -115,6 +116,27 @@ public class MainActivity extends AppCompatActivity
 
         userName.setText(user);
         userEmail.setText(email);
+    }
+
+    public String getData(){
+        String user;
+        FirebaseRemoteConfig firebaseRemoteConfig;
+        FirebaseAuth firebaseAuth;
+        SharedPreferences sharedPreferences;
+
+        firebaseRemoteConfig = FirebaseRemoteConfig.getInstance();
+        firebaseAuth = FirebaseAuth.getInstance();
+
+        String splash_background = firebaseRemoteConfig.getString(getString(R.string.rc_color));
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            getWindow().setStatusBarColor(Color.parseColor(splash_background));
+        }
+
+        sharedPreferences = getSharedPreferences(Constants.SHARED_PREFS, MODE_PRIVATE);
+        user = sharedPreferences.getString(Constants.USER_NAME,"");
+        FirebaseUser users = firebaseAuth.getCurrentUser();
+
+        return user;
     }
 
     @Override
@@ -160,6 +182,17 @@ public class MainActivity extends AppCompatActivity
                 Intent intent2 = new Intent(MainActivity.this, MatchingInfoActivity.class);
                 startActivity(intent2);
                 break;
+            case R.id.nav_action_myPost:
+                fragment = new MyPostFragment();
+                break;
+            case R.id.nav_action_myReply:
+                Intent i= new Intent(this, BoardActivity.class);
+                String userName = getData();
+                i.putExtra("userName", userName);
+                startActivity(i);
+                fragment = new MyReplyFragment();
+                break;
+
         }
 
         if(fragment != null){
