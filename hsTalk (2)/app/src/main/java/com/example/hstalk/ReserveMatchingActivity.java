@@ -46,7 +46,7 @@ public class ReserveMatchingActivity extends AppCompatActivity {
         Bundle bundle = intent.getExtras();
 
         final String sender = bundle.getString("sender");
-        int postId = Integer.parseInt(bundle.getString("postId"));
+        final int postId = Integer.parseInt(bundle.getString("postId"));
 
         title = (TextView)findViewById(R.id.resmatchingactivity_title);
         boardTitleText = (TextView)findViewById(R.id.resmatchingactivity_boardtitle);
@@ -63,7 +63,7 @@ public class ReserveMatchingActivity extends AppCompatActivity {
             public void onClick(View v) {
                 String provider = FirebaseAuth.getInstance().getCurrentUser().getUid();
                 MatchingPush task = new MatchingPush();
-                task.execute("http://" + IP_ADDRESS + "/resmatching_complete.php",sender,provider,startTime.getText().toString(),endTime.getText().toString());
+                task.execute("http://" + IP_ADDRESS + "/resmatching_complete.php",sender,provider,startTime.getText().toString(),endTime.getText().toString(),Integer.toString(postId));
             }
         });
 
@@ -110,8 +110,9 @@ public class ReserveMatchingActivity extends AppCompatActivity {
             String provider = (String)strings[2];
             String started_at = (String)strings[3];
             String ended_at = (String)strings[4];
+            String postId = (String)strings[5];
 
-            String postParameters = "receiver=" + receiver + "&provider=" + provider + "&started_at=" + started_at + "&ended_at=" + ended_at;
+            String postParameters = "receiver=" + receiver + "&provider=" + provider + "&started_at=" + started_at + "&ended_at=" + ended_at + "&postId=" + postId;
 
             try {
                 URL url = new URL(serverUrl);

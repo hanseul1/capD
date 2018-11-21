@@ -5,32 +5,66 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <android.support.design.widget.TextInputLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <EditText
-            android:id="@+id/livematching_title"
-            android:inputType="text"
-            android:hint="제목"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-    </android.support.design.widget.TextInputLayout>
 
-    <android.support.design.widget.TextInputLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <EditText
-            android:id="@+id/livematching_body"
-            android:inputType="text"
-            android:hint="내용"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-    </android.support.design.widget.TextInputLayout>
+    <RelativeLayout
+        android:layout_marginTop="30dp"
+        android:layout_width="wrap_content"
+        android:layout_height="60dp"
+        android:layout_gravity="center">
+
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@drawable/suhwa_logo"
+            android:layout_alignParentLeft="true"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/imageView"
+            android:text="실시간 매칭"
+            android:layout_marginLeft="10dp"
+            android:textSize="30dp"/>
+    </RelativeLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="제목"
+        android:textSize="20dp"
+        android:layout_marginTop="40dp"
+        android:layout_marginLeft="30dp"/>
+
+    <EditText
+        android:id="@+id/livematching_title"
+        android:inputType="text"
+        android:background="@drawable/rounded_edittext"
+        android:layout_width="350dp"
+        android:layout_gravity="center"
+        android:layout_height="40dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="내용"
+        android:textSize="20dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="30dp"/>
+
+    <EditText
+        android:id="@+id/livematching_body"
+        android:inputType="text"
+        android:background="@drawable/rounded_edittext"
+        android:layout_gravity="center"
+        android:layout_width="350dp"
+        android:layout_height="40dp" />
 
     <RadioGroup
         android:id="@+id/livematching_radiogroup"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
         android:orientation="horizontal"
         android:layout_gravity="center">
 
@@ -39,22 +73,28 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginRight="50dp"
-            android:text="유료"/>
+            android:buttonTint="@color/colorButton"
+            android:text="유료" />
 
         <RadioButton
             android:id="@+id/livematching_radiobutton_free"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:buttonTint="@color/colorButton"
             android:checked="true"
             android:text="무료"/>
     </RadioGroup>
 
     <Button
         android:id="@+id/livematching_button"
-        android:layout_width="wrap_content"
+        android:layout_width="138dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
+        android:layout_marginTop="30dp"
+        android:background="@drawable/my_button"
         android:onClick="onClick"
-        android:text="매칭 신청"/>
+        android:text="매칭 신청"
+        android:textSize="15dp"
+        android:textColor="@color/white" />
 
 </LinearLayout>

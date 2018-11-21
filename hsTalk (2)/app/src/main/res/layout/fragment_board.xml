@@ -7,27 +7,45 @@
     android:orientation="vertical"
     android:layout_marginBottom="55dp">
 
-    <LinearLayout
-        android:id="@+id/top"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
-        android:background="@color/colorTheme"
-        android:padding="5dp">
+<RelativeLayout
+    android:layout_marginTop="30dp"
+    android:layout_width="match_parent"
+    android:layout_height="60dp"
+    android:id="@+id/top">
 
-        <TextView
-            android:id="@+id/textView1"
-            android:layout_width="280dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginLeft="10dp"
-            android:text="예약매칭 게시판"
-            android:textColor="#000"
-            android:textSize="20sp"
-            android:textStyle="bold"
-            android:typeface="monospace" />
+    <ImageView
+        android:id="@+id/image_logo"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginLeft="80dp"
+        android:src="@drawable/suhwa_logo"
+        android:layout_alignParentLeft="true"/>
+
+    <TextView
+        android:id="@+id/textView1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_toRightOf="@+id/image_logo"
+        android:layout_marginLeft="10dp"
+        android:textSize="30dp"
+        android:text="예약매칭" />
+
+    <ImageButton
+        android:id="@+id/imageButton1"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_toRightOf="@+id/textView1"
+        android:layout_marginLeft="50dp"
+        android:src="@drawable/create" />
+
+    <ImageButton
+        android:id="@+id/imageButton2"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_toRightOf="@+id/imageButton1"
+        android:src="@drawable/search" />
+</RelativeLayout>
 
         <ImageButton
             android:id="@+id/imageButton1"

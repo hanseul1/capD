@@ -7,17 +7,17 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="70dp">
+        android:layout_height="100dp">
 
         <Button
             android:id="@+id/matchinginfo_button"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
-            android:layout_marginRight="30dp"
-            android:layout_marginTop="10dp"
-            android:text="수락"
-            android:layout_alignParentLeft="true" />
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="30dp"
+            android:text="통화연결"
+            android:layout_alignParentRight="true" />
 
         <TextView
             android:id="@+id/matchinginfo_name"
@@ -25,26 +25,26 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
             android:layout_marginBottom="5dp"
-            android:layout_toRightOf="@+id/matchinginfo_button"
+            android:layout_marginLeft="10dp"
+            android:layout_alignParentLeft="true"
             android:text="이름"/>
         <TextView
             android:id="@+id/matchinginfo_start_date"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_toRightOf="@+id/matchinginfo_button"
             android:layout_below="@+id/matchinginfo_name"
-            android:text="시작시간 :"/>
+            android:layout_marginLeft="10dp"
+            android:text="시간"/>
 
         <TextView
             android:layout_weight="1"
             android:id="@+id/matchinginfo_date"
-            android:layout_width="400dp"
+            android:layout_width="270dp"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="5dp"
-            android:layout_toRightOf="@+id/matchinginfo_start_date"
-            android:layout_below="@+id/matchinginfo_name"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="5dp"
+            android:layout_below="@+id/matchinginfo_start_date"
             android:text="내용" />
-
 
     </RelativeLayout>
 
