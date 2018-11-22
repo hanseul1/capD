@@ -89,6 +89,7 @@ public class IncomingCallActivity extends Activity {
         intent.putExtra("dialed", false);
         Log.i("satiyem","iki keno ora ?");
         startActivity(intent);
+        finish();
     }
 
     /**
