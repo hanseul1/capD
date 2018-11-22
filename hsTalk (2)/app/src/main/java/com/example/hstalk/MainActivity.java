@@ -51,6 +51,8 @@ public class MainActivity extends AppCompatActivity
         setSupportActionBar(toolbar);
         BottomNavigationView bottomNavigationView = (BottomNavigationView)findViewById(R.id.mainactivity_drawer);
 
+        getFragmentManager().beginTransaction().replace(R.id.content_main, new LiveMatchingFragment()).commit();
+
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
