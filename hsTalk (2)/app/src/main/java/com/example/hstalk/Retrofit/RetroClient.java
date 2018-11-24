@@ -5,6 +5,7 @@ import android.content.Context;
 import com.example.hstalk.Retrofit.ResponseBody.ResponseGetBoard;
 import com.example.hstalk.Retrofit.ResponseBody.ResponseGetBoardList;
 import com.example.hstalk.Retrofit.ResponseBody.ResponseGetComments;
+import com.example.hstalk.Retrofit.ResponseBody.ResponseGetPush;
 import com.example.hstalk.Retrofit.ResponseBody.ResponseGetStartDateByPI;
 import com.example.hstalk.Retrofit.ResponseBody.ResponseGetStartDateByRI;
 import com.example.hstalk.Retrofit.ResponseBody.ResponseGetUserInfo;
@@ -240,4 +241,21 @@ public class RetroClient {
         });
     }
 
+    public void getPush(String id, final RetroCallback callback){
+        apiService.getPush(id).enqueue(new Callback<ResponseGetPush>() {
+            @Override
+            public void onResponse(Call<ResponseGetPush> call, Response<ResponseGetPush> response) {
+                if (response.isSuccessful()) {
+                    callback.onSuccess(response.code(), response.body());
+                } else {
+                    callback.onFailure(response.code());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseGetPush> call, Throwable t) {
+
+            }
+        });
+    }
 }

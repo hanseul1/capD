@@ -11,6 +11,9 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.hstalk.Retrofit.ResponseBody.ResponseGetPush;
+import com.example.hstalk.Retrofit.RetroCallback;
+import com.example.hstalk.Retrofit.RetroClient;
 import com.example.hstalk.util.Constants;
 import com.google.firebase.auth.FirebaseAuth;
 import com.pubnub.api.Callback;
@@ -33,22 +36,19 @@ public class MatchingActivity extends AppCompatActivity {
 
     private static String IP_ADDRESS = "52.231.69.121";
     private static String TAG ="pushtest";
-    private static final String TAG_JSON = "getpush";
-    private static final String TAG_PUSH = "pushId";
-    private static final String TAG_PROVIDER = "providerId";
 
     private SharedPreferences sharedPreferences;
     private String stdByChannel;
+    private String pushId;
     private String user;
     private String title;
     private String body;
     private String receiver;
     private Pubnub mPubNub;
 
-    String mJsonString;
-    String pushId;
-    String providerId;
+    String matched;
     TextView doneText;
+    Button button;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,26 +62,21 @@ public class MatchingActivity extends AppCompatActivity {
         user = sharedPreferences.getString(Constants.USER_NAME,"");
         title = bundle.getString("title");
         body = bundle.getString("body");
+        pushId = bundle.getString("pushId");
         receiver = bundle.getString("receiver");
         stdByChannel = user + Constants.STDBY_SUFFIX;
 
         TextView titleText = (TextView)findViewById(R.id.matchingactivity_textview_title);
         TextView bodyText = (TextView)findViewById(R.id.matchingactivity_textview_body);
-        Button button = (Button)findViewById(R.id.matchingactivity_button);
+        button = (Button)findViewById(R.id.matchingactivity_button);
         doneText = (TextView)findViewById(R.id.matchingactivity_textview_donetext);
         titleText.setText(title);
         bodyText.setText(body);
 
-        GetPush push = new GetPush();
-        push.execute("http://" + IP_ADDRESS + "/getPush.php",title,body);
-
         initPubNub();
 
-        if(providerId == "none"){
-            button.setVisibility(View.INVISIBLE);
-        }else{
-            doneText.setVisibility(View.INVISIBLE);
-        }
+        getPush();
+
 
         button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -99,6 +94,30 @@ public class MatchingActivity extends AppCompatActivity {
 
     }
 
+    protected void getPush(){
+        RetroClient retroClient = RetroClient.getInstance(this).createBaseApi();
+        retroClient.getPush(pushId, new RetroCallback() {
+            @Override
+            public void onError(Throwable t) {
+                Toast.makeText(MatchingActivity.this,t.toString(),Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onSuccess(int code, Object receivedData) {
+                ResponseGetPush data = (ResponseGetPush) receivedData;
+                if(data.matched == "Y"){
+                    button.setVisibility(View.INVISIBLE);
+                }else{
+                    doneText.setVisibility(View.INVISIBLE);
+                }
+            }
+
+            @Override
+            public void onFailure(int code) {
+                Toast.makeText(MatchingActivity.this,"fail",Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
     @Override
     protected void onRestart() {
         super.onRestart();
@@ -106,95 +125,6 @@ public class MatchingActivity extends AppCompatActivity {
             initPubNub();
         } else {
             subscribeStdBy();
-        }
-    }
-
-    class GetPush extends AsyncTask<String,Void,String> {
-
-        @Override
-
-        protected void onPostExecute(String result) {
-
-            super.onPostExecute(result);
-            Log.d(TAG, "response - " + result);
-
-            if (result != null){
-                mJsonString = result;
-                showResult();
-            }
-        }
-
-        @Override
-        protected String doInBackground(String... strings) {
-
-            String serverUrl = (String)strings[0];
-            String title = (String)strings[1];
-            String body = (String)strings[2];
-
-            String postParameters = "title=" + title + "&body=" + body;
-
-            try {
-                URL url = new URL(serverUrl);
-                HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
-
-                httpURLConnection.setReadTimeout(5000);
-                httpURLConnection.setConnectTimeout(5000);
-                httpURLConnection.setRequestMethod("POST");
-                httpURLConnection.setDoInput(true);
-                httpURLConnection.connect();
-
-                OutputStream outputStream = httpURLConnection.getOutputStream();
-                outputStream.write(postParameters.getBytes("UTF-8"));
-                outputStream.flush();
-                outputStream.close();
-
-                int responseStatusCode = httpURLConnection.getResponseCode();
-
-                Log.d(TAG, "response code - " + responseStatusCode);
-
-                InputStream inputStream;
-                if(responseStatusCode == HttpURLConnection.HTTP_OK) {
-                    inputStream = httpURLConnection.getInputStream();
-                }
-                else{
-                    inputStream = httpURLConnection.getErrorStream();
-                }
-
-                InputStreamReader inputStreamReader = new InputStreamReader(inputStream, "UTF-8");
-                BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
-                StringBuilder sb = new StringBuilder();
-                String line;
-
-                while((line = bufferedReader.readLine()) != null){
-                    sb.append(line);
-                }
-                bufferedReader.close();
-
-                return sb.toString().trim();
-            } catch (Exception e) {
-                Log.d(TAG, "InsertData: Error ", e);
-
-                return null;
-
-            }
-
-        }
-    }
-
-    private void showResult(){
-        try {
-
-            if(mJsonString != null) {
-                JSONObject jsonObject = new JSONObject(mJsonString);
-                JSONArray jsonArray = jsonObject.getJSONArray(TAG_JSON);
-                JSONObject item = jsonArray.getJSONObject(0);
-
-                pushId = item.getString(TAG_PUSH);
-                providerId = item.getString(TAG_PROVIDER);
-            }
-
-        } catch (JSONException e) {
-            Log.d(TAG, "showResult : ", e);
         }
     }
 

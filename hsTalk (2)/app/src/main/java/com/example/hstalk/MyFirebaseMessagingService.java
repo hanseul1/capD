@@ -30,14 +30,15 @@ public class MyFirebaseMessagingService extends com.google.firebase.messaging.Fi
         String message = data.get("body");
         String uid = data.get("uid");
         String postId = data.get("postId");
+        String pushId = data.get("pushId");
 
-        sendNotification(title, message, uid, postId);
+        sendNotification(title, message, uid, postId, pushId);
     }
 
-    private void sendNotification(String title, String message, String ruid, String postId) {
+    private void sendNotification(String title, String message, String ruid, String postId, String pushId) {
 
         String channelId = "channel";
-        String channelName = "Channel Name";
+        String channelName = "suhwa";
         String puid = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
         NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
@@ -127,6 +128,7 @@ public class MyFirebaseMessagingService extends com.google.firebase.messaging.Fi
             bundle.putString("body", message);
             bundle.putString("user", puid);
             bundle.putString("receiver", ruid);
+            bundle.putString("pushId", pushId);
             intent4.putExtras(bundle);
             intent4.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 

@@ -5,6 +5,7 @@ import com.example.hstalk.Retrofit.ResponseBody.ResponseGet;
 import com.example.hstalk.Retrofit.ResponseBody.ResponseGetBoard;
 import com.example.hstalk.Retrofit.ResponseBody.ResponseGetBoardList;
 import com.example.hstalk.Retrofit.ResponseBody.ResponseGetComments;
+import com.example.hstalk.Retrofit.ResponseBody.ResponseGetPush;
 import com.example.hstalk.Retrofit.ResponseBody.ResponseGetStartDateByPI;
 import com.example.hstalk.Retrofit.ResponseBody.ResponseGetStartDateByRI;
 import com.example.hstalk.Retrofit.ResponseBody.ResponseGetUserInfo;
@@ -51,6 +52,8 @@ public interface RetroBaseApiService {
     Call<List<ResponseGetComments>> getComments(@Query("postId") int id);
     @GET("/getBoard.php")
     Call<ResponseGetBoard> getBoard(@Query("postId") int id);
+    @GET("/getPush.php")
+    Call<ResponseGetPush> getPush(@Query("pushId") String id);
 
     @FormUrlEncoded
     @POST("/CreateBoard.php")
