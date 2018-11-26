@@ -83,8 +83,10 @@ public class MatchingActivity extends AppCompatActivity {
             public void onClick(View v) {
                 //service 테이블에 providerId 저장 및 푸시 전달
                 String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+                SharedPreferences sharedPreferences = getSharedPreferences( Constants.SHARED_PREFS , MODE_PRIVATE);
+                String userType = sharedPreferences.getString("userType","");
                 UpdateProvider task = new UpdateProvider();
-                task.execute("http://" + IP_ADDRESS + "/matching_complete.php",uid,pushId);
+                task.execute("http://" + IP_ADDRESS + "/matching_complete.php",uid,pushId,userType);
 
                 makeCall(v);
 
@@ -136,8 +138,9 @@ public class MatchingActivity extends AppCompatActivity {
             String serverUrl = (String)strings[0];
             String uid = (String)strings[1];
             String pushId2 = (String)strings[2];
+            String userType = (String)strings[3];
 
-            String postParameters = "uid=" + uid + "&pushId=" + pushId2;
+            String postParameters = "uid=" + uid + "&pushId=" + pushId2 + "&userType=" + userType;
 
             try {
                 URL url = new URL(serverUrl);
@@ -291,6 +294,10 @@ public class MatchingActivity extends AppCompatActivity {
                             intent.putExtra(Constants.USER_NAME, user);
                             intent.putExtra(Constants.CALL_USER, callNum);  // Only accept from this number?
                             intent.putExtra("dialed", true);
+                            intent.putExtra("pushId", pushId);
+                            SharedPreferences sharedPreferences = getSharedPreferences( Constants.SHARED_PREFS , MODE_PRIVATE);
+                            String userType = sharedPreferences.getString("userType","");
+                            intent.putExtra("userType", userType);
                             startActivity(intent);
                         }
                     });

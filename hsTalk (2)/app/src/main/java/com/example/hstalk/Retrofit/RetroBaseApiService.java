@@ -64,6 +64,10 @@ public interface RetroBaseApiService {
     Call<Void> commentBoard(@FieldMap HashMap<String, Object> parameters);
 
     @FormUrlEncoded
+    @POST("/endCall.php")
+    Call<Void> updateEndCall(@FieldMap HashMap<String, Object> parameters);
+
+    @FormUrlEncoded
     @POST("/posts")
     Call<ResponseGet> postFirst(@FieldMap HashMap<String, Object> parameters);
 

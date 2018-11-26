@@ -59,6 +59,10 @@ public class MyFirebaseMessagingService extends com.google.firebase.messaging.Fi
 
         if(title.equals(liveTitle)){
             Intent intent1 = new Intent(this,VideoChatActivity.class);
+
+            Bundle bundle = new Bundle();
+            bundle.putString("pushId",pushId);
+            intent1.putExtras(bundle);
             intent1.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 
             PendingIntent pendingIntent1 = PendingIntent.getActivity(this, 0 /* Request code */, intent1,

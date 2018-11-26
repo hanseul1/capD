@@ -17,6 +17,10 @@ import com.pubnub.api.Pubnub;
 
 import org.json.JSONObject;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
+
 import me.kevingleason.pnwebrtc.PnPeerConnectionClient;
 
 
@@ -24,6 +28,7 @@ public class IncomingCallActivity extends Activity {
     private SharedPreferences mSharedPreferences;
     private String username;
     private String callUser;
+    private String pushId;
 
     private Pubnub mPubNub;
     private TextView mCallerID;
@@ -52,6 +57,7 @@ public class IncomingCallActivity extends Activity {
             return;
         }
         this.callUser = extras.getString(Constants.CALL_USER, "");
+        this.pushId = extras.getString("pushId");
         this.mCallerID = (TextView) findViewById(R.id.caller_id);
         this.mCallerID.setText(this.callUser);
 
@@ -83,9 +89,11 @@ public class IncomingCallActivity extends Activity {
     }
 
     public void acceptCall(View view){
+
         Intent intent = new Intent(IncomingCallActivity.this, VideoChatActivity.class);
         intent.putExtra(Constants.USER_NAME, this.username);
         intent.putExtra(Constants.CALL_USER, this.callUser);
+        intent.putExtra("pushId",this.pushId);
         intent.putExtra("dialed", false);
         Log.i("satiyem","iki keno ora ?");
         startActivity(intent);

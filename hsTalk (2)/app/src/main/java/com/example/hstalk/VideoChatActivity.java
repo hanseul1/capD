@@ -40,12 +40,18 @@ import org.webrtc.VideoRendererGui;
 import org.webrtc.VideoSource;
 import org.webrtc.VideoTrack;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
 import java.util.concurrent.ExecutionException;
 
+import com.example.hstalk.Retrofit.RetroCallback;
+import com.example.hstalk.Retrofit.RetroClient;
 import com.example.hstalk.adapters.ChatAdapter;
 import com.example.hstalk.adt.ChatMessage;
 
@@ -74,7 +80,11 @@ public class VideoChatActivity extends ListActivity {
     private ChatAdapter mChatAdapter;
     private TextView mCallStatus;
     private AudioRecord audio;
+    private String pushId;
     private String username;
+    private String started_at;
+    private String ended_at;
+    private String price;
     private boolean backPressed = false;
     private Thread  backPressedThread = null;
     private final int REQ_CODE_SPEECH_INPUT = 100;
@@ -101,6 +111,9 @@ public class VideoChatActivity extends ListActivity {
         this.mChatList     = getListView();
         this.mChatEditText = (EditText) findViewById(R.id.chat_input);
         this.mCallStatus   = (TextView) findViewById(R.id.call_status);
+        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.KOREA);
+        started_at = df.format(new Date());
+        pushId = extras.getString("pushId");
 
         // Set up the List View for chatting
         List<ChatMessage> ll = new LinkedList<ChatMessage>();
@@ -259,6 +272,21 @@ public class VideoChatActivity extends ListActivity {
     }
 
     private void endCall() {
+        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.KOREA);
+        ended_at =  df.format(new Date());
+
+        try {
+            Date startDate = df.parse(started_at);
+            Date endDate = df.parse(ended_at);
+
+            long minute = (endDate.getTime() - startDate.getTime()) / 60000;
+            int intPrice = (int)Math.ceil(minute / 3) * 500;
+            price = Integer.toString(intPrice);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        updateEndCall();
         startActivity(new Intent(VideoChatActivity.this, MainActivity.class));
         finish();
     }
@@ -461,5 +489,31 @@ public class VideoChatActivity extends ListActivity {
             startActivity(intent);
             finish();
         }
+    }
+
+    protected void updateEndCall(){
+        HashMap<String, Object> data = new HashMap<>();
+        data.put("pushId", pushId);
+        data.put("started_at", started_at);
+        data.put("ended_at", ended_at);
+        data.put("price", price);
+
+        RetroClient retroClient = RetroClient.getInstance(this).createBaseApi();
+        retroClient.updateEndCall(data, new RetroCallback() {
+            @Override
+            public void onError(Throwable t) {
+                Toast.makeText(VideoChatActivity.this,t.toString(),Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onSuccess(int code, Object receivedData) {
+                Toast.makeText(VideoChatActivity.this,"이용요금 "+price+"원 입니다.",Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onFailure(int code) {
+                Toast.makeText(VideoChatActivity.this,"fail",Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 }

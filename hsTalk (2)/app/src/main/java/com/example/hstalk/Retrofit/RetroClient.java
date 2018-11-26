@@ -258,4 +258,22 @@ public class RetroClient {
             }
         });
     }
+
+    public void updateEndCall(HashMap<String, Object> parameters, final RetroCallback callback){
+        apiService.updateEndCall(parameters).enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(Call<Void> call, Response<Void> response) {
+                if (response.isSuccessful()) {
+                    callback.onSuccess(response.code(), response.body());
+                } else {
+                    callback.onFailure(response.code());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Void> call, Throwable t) {
+
+            }
+        });
+    }
 }
