@@ -63,9 +63,13 @@ public class LiveMatchingFragment extends Fragment {
     private Pubnub mPubNub;
     private String user;
     private String stdByChannel;
+    private String name;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable final ViewGroup container, Bundle savedInstanceState) {
+
+        final SharedPreferences sharedPreferences = getActivity().getSharedPreferences( Constants.SHARED_PREFS , Context.MODE_PRIVATE);
+
         View view = (LinearLayout)inflater.inflate(R.layout.fragment_livematching,container,false);
         title = (EditText)view.findViewById(R.id.livematching_title);
         body = (EditText)view.findViewById(R.id.livematching_body);
@@ -93,9 +97,11 @@ public class LiveMatchingFragment extends Fragment {
 
                 //수화통역사들에게 푸시알람 보냄
                 PushNotification push = new PushNotification();
+                name = sharedPreferences.getString(Constants.USER_NAME,"");
                 user = FirebaseAuth.getInstance().getCurrentUser().getUid();
-                stdByChannel = user + Constants.STDBY_SUFFIX;
-                push.execute("http://"+IP_ADDRESS+"/push_notification.php",title.getText().toString(),body.getText().toString(),payment,user);
+
+                stdByChannel = name + Constants.STDBY_SUFFIX;
+                push.execute("http://"+IP_ADDRESS+"/push_notification.php",title.getText().toString(),body.getText().toString(),payment,user,name);
                 title.setText("");
                 body.setText("");
                 initPubNub();
@@ -150,7 +156,7 @@ public class LiveMatchingFragment extends Fragment {
     private void dispatchIncomingCall(String userId){
 
         Intent intent = new Intent(getActivity(), IncomingCallActivity.class);
-        intent.putExtra(Constants.USER_NAME, user);
+        intent.putExtra(Constants.USER_NAME, name);
         intent.putExtra(Constants.CALL_USER, userId);
         intent.putExtra("pushId",pushId);
         startActivity(intent);
@@ -199,8 +205,9 @@ public class LiveMatchingFragment extends Fragment {
             String body = (String)strings[2];
             String payments = (String)strings[3];
             String uid = (String)strings[4];
+            String name = (String)strings[5];
 
-            String postParameters = "title=" + title + "&body=" + body + "&payment=" + payments + "&uid=" + uid ;
+            String postParameters = "title=" + title + "&body=" + body + "&payment=" + payments + "&uid=" + uid  + "&name=" + name;
 
             try{
                 URL url = new URL(serverUrl);

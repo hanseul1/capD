@@ -63,7 +63,7 @@ public class MatchingActivity extends AppCompatActivity {
         title = bundle.getString("title");
         body = bundle.getString("body");
         pushId = bundle.getString("pushId");
-        receiver = bundle.getString("receiver");
+        receiver = bundle.getString("name");
         stdByChannel = user + Constants.STDBY_SUFFIX;
 
         TextView titleText = (TextView)findViewById(R.id.matchingactivity_textview_title);

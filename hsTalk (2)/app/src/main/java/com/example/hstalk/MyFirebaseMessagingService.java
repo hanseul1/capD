@@ -31,11 +31,12 @@ public class MyFirebaseMessagingService extends com.google.firebase.messaging.Fi
         String uid = data.get("uid");
         String postId = data.get("postId");
         String pushId = data.get("pushId");
+        String name = data.get("name");
+        sendNotification(title, message, uid, postId, pushId, name);
 
-        sendNotification(title, message, uid, postId, pushId);
     }
 
-    private void sendNotification(String title, String message, String ruid, String postId, String pushId) {
+    private void sendNotification(String title, String message, String ruid, String postId, String pushId, String name) {
 
         String channelId = "channel";
         String channelName = "suhwa";
@@ -133,6 +134,7 @@ public class MyFirebaseMessagingService extends com.google.firebase.messaging.Fi
             bundle.putString("user", puid);
             bundle.putString("receiver", ruid);
             bundle.putString("pushId", pushId);
+            bundle.putString("name", name);
             intent4.putExtras(bundle);
             intent4.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 
