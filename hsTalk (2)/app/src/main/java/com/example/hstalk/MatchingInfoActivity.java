@@ -43,7 +43,7 @@ public class  MatchingInfoActivity extends AppCompatActivity {
     private static String IP_ADDRESS = "52.231.69.121";
     private static String TAG ="pushtest";
     private Pubnub mPubNub;
-    private String user,user2,uid;
+    private String user,user2,uid,name;
     private String stdByChannel;
 
     @Override
@@ -54,7 +54,7 @@ public class  MatchingInfoActivity extends AppCompatActivity {
         SharedPreferences sharedPreferences = getSharedPreferences( Constants.SHARED_PREFS , MODE_PRIVATE);
         type = sharedPreferences.getString("userType","");
         uid = sharedPreferences.getString("uid","");
-        user = sharedPreferences.getString(Constants.USER_NAME,"");
+        name = sharedPreferences.getString(Constants.USER_NAME,"");
         //started_at 받아올 변수
         if( type.equals("E")) {
             //providerId 를 가지고 있는 사람의 이름
@@ -220,12 +220,10 @@ public class  MatchingInfoActivity extends AppCompatActivity {
                     @Override
                     public void onClick(View view) {
                         PushNotification push = new PushNotification();
-                        user = FirebaseAuth.getInstance().getCurrentUser().getUid();
+                        uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
-                        stdByChannel = user + Constants.STDBY_SUFFIX;
-                        Log.d("TAG", user);
-                        Log.d("TAG", stdByChannel);
-                        push.execute("http://"+IP_ADDRESS+"/resmatching_notification.php","예약 매칭 통화 알림","예약 매칭된 상대의 통화 요청입니다.",user2,user);
+                        stdByChannel = name + Constants.STDBY_SUFFIX;
+                        push.execute("http://"+IP_ADDRESS+"/resmatching_notification.php","예약 매칭 통화 알림","예약 매칭된 상대의 통화 요청입니다.",user2,uid,name);
                         initPubNub();
                         Toast.makeText(MatchingInfoActivity.this,"전송완료",Toast.LENGTH_SHORT).show();
 
@@ -326,8 +324,9 @@ public class  MatchingInfoActivity extends AppCompatActivity {
             String body = (String)strings[2];
             String name = (String)strings[3];
             String uid = (String)strings[4];
+            String my_name = (String)strings[5];
 
-            String postParameters = "title=" + title + "&body=" + body +  "&name=" + name +"&uid=" + uid ;
+            String postParameters = "title=" + title + "&body=" + body +  "&name=" + name +"&uid=" + uid+"&my_name=" + my_name ;
 
             try{
                 URL url = new URL(serverUrl);
