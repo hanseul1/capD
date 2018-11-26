@@ -15,6 +15,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.media.Image;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.ContactsContract;
@@ -51,23 +52,39 @@ public class ChatActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat);
 
-//        Button sendButton = (Button)findViewById(R.id.send_button);
-//        sendButton.setOnClickListener(new View.OnClickListener(){
-//            public void onClick(View v){
-//                String sendMessage = mInputEditText.getText().toString();
-//                if ( sendMessage.length() > 0 ) {
-//                    sendMessage(sendMessage);
-//                }
-//            }
-//        });
+
+
+        Button sendButton = (Button)findViewById(R.id.send_button);
+        sendButton.setOnClickListener(new View.OnClickListener(){
+            public void onClick(View v){
+                String sendMessage = mInputEditText.getText().toString();
+                if ( sendMessage.length() > 0 ) {
+                    sendMessage(sendMessage);
+                }
+            }
+        });
+
+
+
+
         mConnectionStatus = (TextView)findViewById(R.id.connection_status_textview);
- //       mInputEditText = (EditText)findViewById(R.id.input_string_edittext);
-        mImageView = (ImageView)findViewById(R.id.chat_image);
-//        ListView mMessageListview = (ListView) findViewById(R.id.message_listview);
-//
-//        mConversationArrayAdapter = new ArrayAdapter<>( this,
-//                android.R.layout.simple_list_item_1 );
-//        mMessageListview.setAdapter(mConversationArrayAdapter);
+
+
+
+        mInputEditText = (EditText)findViewById(R.id.input_string_edittext);
+
+
+
+
+   //     mImageView = (ImageView)findViewById(R.id.chat_image);
+
+
+
+        ListView mMessageListview = (ListView) findViewById(R.id.message_listview);
+
+        mConversationArrayAdapter = new ArrayAdapter<>( this,
+                android.R.layout.simple_list_item_1 );
+        mMessageListview.setAdapter(mConversationArrayAdapter);
 
 
         Log.d( TAG, "Initalizing Bluetooth adapter...");
@@ -110,7 +127,8 @@ public class ChatActivity extends AppCompatActivity
             mConnectedDeviceName = bluetoothDevice.getName();
 
             //SPP
-            UUID uuid = UUID.fromString("00001101-0000-1000-8000-00805f9b34fb");
+//            UUID uuid = UUID.fromString("00001101-0000-1000-8000-00805f9b34fb");
+            UUID uuid = UUID.fromString("00000003-0000-1000-8000-00805f9b34fb");
 
             try {
                 mBluetoothSocket = mBluetoothDevice.createRfcommSocketToServiceRecord(uuid);
@@ -174,7 +192,7 @@ public class ChatActivity extends AppCompatActivity
 
 
 
-    private class ConnectedTask extends AsyncTask<Void, Bitmap, Boolean> {
+    private class ConnectedTask extends AsyncTask<Void, String, Boolean> {
 
         private InputStream mInputStream = null;
         private OutputStream mOutputStream = null;
@@ -195,65 +213,6 @@ public class ChatActivity extends AppCompatActivity
         }
 
 
-//        @Override
-//        protected Boolean doInBackground(Void... params) {
-//
-//            byte [] readBuffer = new byte[1024];
-//            int readBufferPosition = 0;
-//
-//            while (true) {
-//
-//                if ( isCancelled() ) return false;
-//
-//                try {
-//
-//                    int bytesAvailable = mInputStream.available();
-//
-//                    if(bytesAvailable > 0) {
-//
-//                        byte[] packetBytes = new byte[bytesAvailable];
-//
-//                        mInputStream.read(packetBytes);
-//
-//                        for(int i=0;i<bytesAvailable;i++) {
-//
-//                            byte b = packetBytes[i];
-//                            if(b == '\n')
-//                            {
-//                                byte[] encodedBytes = new byte[readBufferPosition];
-//                                System.arraycopy(readBuffer, 0, encodedBytes, 0,
-//                                        encodedBytes.length);
-//                                String recvMessage = new String(encodedBytes, "UTF-8");
-//
-//                                readBufferPosition = 0;
-//
-//                                Log.d(TAG, "recv message: " + recvMessage);
-//                                publishProgress(recvMessage);
-//                            }
-//                            else
-//                            {
-//                                readBuffer[readBufferPosition++] = b;
-//                            }
-//                        }
-//                    }
-//                } catch (IOException e) {
-//
-//                    Log.e(TAG, "disconnected", e);
-//                    return false;
-//                }
-//            }
-//
-//        }
-//
-//
-//        @Override
-//        protected void onProgressUpdate(String... recvMessage) {
-//
-//            mConversationArrayAdapter.insert(mConnectedDeviceName + ": " + recvMessage[0], 0);
-//            //받는부분
-//        }
-
-
         @Override
         protected Boolean doInBackground(Void... params) {
 
@@ -263,19 +222,42 @@ public class ChatActivity extends AppCompatActivity
             while (true) {
 
                 if ( isCancelled() ) return false;
-//                BufferedInputStream bis = new BufferedInputStream(mInputStream);
-//                Bitmap bitmap = BitmapFactory.decodeStream(bis);
-//                   publishProgress(bitmap);
+
                 try {
-                    ObjectInputStream ois = new ObjectInputStream(mInputStream);
-                    int sz = (Integer) ois.readObject();
-                    byte b[]  = new byte[sz];
-                    int byteRead = ois.read(b,0,b.length);
-                    
+
+                    int bytesAvailable = mInputStream.available();
+
+                    if(bytesAvailable > 0) {
+
+                        byte[] packetBytes = new byte[bytesAvailable];
+
+                        mInputStream.read(packetBytes);
+
+                        for(int i=0;i<bytesAvailable;i++) {
+
+                            byte b = packetBytes[i];
+                            if(b == '\n')
+                            {
+                                byte[] encodedBytes = new byte[readBufferPosition];
+                                System.arraycopy(readBuffer, 0, encodedBytes, 0,
+                                        encodedBytes.length);
+                                String recvMessage = new String(encodedBytes, "UTF-8");
+
+                                readBufferPosition = 0;
+
+                                Log.d(TAG, "recv message: " + recvMessage);
+                                publishProgress(recvMessage);
+                            }
+                            else
+                            {
+                                readBuffer[readBufferPosition++] = b;
+                            }
+                        }
+                    }
                 } catch (IOException e) {
-                    e.printStackTrace();
-                } catch (ClassNotFoundException e) {
-                    e.printStackTrace();
+
+                    Log.e(TAG, "disconnected", e);
+                    return false;
                 }
             }
 
@@ -283,11 +265,42 @@ public class ChatActivity extends AppCompatActivity
 
 
         @Override
-        protected void onProgressUpdate(Bitmap... recvMessage) {
+        protected void onProgressUpdate(String... recvMessage) {
 
-          mImageView.setImageBitmap(recvMessage[0]);
+            mConversationArrayAdapter.insert(mConnectedDeviceName + ": " + recvMessage[0], 0);
             //받는부분
         }
+
+
+//        @Override
+//        protected Boolean doInBackground(Void... params) {
+//
+//            byte [] readBuffer = new byte[4096];
+//            int readBufferPosition = 0;
+//            BufferedInputStream bis = new BufferedInputStream(mInputStream);
+//            while (true) {
+//                if (isCancelled()) return false;
+//
+//
+//                Bitmap bitmap = BitmapFactory.decodeStream(bis);
+//                publishProgress(bitmap);
+//            }
+//
+//
+//
+//
+//
+//
+//
+//        }
+//
+//
+//        @Override
+//        protected void onProgressUpdate(Bitmap... recvMessage) {
+//
+//          mImageView.setImageBitmap(recvMessage[0]);
+//            //받는부분
+//        }
 
 
 
