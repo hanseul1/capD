@@ -71,7 +71,24 @@ public class ChatActivity extends AppCompatActivity
     public void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-       setContentView(R.layout.activity_chat);
+        requestPermissionCamera();
+    }
+    public static Camera getCamera(){
+        return mCamera;
+    }
+    private void setInit(){
+        getInstance = this;
+
+        // 카메라 객체를 R.layout.activity_main의 레이아웃에 선언한 SurfaceView에서 먼저 정의해야 함으로 setContentView 보다 먼저 정의한다.
+        mCamera = Camera.open(1);
+
+        setContentView(R.layout.activity_chat);
+
+        // SurfaceView를 상속받은 레이아웃을 정의한다.
+        surfaceView = (CameraPreview) findViewById(R.id.preview);
+
+
+
         mConnectionStatus = (TextView)findViewById(R.id.connection_status_textview);
         mTextView = (TextView)findViewById(R.id.input_string_edittext);
         Log.d( TAG, "Initalizing Bluetooth adapter...");
@@ -92,21 +109,9 @@ public class ChatActivity extends AppCompatActivity
             showPairedDevicesListDialog();
         }
 
-        requestPermissionCamera();
-    }
-    public static Camera getCamera(){
-        return mCamera;
-    }
-    private void setInit(){
-        getInstance = this;
 
-        // 카메라 객체를 R.layout.activity_main의 레이아웃에 선언한 SurfaceView에서 먼저 정의해야 함으로 setContentView 보다 먼저 정의한다.
-        mCamera = Camera.open(1);
 
-        setContentView(R.layout.activity_chat);
 
-        // SurfaceView를 상속받은 레이아웃을 정의한다.
-        surfaceView = (CameraPreview) findViewById(R.id.preview);
 
 
         // SurfaceView 정의 - holder와 Callback을 정의한다.

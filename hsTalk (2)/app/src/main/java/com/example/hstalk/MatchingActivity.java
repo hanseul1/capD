@@ -300,6 +300,7 @@ public class MatchingActivity extends AppCompatActivity {
                             String userType = sharedPreferences.getString("userType","");
                             intent.putExtra("userType", userType);
                             startActivity(intent);
+                            finish();
                         }
                     });
                 } catch (JSONException e) {
