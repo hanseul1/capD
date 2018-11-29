@@ -26,6 +26,7 @@ import com.pubnub.api.Pubnub;
 import com.pubnub.api.PubnubError;
 import com.pubnub.api.PubnubException;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -41,7 +42,11 @@ import java.util.Date;
 
 public class  MatchingInfoActivity extends AppCompatActivity {
     private static String IP_ADDRESS = "52.231.69.121";
+    private static final String TAG_JSON = "suhwa";
+    private static final String TAG_PUSH = "pushId";
     private static String TAG ="pushtest";
+    private String mJsonString;
+    private String pushId;
     private Pubnub mPubNub;
     private String user,user2,uid,name;
     private String stdByChannel;
@@ -283,6 +288,7 @@ public class  MatchingInfoActivity extends AppCompatActivity {
         Intent intent = new Intent(MatchingInfoActivity.this, IncomingCallActivity.class);
         intent.putExtra(Constants.USER_NAME, user);
         intent.putExtra(Constants.CALL_USER, userId);
+        intent.putExtra("pushId",this.pushId);
         startActivity(intent);
     }
 
@@ -314,6 +320,11 @@ public class  MatchingInfoActivity extends AppCompatActivity {
         protected void onPostExecute(String result) {
             super.onPostExecute(result);
             Log.d(TAG, "POST response  - " + result);
+
+            if(result != null){
+                mJsonString = result;
+                showResult();
+            }
         }
 
         @Override
@@ -374,6 +385,20 @@ public class  MatchingInfoActivity extends AppCompatActivity {
 
                 return new String("Error: " + e.getMessage());
             }
+        }
+    }
+
+    private void showResult(){
+        try{
+            if(mJsonString != null){
+                JSONObject jsonObject = new JSONObject(mJsonString);
+                JSONArray jsonArray = jsonObject.getJSONArray(TAG_JSON);
+                JSONObject item = jsonArray.getJSONObject(0);
+
+                this.pushId = item.getString(TAG_PUSH);
+            }
+        } catch (JSONException e) {
+            Toast.makeText(MatchingInfoActivity.this,e.getMessage(),Toast.LENGTH_SHORT).show();
         }
     }
 

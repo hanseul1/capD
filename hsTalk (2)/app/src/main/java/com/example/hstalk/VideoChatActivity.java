@@ -280,8 +280,9 @@ public class VideoChatActivity extends ListActivity {
             Date endDate = df.parse(ended_at);
 
             long minute = (endDate.getTime() - startDate.getTime()) / 60000;
-            int intPrice = (int)Math.ceil(minute / 3) * 500;
-            price = Integer.toString(intPrice);
+            double i = (double)minute/3;
+            long intPrice = (long)(Math.ceil(i) * 500);
+            this.price = Long.toString(intPrice);
         } catch (ParseException e) {
             e.printStackTrace();
         }
@@ -496,7 +497,7 @@ public class VideoChatActivity extends ListActivity {
         data.put("pushId", pushId);
         data.put("started_at", started_at);
         data.put("ended_at", ended_at);
-        data.put("price", price);
+        data.put("price", this.price);
 
         RetroClient retroClient = RetroClient.getInstance(this).createBaseApi();
         retroClient.updateEndCall(data, new RetroCallback() {
@@ -507,7 +508,7 @@ public class VideoChatActivity extends ListActivity {
 
             @Override
             public void onSuccess(int code, Object receivedData) {
-                Toast.makeText(VideoChatActivity.this,"이용요금 "+price+"원 입니다.",Toast.LENGTH_SHORT).show();
+
             }
 
             @Override
