@@ -234,6 +234,7 @@ public class MatchingActivity extends AppCompatActivity {
         intent.putExtra(Constants.USER_NAME, user);
         intent.putExtra(Constants.CALL_USER, userId);
         startActivity(intent);
+        finish();
     }
 
     private void subscribeStdBy(){
