@@ -1,28 +1,40 @@
 package com.example.hstalk;
 import java.io.BufferedInputStream;
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.ObjectInputStream;
 import java.io.OutputStream;
 import java.util.Set;
 import java.util.UUID;
 
+import android.Manifest;
 import android.app.ActionBar;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothSocket;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+
+import android.hardware.Camera;
 import android.media.Image;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.provider.ContactsContract;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.SurfaceHolder;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -35,8 +47,7 @@ import android.widget.Toast;
 public class ChatActivity extends AppCompatActivity
 {
     private final int REQUEST_BLUETOOTH_ENABLE = 100;
-
-    private TextView mConnectionStatus;
+    private TextView mConnectionStatus,mTextView;
     private EditText mInputEditText;
     private ImageView mImageView;
     ConnectedTask mConnectedTask = null;
@@ -46,47 +57,23 @@ public class ChatActivity extends AppCompatActivity
     static boolean isConnectionError = false;
     private static final String TAG = "BluetoothClient";
 
+
+
+    private static CameraPreview surfaceView;
+    private SurfaceHolder holder;
+    private static Button camera_preview_button;
+    private static Camera mCamera;
+    private int RESULT_PERMISSIONS = 100;
+    public static ChatActivity getInstance;
+
+
     @Override
     public void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_chat);
-
-
-
-        Button sendButton = (Button)findViewById(R.id.send_button);
-        sendButton.setOnClickListener(new View.OnClickListener(){
-            public void onClick(View v){
-                String sendMessage = mInputEditText.getText().toString();
-                if ( sendMessage.length() > 0 ) {
-                    sendMessage(sendMessage);
-                }
-            }
-        });
-
-
-
-
+       setContentView(R.layout.activity_chat);
         mConnectionStatus = (TextView)findViewById(R.id.connection_status_textview);
-
-
-
-        mInputEditText = (EditText)findViewById(R.id.input_string_edittext);
-
-
-
-
-   //     mImageView = (ImageView)findViewById(R.id.chat_image);
-
-
-
-        ListView mMessageListview = (ListView) findViewById(R.id.message_listview);
-
-        mConversationArrayAdapter = new ArrayAdapter<>( this,
-                android.R.layout.simple_list_item_1 );
-        mMessageListview.setAdapter(mConversationArrayAdapter);
-
-
+        mTextView = (TextView)findViewById(R.id.input_string_edittext);
         Log.d( TAG, "Initalizing Bluetooth adapter...");
 
         mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
@@ -104,8 +91,69 @@ public class ChatActivity extends AppCompatActivity
 
             showPairedDevicesListDialog();
         }
+
+        requestPermissionCamera();
+    }
+    public static Camera getCamera(){
+        return mCamera;
+    }
+    private void setInit(){
+        getInstance = this;
+
+        // 카메라 객체를 R.layout.activity_main의 레이아웃에 선언한 SurfaceView에서 먼저 정의해야 함으로 setContentView 보다 먼저 정의한다.
+        mCamera = Camera.open(1);
+
+        setContentView(R.layout.activity_chat);
+
+        // SurfaceView를 상속받은 레이아웃을 정의한다.
+        surfaceView = (CameraPreview) findViewById(R.id.preview);
+
+
+        // SurfaceView 정의 - holder와 Callback을 정의한다.
+        holder = surfaceView.getHolder();
+        holder.addCallback(surfaceView);
+        holder.setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);
     }
 
+    public boolean requestPermissionCamera(){
+        int sdkVersion = Build.VERSION.SDK_INT;
+        if(sdkVersion >= Build.VERSION_CODES.M) {
+
+            if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+
+                ActivityCompat.requestPermissions(ChatActivity.this,
+                        new String[]{Manifest.permission.CAMERA},
+                        RESULT_PERMISSIONS);
+
+            }else {
+                setInit();
+            }
+        }else{  // version 6 이하일때
+            setInit();
+            return true;
+        }
+
+        return true;
+    }
+
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode,
+                                           String permissions[], int[] grantResults) {
+
+        if (RESULT_PERMISSIONS == requestCode) {
+
+            if (grantResults.length > 0
+                    && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                // 권한 허가시
+                setInit();
+            } else {
+                // 권한 거부시
+            }
+            return;
+        }
+
+    }
     @Override
     protected void onDestroy() {
         super.onDestroy();
@@ -216,49 +264,21 @@ public class ChatActivity extends AppCompatActivity
         @Override
         protected Boolean doInBackground(Void... params) {
 
-            byte [] readBuffer = new byte[1024];
-            int readBufferPosition = 0;
-
+            String data;
+           BufferedReader br = null;
+            InputStreamReader isr = null;
             while (true) {
 
                 if ( isCancelled() ) return false;
-
                 try {
-
-                    int bytesAvailable = mInputStream.available();
-
-                    if(bytesAvailable > 0) {
-
-                        byte[] packetBytes = new byte[bytesAvailable];
-
-                        mInputStream.read(packetBytes);
-
-                        for(int i=0;i<bytesAvailable;i++) {
-
-                            byte b = packetBytes[i];
-                            if(b == '\n')
-                            {
-                                byte[] encodedBytes = new byte[readBufferPosition];
-                                System.arraycopy(readBuffer, 0, encodedBytes, 0,
-                                        encodedBytes.length);
-                                String recvMessage = new String(encodedBytes, "UTF-8");
-
-                                readBufferPosition = 0;
-
-                                Log.d(TAG, "recv message: " + recvMessage);
-                                publishProgress(recvMessage);
-                            }
-                            else
-                            {
-                                readBuffer[readBufferPosition++] = b;
-                            }
-                        }
-                    }
+                isr = new InputStreamReader(mInputStream);
+                br = new BufferedReader(isr);
+                data = br.readLine();
+                publishProgress(data);
                 } catch (IOException e) {
-
-                    Log.e(TAG, "disconnected", e);
-                    return false;
+                    e.printStackTrace();
                 }
+
             }
 
         }
@@ -266,52 +286,8 @@ public class ChatActivity extends AppCompatActivity
 
         @Override
         protected void onProgressUpdate(String... recvMessage) {
-
-            mConversationArrayAdapter.insert(mConnectedDeviceName + ": " + recvMessage[0], 0);
-            //받는부분
+            mTextView.setText(recvMessage[0]);
         }
-
-
-//        @Override
-//        protected Boolean doInBackground(Void... params) {
-//
-//            byte [] readBuffer = new byte[4096];
-//            int readBufferPosition = 0;
-//            BufferedInputStream bis = new BufferedInputStream(mInputStream);
-//            while (true) {
-//                if (isCancelled()) return false;
-//
-//
-//                Bitmap bitmap = BitmapFactory.decodeStream(bis);
-//                publishProgress(bitmap);
-//            }
-//
-//
-//
-//
-//
-//
-//
-//        }
-//
-//
-//        @Override
-//        protected void onProgressUpdate(Bitmap... recvMessage) {
-//
-//          mImageView.setImageBitmap(recvMessage[0]);
-//            //받는부분
-//        }
-
-
-
-
-
-
-
-
-
-
-
 
         @Override
         protected void onPostExecute(Boolean isSucess) {
