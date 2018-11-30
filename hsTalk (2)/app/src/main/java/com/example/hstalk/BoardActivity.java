@@ -57,7 +57,6 @@ public class BoardActivity extends AppCompatActivity {
     ListView listView;
     EditText comment;
     String user;
-//    private static String userName = null;
     List<ResponseGetComments> data;
     boolean isWriteComment = false;
 
@@ -131,18 +130,6 @@ public class BoardActivity extends AppCompatActivity {
         });
     }
 
-//    public boolean getDidWriteComment(){
-//        if(isWriteComment == true) {
-//            isWriteComment = false;
-//            return true;
-//        }
-//
-//        return false;
-//    }
-
-//    public void setUserName(String userName){
-//        this.userName = userName;
-//    }
 
     protected void commentBoard(String comment){
         HashMap<String, Object> data = new HashMap<>();

@@ -1,22 +1,23 @@
 package com.example.hstalk;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.BaseAdapter;
 import android.widget.Button;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.hstalk.Retrofit.ResponseBody.ResponseGetStartDateByPI;
-import com.example.hstalk.Retrofit.ResponseBody.ResponseGetStartDateByRI;
-import com.example.hstalk.Retrofit.ResponseBody.ResponseGetUserInfo;
-import com.example.hstalk.Retrofit.ResponseBody.ResponseGetUserNameByPI;
-import com.example.hstalk.Retrofit.ResponseBody.ResponseGetUserNameByRI;
+import com.example.hstalk.Retrofit.ResponseBody.ResponseGetInfoByPI;
+import com.example.hstalk.Retrofit.ResponseBody.ResponseGetInfoByRI;
 import com.example.hstalk.Retrofit.RetroCallback;
 import com.example.hstalk.Retrofit.RetroClient;
 import com.example.hstalk.util.Constants;
@@ -38,7 +39,9 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 public class  MatchingInfoActivity extends AppCompatActivity {
     private static String IP_ADDRESS = "52.231.69.121";
@@ -50,7 +53,10 @@ public class  MatchingInfoActivity extends AppCompatActivity {
     private Pubnub mPubNub;
     private String user,user2,uid,name;
     private String stdByChannel;
-
+    List<ResponseGetInfoByPI> dataPI;
+    List<ResponseGetInfoByRI> dataRI;
+    ArrayList<InfoItem> infoitem = new ArrayList<InfoItem>();
+    ListView listView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -60,194 +66,88 @@ public class  MatchingInfoActivity extends AppCompatActivity {
         type = sharedPreferences.getString("userType","");
         uid = sharedPreferences.getString("uid","");
         name = sharedPreferences.getString(Constants.USER_NAME,"");
+        listView = (ListView)findViewById(R.id.matchinginfo_listview);
+
         //started_at 받아올 변수
         if( type.equals("E")) {
             //providerId 를 가지고 있는 사람의 이름
-            getStartDateByPI(uid);
-            getUserNameByPI(uid);
+            getInfoByPI(uid);
 
 
         }
         else if( type.equals("V")) {
             //providerId 를 가지고 있는 사람의 이름
-            getStartDateByPI(uid);
-            getUserNameByPI(uid);
-
+            getInfoByPI(uid);
 
         }
         else
         {
-            getStartDateByRI(uid);
-            getUserNameByRI(uid);
+            getInfoByRI(uid);
             //recevedid 를 가지고 있는 사람의 이름
         }
 
 
     }
-
-    protected  void getStartDateByPI(String id){
-
-
+    protected  void getInfoByPI(String id){
         RetroClient retroClient = RetroClient.getInstance(this).createBaseApi();
-        retroClient.getStartDateByPI(id, new RetroCallback() {
+        retroClient.getInfoByPI(id, new RetroCallback() {
             @Override
             public void onError(Throwable t) {
-                Toast.makeText(MatchingInfoActivity.this,t.toString(),Toast.LENGTH_SHORT).show();
+
             }
 
             @Override
             public void onSuccess(int code, Object receivedData) {
-
-                ResponseGetStartDateByPI data = (ResponseGetStartDateByPI) receivedData;
-                TextView date = (TextView)findViewById(R.id.matchinginfo_date);
-                date.setText( String.valueOf(data.started_at));
-                try {
-                    getDiffTime(data.started_at);
-                } catch (ParseException e) {
-                    e.printStackTrace();
+                dataPI = (List<ResponseGetInfoByPI>) receivedData;
+                for(int i = 0 ; i<dataPI.size() ; i++){
+                    infoitem.add(new InfoItem(dataPI.get(i).serviceId,dataPI.get(i).name,dataPI.get(i).started_at));
                 }
+                MyAdapter adapter = new MyAdapter(MatchingInfoActivity.this, R.layout.item_matchinginfo, infoitem);
+                listView.setAdapter(adapter);
 
             }
 
             @Override
             public void onFailure(int code) {
-                Toast.makeText(MatchingInfoActivity.this,"fail",Toast.LENGTH_SHORT).show();
 
             }
         });
-    }
-    protected  void getStartDateByRI(String id){
 
+    }
+    protected  void getInfoByRI(String id){
         RetroClient retroClient = RetroClient.getInstance(this).createBaseApi();
-        retroClient.getStartDateByRI(id, new RetroCallback() {
+        retroClient.getInfoByRI(id, new RetroCallback() {
             @Override
             public void onError(Throwable t) {
-                Toast.makeText(MatchingInfoActivity.this,t.toString(),Toast.LENGTH_SHORT).show();
+
             }
 
             @Override
             public void onSuccess(int code, Object receivedData) {
-                ResponseGetStartDateByRI data = (ResponseGetStartDateByRI) receivedData;
-                TextView date = (TextView)findViewById(R.id.matchinginfo_date);
-                date.setText( String.valueOf(data.started_at));
-                try {
-                    getDiffTime(data.started_at);
-                } catch (ParseException e) {
-                    e.printStackTrace();
+                dataRI = (List<ResponseGetInfoByRI>) receivedData;
+                for(int i = 0 ; i<dataRI.size() ; i++){
+                    infoitem.add(new InfoItem(dataRI.get(i).serviceId,dataRI.get(i).name,dataRI.get(i).started_at));
                 }
+                MyAdapter adapter = new MyAdapter(MatchingInfoActivity.this, R.layout.item_matchinginfo, infoitem);
+                listView.setAdapter(adapter);
 
             }
 
             @Override
             public void onFailure(int code) {
-                Toast.makeText(MatchingInfoActivity.this,"fail",Toast.LENGTH_SHORT).show();
 
             }
         });
-    }
-    protected  void getUserNameByPI(String id){
-
-
-        RetroClient retroClient = RetroClient.getInstance(this).createBaseApi();
-        retroClient.getUserNameByPI(id, new RetroCallback() {
-            @Override
-            public void onError(Throwable t) {
-                Toast.makeText(MatchingInfoActivity.this,t.toString(),Toast.LENGTH_SHORT).show();
-            }
-
-            @Override
-            public void onSuccess(int code, Object receivedData) {
-
-                ResponseGetUserNameByPI data = (ResponseGetUserNameByPI) receivedData;
-                TextView name = (TextView)findViewById(R.id.matchinginfo_name);
-                user2 = String.valueOf(data.name);
-                name.setText(user2);
-
-
-            }
-
-            @Override
-            public void onFailure(int code) {
-                Toast.makeText(MatchingInfoActivity.this,"fail",Toast.LENGTH_SHORT).show();
-
-            }
-        });
-    }
-    protected  void getUserNameByRI(String id){
-
-
-        RetroClient retroClient = RetroClient.getInstance(this).createBaseApi();
-        retroClient.getUserNameByRI(id, new RetroCallback() {
-            @Override
-            public void onError(Throwable t) {
-                Toast.makeText(MatchingInfoActivity.this,t.toString(),Toast.LENGTH_SHORT).show();
-            }
-
-            @Override
-            public void onSuccess(int code, Object receivedData) {
-
-                ResponseGetUserNameByRI data = (ResponseGetUserNameByRI) receivedData;
-                TextView name = (TextView)findViewById(R.id.matchinginfo_name);
-                user2 = String.valueOf(data.name);
-                name.setText( user2);
-
-            }
-
-            @Override
-            public void onFailure(int code) {
-                Toast.makeText(MatchingInfoActivity.this,"fail",Toast.LENGTH_SHORT).show();
-
-            }
-        });
-    }
-
-    protected void getDiffTime(String startTime) throws ParseException {
-
-
-        Button accept = (Button)findViewById(R.id.matchinginfo_button);
-
-        long now = System.currentTimeMillis();
-        Date date = new Date(now);
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        String getTime = sdf.format(date);
-        startTime = "2018-11-20 05:20:12";
-
-
-        SimpleDateFormat f = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        Date nowDate = f.parse(getTime);
-        Date startDate = f.parse(startTime);
-        long diff = startDate.getTime() - nowDate.getTime();
-        long min = diff / 60000;
-
-
-        if(min<30){
-                accept.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        PushNotification push = new PushNotification();
-                        uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
-
-                        stdByChannel = name + Constants.STDBY_SUFFIX;
-                        push.execute("http://"+IP_ADDRESS+"/resmatching_notification.php","예약 매칭 통화 알림","예약 매칭된 상대의 통화 요청입니다.",user2,uid,name);
-                        initPubNub();
-                        Toast.makeText(MatchingInfoActivity.this,"전송완료",Toast.LENGTH_SHORT).show();
-
-                    }
-                });
-        }
-        else{
-               accept.setEnabled(false);
-        }
-
 
     }
+
+
 
     public void initPubNub(){
         this.mPubNub  = new Pubnub(Constants.PUB_KEY, Constants.SUB_KEY);
         this.mPubNub.setUUID(user);
         subscribeStdBy();
     }
-
     private void subscribeStdBy(){
 
         try {
@@ -291,8 +191,6 @@ public class  MatchingInfoActivity extends AppCompatActivity {
         intent.putExtra("pushId",this.pushId);
         startActivity(intent);
     }
-
-
     private void setUserStatus(String status){
         try {
             JSONObject state = new JSONObject();
@@ -307,8 +205,6 @@ public class  MatchingInfoActivity extends AppCompatActivity {
             e.printStackTrace();
         }
     }
-
-
     class PushNotification extends AsyncTask<String,Void,String> {
         @Override
         protected void onPreExecute() {
@@ -403,5 +299,123 @@ public class  MatchingInfoActivity extends AppCompatActivity {
     }
 
 
+    class MyAdapter extends BaseAdapter { // 리스트 뷰의 아답타
+        Context context;
+        int layout;
+        ArrayList<InfoItem> infoItem;
+        LayoutInflater inf;
+        String user;
+        String writer;
+        String id;
+        public MyAdapter(Context context, int layout, ArrayList<InfoItem> infoItem) {
+            this.context = context;
+            this.layout = layout;
+            this.infoItem = infoItem;
+            inf = (LayoutInflater)context.getSystemService
+                    (Context.LAYOUT_INFLATER_SERVICE);
+        }
+        @Override
+        public int getCount() {
+            return infoItem.size();
+        }
+        @Override
+        public Object getItem(int position) {
+            return infoItem.get(position);
+        }
+        @Override
+        public long getItemId(int position) {
+            return position;
+        }
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+            if (convertView==null) {
+                convertView = inf.inflate(layout, null);
+            }
+
+
+
+            TextView userName = (TextView)convertView.findViewById(R.id.matchinginfo_name);
+            TextView started_at = (TextView)convertView.findViewById(R.id.matchinginfo_date);
+            TextView serviceId = (TextView)convertView.findViewById(R.id.matchinginfo_serviceId);
+            Button button = (Button)convertView.findViewById(R.id.matchinginfo_button);
+            String startTime;
+            long diff = 0,min = 0;
+            InfoItem m = infoitem.get(position);
+            name = m.name;
+            userName.setText(m.name);
+            started_at.setText(m.started_at);
+//            serviceId.setText(m.serviceId);
+
+            startTime = m.started_at;
+
+            long now = System.currentTimeMillis();
+            Date date = new Date(now);
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            String getTime = sdf.format(date);
+            startTime = "2018-11-20 05:20:12";
+
+
+            SimpleDateFormat f = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            Date nowDate = null;
+            try {
+                nowDate = f.parse(getTime);
+                Date startDate = f.parse(startTime);
+                 diff = startDate.getTime() - nowDate.getTime();
+                 min = diff / 60000;
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+
+
+
+
+            if(min<30){
+                button.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        PushNotification push = new PushNotification();
+                        uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+
+                        stdByChannel = name + Constants.STDBY_SUFFIX;
+                        push.execute("http://"+IP_ADDRESS+"/resmatching_notification.php","예약 매칭 통화 알림","예약 매칭된 상대의 통화 요청입니다.",user2,uid,name);
+                        initPubNub();
+                        Toast.makeText(MatchingInfoActivity.this,"전송완료",Toast.LENGTH_SHORT).show();
+
+                    }
+                });
+            }
+            else{
+                button.setEnabled(false);
+            }
+
+            button.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                }
+            });
+            return convertView;
+        }
+    }
+
+
+
+
+
+
+}
+
+
+class InfoItem{
+    int serviceId;
+    String name = "";
+    String started_at = "";
+
+    public InfoItem(int serviceId, String name, String started_at){
+        super();
+        this.serviceId = serviceId;
+        this.name = name;
+        this.started_at = started_at;
+    }
 
 }
