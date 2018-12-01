@@ -92,8 +92,11 @@ public class MainActivity extends AppCompatActivity
     public void infoViewer(NavigationView navigationView){
         TextView userName;
         TextView userEmail;
+        TextView userPoint;
         String user;
         String email;
+        int point;
+
         FirebaseRemoteConfig firebaseRemoteConfig;
         FirebaseAuth firebaseAuth;
         SharedPreferences sharedPreferences;
@@ -101,6 +104,7 @@ public class MainActivity extends AppCompatActivity
         View nav_header_view = navigationView.getHeaderView(0);
         userName = (TextView) nav_header_view.findViewById(R.id.nav_textview_name);
         userEmail = (TextView) nav_header_view.findViewById(R.id.nav_textview_email);
+        userPoint = (TextView) nav_header_view.findViewById(R.id.nav_textview_point);
 
         firebaseRemoteConfig = FirebaseRemoteConfig.getInstance();
         firebaseAuth = FirebaseAuth.getInstance();
@@ -112,12 +116,14 @@ public class MainActivity extends AppCompatActivity
 
         sharedPreferences = getSharedPreferences(Constants.SHARED_PREFS, MODE_PRIVATE);
         user = sharedPreferences.getString(Constants.USER_NAME,"");
+        point = sharedPreferences.getInt("point", 0);
 
         FirebaseUser users = firebaseAuth.getCurrentUser();
         email = users.getEmail();
 
         userName.setText(user);
         userEmail.setText(email);
+        userPoint.setText("잔여 포인트 : " + Integer.toString(point));
     }
 
     public String getData(){

@@ -336,7 +336,7 @@ public class  MatchingInfoActivity extends AppCompatActivity {
 
             TextView userName = (TextView)convertView.findViewById(R.id.matchinginfo_name);
             TextView started_at = (TextView)convertView.findViewById(R.id.matchinginfo_date);
-            TextView serviceId = (TextView)convertView.findViewById(R.id.matchinginfo_serviceId);
+//            TextView serviceId = (TextView)convertView.findViewById(R.id.matchinginfo_serviceId);
             Button button = (Button)convertView.findViewById(R.id.matchinginfo_button);
             String startTime;
             long diff = 0,min = 0;

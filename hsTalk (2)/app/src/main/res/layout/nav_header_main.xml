@@ -33,4 +33,11 @@
         android:layout_below="@+id/nav_textview_name"
        />
 
+    <TextView
+        android:id="@+id/nav_textview_point"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/nav_textview_email"
+        />
+
 </RelativeLayout>
