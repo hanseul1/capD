@@ -124,7 +124,7 @@ public class BoardFragment extends Fragment {
 
             @Override
             public void onFailure(int code) {
-                Toast.makeText(getActivity(),"fail",Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(),"BoardList fail",Toast.LENGTH_SHORT).show();
             }
         });
     }

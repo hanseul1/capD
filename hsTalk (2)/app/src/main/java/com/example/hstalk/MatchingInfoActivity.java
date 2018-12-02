@@ -51,7 +51,7 @@ public class  MatchingInfoActivity extends AppCompatActivity {
     private String mJsonString;
     private String pushId;
     private Pubnub mPubNub;
-    private String user,user2,uid,name;
+    private String user,user2,uid,name,serviceId;
     private String stdByChannel;
     List<ResponseGetInfoByPI> dataPI;
     List<ResponseGetInfoByRI> dataRI;
@@ -221,6 +221,8 @@ public class  MatchingInfoActivity extends AppCompatActivity {
                 mJsonString = result;
                 showResult();
             }
+
+            Toast.makeText(MatchingInfoActivity.this,"전송완료",Toast.LENGTH_SHORT).show();
         }
 
         @Override
@@ -232,8 +234,9 @@ public class  MatchingInfoActivity extends AppCompatActivity {
             String name = (String)strings[3];
             String uid = (String)strings[4];
             String my_name = (String)strings[5];
+            String serviceId = (String)strings[6];
 
-            String postParameters = "title=" + title + "&body=" + body +  "&name=" + name +"&uid=" + uid+"&my_name=" + my_name ;
+            String postParameters = "title=" + title + "&body=" + body +  "&name=" + name +"&uid=" + uid+ "&my_name=" + my_name + "&serviceId=" + serviceId;
 
             try{
                 URL url = new URL(serverUrl);
@@ -336,15 +339,14 @@ public class  MatchingInfoActivity extends AppCompatActivity {
 
             TextView userName = (TextView)convertView.findViewById(R.id.matchinginfo_name);
             TextView started_at = (TextView)convertView.findViewById(R.id.matchinginfo_date);
-//            TextView serviceId = (TextView)convertView.findViewById(R.id.matchinginfo_serviceId);
             Button button = (Button)convertView.findViewById(R.id.matchinginfo_button);
             String startTime;
             long diff = 0,min = 0;
             InfoItem m = infoitem.get(position);
             name = m.name;
+            serviceId = Integer.toString(m.serviceId);
             userName.setText(m.name);
             started_at.setText(m.started_at);
-//            serviceId.setText(m.serviceId);
 
             startTime = m.started_at;
 
@@ -352,7 +354,6 @@ public class  MatchingInfoActivity extends AppCompatActivity {
             Date date = new Date(now);
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
             String getTime = sdf.format(date);
-            startTime = "2018-11-20 05:20:12";
 
 
             SimpleDateFormat f = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -370,19 +371,6 @@ public class  MatchingInfoActivity extends AppCompatActivity {
 
 
             if(min<30){
-                button.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        PushNotification push = new PushNotification();
-                        uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
-
-                        stdByChannel = name + Constants.STDBY_SUFFIX;
-                        push.execute("http://"+IP_ADDRESS+"/resmatching_notification.php","예약 매칭 통화 알림","예약 매칭된 상대의 통화 요청입니다.",user2,uid,name);
-                        initPubNub();
-                        Toast.makeText(MatchingInfoActivity.this,"전송완료",Toast.LENGTH_SHORT).show();
-
-                    }
-                });
             }
             else{
                 button.setEnabled(false);
@@ -391,7 +379,13 @@ public class  MatchingInfoActivity extends AppCompatActivity {
             button.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-
+                    PushNotification push = new PushNotification();
+                    uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+                    SharedPreferences sharedPreferences = getSharedPreferences( Constants.SHARED_PREFS , MODE_PRIVATE);
+                    user2 = sharedPreferences.getString(Constants.USER_NAME,"");
+                    stdByChannel = name + Constants.STDBY_SUFFIX;
+                    push.execute("http://"+IP_ADDRESS+"/resmatching_notification.php","예약 매칭 통화 알림","예약 매칭된 상대의 통화 요청입니다.",name,uid,user2,serviceId);
+                    initPubNub();
                 }
             });
             return convertView;
