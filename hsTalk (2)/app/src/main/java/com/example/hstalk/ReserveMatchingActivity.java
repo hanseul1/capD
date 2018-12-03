@@ -31,6 +31,7 @@ public class ReserveMatchingActivity extends AppCompatActivity {
 
     private static String IP_ADDRESS = "52.231.69.121";
     private static String TAG ="pushtest";
+    private String freeState;
     TextView title;
     TextView boardTitleText;
     TextView boardBodyText;
@@ -47,6 +48,7 @@ public class ReserveMatchingActivity extends AppCompatActivity {
 
         final String sender = bundle.getString("sender");
         final int postId = Integer.parseInt(bundle.getString("postId"));
+        freeState = bundle.getString("freeState");
 
         title = (TextView)findViewById(R.id.resmatchingactivity_title);
         boardTitleText = (TextView)findViewById(R.id.resmatchingactivity_boardtitle);
@@ -112,7 +114,7 @@ public class ReserveMatchingActivity extends AppCompatActivity {
             String ended_at = (String)strings[4];
             String postId = (String)strings[5];
 
-            String postParameters = "receiver=" + receiver + "&provider=" + provider + "&started_at=" + started_at + "&ended_at=" + ended_at + "&postId=" + postId;
+            String postParameters = "receiver=" + receiver + "&provider=" + provider + "&started_at=" + started_at + "&ended_at=" + ended_at + "&postId=" + postId + "&freeState=" + freeState;
 
             try {
                 URL url = new URL(serverUrl);

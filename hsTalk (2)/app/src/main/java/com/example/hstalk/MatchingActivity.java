@@ -72,25 +72,27 @@ public class MatchingActivity extends AppCompatActivity {
         doneText = (TextView)findViewById(R.id.matchingactivity_textview_donetext);
         titleText.setText(title);
         bodyText.setText(body);
-
+        final String temp = "예약 매칭 통화 알림";
+        if(title.equals(temp)){
+            doneText.setVisibility(View.INVISIBLE);
+        }
         initPubNub();
 
         getPush();
 
-
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //service 테이블에 providerId 저장 및 푸시 전달
-                String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
-                SharedPreferences sharedPreferences = getSharedPreferences( Constants.SHARED_PREFS , MODE_PRIVATE);
-                String userType = sharedPreferences.getString("userType","");
-                UpdateProvider task = new UpdateProvider();
-                task.execute("http://" + IP_ADDRESS + "/matching_complete.php",uid,pushId,userType);
-
+                if(!title.equals(temp)){
+                    //service 테이블에 providerId 저장 및 푸시 전달
+                    String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+                    SharedPreferences sharedPreferences = getSharedPreferences( Constants.SHARED_PREFS , MODE_PRIVATE);
+                    String userType = sharedPreferences.getString("userType","");
+                    UpdateProvider task = new UpdateProvider();
+                    task.execute("http://" + IP_ADDRESS + "/matching_complete.php",uid,pushId,userType);
+                    Toast.makeText(MatchingActivity.this,"매칭완료",Toast.LENGTH_SHORT).show();
+                }
                 makeCall(v);
-
-                Toast.makeText(MatchingActivity.this,"매칭완료",Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -107,7 +109,8 @@ public class MatchingActivity extends AppCompatActivity {
             @Override
             public void onSuccess(int code, Object receivedData) {
                 ResponseGetPush data = (ResponseGetPush) receivedData;
-                if(data.matched == "Y"){
+                String matchtemp = "Y";
+                if(data.matched.equals(matchtemp)){
                     button.setVisibility(View.INVISIBLE);
                 }else{
                     doneText.setVisibility(View.INVISIBLE);

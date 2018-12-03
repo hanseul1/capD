@@ -87,6 +87,7 @@ public class MyFirebaseMessagingService extends com.google.firebase.messaging.Fi
             Bundle bundle = new Bundle();
             bundle.putString("sender", ruid);
             bundle.putString("postId", postId);
+            bundle.putString("freeState", pushId);
             intent2.putExtras(bundle);
             intent2.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 

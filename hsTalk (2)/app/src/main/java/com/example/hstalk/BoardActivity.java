@@ -243,7 +243,7 @@ public class BoardActivity extends AppCompatActivity {
             String id = (String)strings[1];
             String sender = (String)strings[2];
 
-            String postParameters = "id=" + id + "&sender=" + sender + "&postId=" + postId;
+            String postParameters = "id=" + id + "&sender=" + sender + "&postId=" + postId + "&freeState=" + freeState;
 
             try{
                 URL url = new URL(serverUrl);
