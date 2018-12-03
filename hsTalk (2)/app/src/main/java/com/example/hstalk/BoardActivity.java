@@ -202,7 +202,7 @@ public class BoardActivity extends AppCompatActivity {
                 convertView = inf.inflate(layout, null);
             }
 
-            TextView name = (TextView)convertView.findViewById(R.id.replyitem_name);
+            final TextView name = (TextView)convertView.findViewById(R.id.replyitem_name);
             TextView body = (TextView)convertView.findViewById(R.id.replyitem_content);
             TextView time = (TextView)convertView.findViewById(R.id.replyitem_time);
             Button button = (Button)convertView.findViewById(R.id.replyitem_button);
@@ -210,7 +210,6 @@ public class BoardActivity extends AppCompatActivity {
             name.setText(m.name);
             body.setText(m.body);
             time.setText(m.time);
-            id = m.name;
 
             if(user.equals(writer)){
                 button.setVisibility(View.VISIBLE);
@@ -222,6 +221,7 @@ public class BoardActivity extends AppCompatActivity {
                 @Override
                 public void onClick(View v) {
                     BoardPush push = new BoardPush();
+                    id = name.getText().toString();
                     push.execute("http://" + IP_ADDRESS + "/boardPush.php",id,user);
                 }
             });

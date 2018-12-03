@@ -30,6 +30,7 @@ import com.pubnub.api.PubnubException;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.w3c.dom.Text;
 
 import java.io.BufferedReader;
 import java.io.InputStream;
@@ -51,7 +52,7 @@ public class  MatchingInfoActivity extends AppCompatActivity {
     private String mJsonString;
     private String pushId;
     private Pubnub mPubNub;
-    private String user,user2,uid,name,serviceId;
+    private String user;
     private String stdByChannel;
     List<ResponseGetInfoByPI> dataPI;
     List<ResponseGetInfoByRI> dataRI;
@@ -65,7 +66,7 @@ public class  MatchingInfoActivity extends AppCompatActivity {
         SharedPreferences sharedPreferences = getSharedPreferences( Constants.SHARED_PREFS , MODE_PRIVATE);
         type = sharedPreferences.getString("userType","");
         uid = sharedPreferences.getString("uid","");
-        name = sharedPreferences.getString(Constants.USER_NAME,"");
+        user = sharedPreferences.getString(Constants.USER_NAME,"");
         listView = (ListView)findViewById(R.id.matchinginfo_listview);
 
         //started_at 받아올 변수
@@ -307,8 +308,8 @@ public class  MatchingInfoActivity extends AppCompatActivity {
         int layout;
         ArrayList<InfoItem> infoItem;
         LayoutInflater inf;
-        String user;
-        String writer;
+        String sender,recevier,suid;
+        String serviceId;
         String id;
         public MyAdapter(Context context, int layout, ArrayList<InfoItem> infoItem) {
             this.context = context;
@@ -337,14 +338,14 @@ public class  MatchingInfoActivity extends AppCompatActivity {
 
 
 
-            TextView userName = (TextView)convertView.findViewById(R.id.matchinginfo_name);
+            final TextView userName = (TextView)convertView.findViewById(R.id.matchinginfo_name);
+            final TextView serviceText = (TextView)convertView.findViewById(R.id.matchinginfo_serviceId);
             TextView started_at = (TextView)convertView.findViewById(R.id.matchinginfo_date);
             Button button = (Button)convertView.findViewById(R.id.matchinginfo_button);
             String startTime;
             long diff = 0,min = 0;
             InfoItem m = infoitem.get(position);
-            name = m.name;
-            serviceId = Integer.toString(m.serviceId);
+            serviceText.setText(Integer.toString(m.serviceId));
             userName.setText(m.name);
             started_at.setText(m.started_at);
 
@@ -368,9 +369,7 @@ public class  MatchingInfoActivity extends AppCompatActivity {
             }
 
 
-
-
-            if(min<30){
+            if(min<30 && min>-30){
             }
             else{
                 button.setEnabled(false);
@@ -380,11 +379,13 @@ public class  MatchingInfoActivity extends AppCompatActivity {
                 @Override
                 public void onClick(View v) {
                     PushNotification push = new PushNotification();
-                    uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+                    suid = FirebaseAuth.getInstance().getCurrentUser().getUid();
                     SharedPreferences sharedPreferences = getSharedPreferences( Constants.SHARED_PREFS , MODE_PRIVATE);
-                    user2 = sharedPreferences.getString(Constants.USER_NAME,"");
-                    stdByChannel = name + Constants.STDBY_SUFFIX;
-                    push.execute("http://"+IP_ADDRESS+"/resmatching_notification.php","예약 매칭 통화 알림","예약 매칭된 상대의 통화 요청입니다.",name,uid,user2,serviceId);
+                    sender = sharedPreferences.getString(Constants.USER_NAME,"");
+                    recevier = userName.getText().toString();
+                    serviceId = serviceText.getText().toString();
+                    stdByChannel = sender + Constants.STDBY_SUFFIX;
+                    push.execute("http://"+IP_ADDRESS+"/resmatching_notification.php","예약 매칭 통화 알림","예약 매칭된 상대의 통화 요청입니다.",recevier,suid,sender,serviceId);
                     initPubNub();
                 }
             });
