@@ -76,6 +76,15 @@
             android:label="@string/title_activity_incoming_call" />
         <activity android:name=".BoardActivity" />
         <activity android:name=".ReserveMatchingActivity" />
+        <activity android:name=".PointActivity" android:launchMode="singleInstance">
+
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:scheme="nhappcardansimclick" />
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>

@@ -21,6 +21,8 @@ import android.support.v7.app.AppCompatActivity;
 
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -29,6 +31,9 @@ import com.example.hstalk.Fragment.BoardFragment;
 import com.example.hstalk.Fragment.LiveMatchingFragment;
 import com.example.hstalk.Fragment.MyPostFragment;
 import com.example.hstalk.Fragment.MyReplyFragment;
+import com.example.hstalk.Retrofit.ResponseBody.ResponseGetUserInfo;
+import com.example.hstalk.Retrofit.RetroCallback;
+import com.example.hstalk.Retrofit.RetroClient;
 import com.example.hstalk.util.Constants;
 import com.example.hstalk.Fragment.SettingPreferenceFragment;
 import com.google.firebase.auth.FirebaseAuth;
@@ -43,6 +48,7 @@ import java.util.Map;
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
+    TextView userPoint;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -92,7 +98,7 @@ public class MainActivity extends AppCompatActivity
     public void infoViewer(NavigationView navigationView){
         TextView userName;
         TextView userEmail;
-        TextView userPoint;
+        ImageButton refresh;
         String user;
         String email;
         int point;
@@ -105,6 +111,7 @@ public class MainActivity extends AppCompatActivity
         userName = (TextView) nav_header_view.findViewById(R.id.nav_textview_name);
         userEmail = (TextView) nav_header_view.findViewById(R.id.nav_textview_email);
         userPoint = (TextView) nav_header_view.findViewById(R.id.nav_textview_point);
+        refresh = (ImageButton)nav_header_view.findViewById(R.id.imageview_refresh);
 
         firebaseRemoteConfig = FirebaseRemoteConfig.getInstance();
         firebaseAuth = FirebaseAuth.getInstance();
@@ -124,6 +131,36 @@ public class MainActivity extends AppCompatActivity
         userName.setText(user);
         userEmail.setText(email);
         userPoint.setText("잔여 포인트 : " + Integer.toString(point));
+
+        refresh.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                SharedPreferences sharedPreferences = getSharedPreferences(Constants.SHARED_PREFS, MODE_PRIVATE);
+                String id = sharedPreferences.getString("email","");
+                getUserInfo(id);
+            }
+        });
+    }
+
+    protected void getUserInfo(String id){
+        RetroClient retroClient = RetroClient.getInstance(this).createBaseApi();
+        retroClient.getUserInfo(id, new RetroCallback() {
+            @Override
+            public void onError(Throwable t) {
+                Toast.makeText(MainActivity.this,t.toString(),Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onSuccess(int code, Object receivedData) {
+                ResponseGetUserInfo data = (ResponseGetUserInfo) receivedData;
+                userPoint.setText("잔여 포인트 : " + Integer.toString(data.point));
+            }
+
+            @Override
+            public void onFailure(int code) {
+                Toast.makeText(MainActivity.this,"fail",Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     public String getData(){
@@ -202,7 +239,10 @@ public class MainActivity extends AppCompatActivity
 //                i.putExtra("userName", userName);
 //                startActivity(i);
                 break;
-
+            case R.id.nav_action_point:
+                Intent intent4 = new Intent(MainActivity.this,PointActivity.class);
+                startActivity(intent4);
+                break;
         }
 
         if(fragment != null){

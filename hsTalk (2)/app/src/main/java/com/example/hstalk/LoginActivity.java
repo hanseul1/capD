@@ -172,6 +172,7 @@ public class LoginActivity extends AppCompatActivity {
                 ed.putString("push",String.valueOf(data.push));
                 ed.putString("userType",String.valueOf(data.userType));
                 ed.putString("uid",String.valueOf(data.uid));
+                ed.putString("email",String.valueOf(data.userId));
                 ed.commit();
                 Toast.makeText(LoginActivity.this,sharedPreferences.getString(Constants.USER_NAME,"")+"님 환영합니다.",Toast.LENGTH_SHORT).show();
             }
