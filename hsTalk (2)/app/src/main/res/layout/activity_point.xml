@@ -4,12 +4,39 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context=".PointActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="fill_parent"
+        android:orientation="horizontal"
+        android:background="@color/white"
+        android:layout_weight="12">
+
+        <ImageButton
+            android:id="@+id/pointactivity_button"
+            android:layout_width="fill_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="5"
+            android:background="@color/white"
+            android:src="@drawable/baseline_clear_black_24" />
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="match_parent"
+            android:text="수화해듀오"
+            android:layout_marginTop="15dp"
+            android:background="@color/white"
+            android:textSize="20dp"
+            android:layout_weight="1"/>
+
+    </LinearLayout>
 
     <WebView
         android:id="@+id/pointactivity_webview"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="fill_parent"
+        android:layout_weight="1">
     </WebView>
 
 </LinearLayout>

@@ -47,7 +47,7 @@ import android.widget.Toast;
 public class ChatActivity extends AppCompatActivity
 {
     private final int REQUEST_BLUETOOTH_ENABLE = 100;
-    private TextView mConnectionStatus,mTextView;
+    private TextView mTextView;
     private EditText mInputEditText;
     private ImageView mImageView;
     ConnectedTask mConnectedTask = null;
@@ -87,9 +87,6 @@ public class ChatActivity extends AppCompatActivity
         // SurfaceView를 상속받은 레이아웃을 정의한다.
         surfaceView = (CameraPreview) findViewById(R.id.preview);
 
-
-
-        mConnectionStatus = (TextView)findViewById(R.id.connection_status_textview);
         mTextView = (TextView)findViewById(R.id.input_string_edittext);
         Log.d( TAG, "Initalizing Bluetooth adapter...");
 
@@ -191,7 +188,6 @@ public class ChatActivity extends AppCompatActivity
                 Log.e( TAG, "socket create failed " + e.getMessage());
             }
 
-            mConnectionStatus.setText("connecting...");
         }
 
 
@@ -262,7 +258,6 @@ public class ChatActivity extends AppCompatActivity
             }
 
             Log.d( TAG, "connected to "+mConnectedDeviceName);
-            mConnectionStatus.setText( "connected to "+mConnectedDeviceName);
         }
 
 
