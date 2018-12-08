@@ -161,7 +161,7 @@ public class ChatActivity extends AppCompatActivity
         super.onDestroy();
 
         if ( mConnectedTask != null ) {
-
+            sendMessage("finish");
             mConnectedTask.cancel(true);
         }
     }
@@ -335,7 +335,7 @@ public class ChatActivity extends AppCompatActivity
                 Log.e(TAG, "Exception during send", e );
             }
 
-            mInputEditText.setText(" ");
+            //mInputEditText.setText(" ");
         }
     }
 
@@ -415,7 +415,7 @@ public class ChatActivity extends AppCompatActivity
         if ( mConnectedTask != null ) {
             mConnectedTask.write(msg);
             Log.d(TAG, "send message: " + msg);
-            mConversationArrayAdapter.insert("Me:  " + msg, 0);
+            //mConversationArrayAdapter.insert("Me:  " + msg, 0);
         }
     }
 
