@@ -1,24 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/textView2"
-        android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
+
+    <LinearLayout
+        android:id="@+id/chatactivity_linearlayout"
+        android:layout_alignParentTop="true"
+        android:orientation="horizontal"
         android:background="@color/colorButton"
-        android:paddingLeft="60dp"
-        android:paddingTop="14dp"
-        android:shadowColor="#000000"
-        android:text="간단수화번역기"
-        android:textColor="#ffffff"
-        android:textSize="20sp" />
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize">
+
+        <ImageButton
+            android:id="@+id/chatactivity_back"
+            android:layout_width="fill_parent"
+            android:layout_height="match_parent"
+            android:src="@drawable/baseline_arrow_back_black_24"
+            android:background="@color/colorButton"
+            android:layout_weight="5"/>
+
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="fill_parent"
+            android:layout_height="match_parent"
+            android:background="@color/colorButton"
+            android:layout_weight="1"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="15dp"
+            android:shadowColor="#000000"
+            android:text="간단수화번역기"
+            android:textColor="#ffffff"
+            android:textSize="20sp" />
+    </LinearLayout>
+
 
     <FrameLayout
+        android:layout_below="@+id/chatactivity_linearlayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -26,7 +47,7 @@
             android:id="@+id/preview"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="1"
+            android:layout_weight="2"
             android:visibility="visible" />
 
         <TextView
@@ -50,4 +71,4 @@
             android:textSize="18dp" />
     </FrameLayout>
 
-</LinearLayout>
+</RelativeLayout>

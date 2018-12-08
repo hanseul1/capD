@@ -38,6 +38,7 @@ import android.view.WindowManager;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -50,6 +51,7 @@ public class ChatActivity extends AppCompatActivity
     private TextView mTextView;
     private EditText mInputEditText;
     private ImageView mImageView;
+    private ImageButton back;
     ConnectedTask mConnectedTask = null;
     static BluetoothAdapter mBluetoothAdapter;
     private String mConnectedDeviceName = null;
@@ -72,6 +74,14 @@ public class ChatActivity extends AppCompatActivity
     {
         super.onCreate(savedInstanceState);
         requestPermissionCamera();
+
+        back = (ImageButton)findViewById(R.id.chatactivity_back);
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ChatActivity.this.finish();
+            }
+        });
     }
     public static Camera getCamera(){
         return mCamera;
