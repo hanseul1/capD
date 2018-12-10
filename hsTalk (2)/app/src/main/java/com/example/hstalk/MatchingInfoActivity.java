@@ -388,6 +388,7 @@ public class  MatchingInfoActivity extends AppCompatActivity {
             }
             else{
                 button.setEnabled(false);
+                button.setVisibility(convertView.GONE);
             }
 
             button.setOnClickListener(new View.OnClickListener() {
