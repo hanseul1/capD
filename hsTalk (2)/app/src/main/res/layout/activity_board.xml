@@ -2,7 +2,7 @@
 
 
 
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -10,71 +10,180 @@
     android:orientation="vertical"
     tools:context=".BoardActivity">
 
-
-    <TextView
-        android:id="@+id/boardactivity_textview_title"
+    <RelativeLayout
+        android:id="@+id/boardactivity_layout1"
+        android:layout_weight="1"
         android:layout_width="match_parent"
-        android:layout_height="70dp"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="5dp"
-        android:background="#f1e9c5"
-        android:text="제목"
-        android:paddingLeft="10dp"
-        android:paddingTop="6dp"
-        android:textSize="25dp" />
+        android:layout_height="fill_parent">
 
-    <TextView
-        android:id="@+id/boardactivity_textview_description"
+        <TextView
+            android:id="@+id/boardactivity_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="제목"
+            android:textSize="15dp"
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="25dp"
+            android:layout_marginLeft="15dp"
+            />
+
+        <TextView
+            android:id="@+id/boardactivity_textview_title"
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/boardactivity_title"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="5dp"
+            android:layout_marginLeft="20dp"
+            android:text="제목"
+            android:textSize="20dp" />
+
+        <TextView
+            android:id="@+id/boardactivity_writer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="작성자"
+            android:textSize="15dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="20dp"
+            android:layout_below="@+id/boardactivity_title"/>
+
+        <TextView
+            android:id="@+id/boardactivity_textview_writer"
+            android:layout_width="120dp"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/boardactivity_writer"
+            android:layout_below="@+id/boardactivity_textview_title"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="10dp"
+            android:textSize="20dp"
+            android:text="작성자이름"/>
+
+        <ImageView
+            android:id="@+id/boardactivity_imageview_pay"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/baseline_attach_money_black_36"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="8dp"
+            android:visibility="invisible"
+            android:layout_below="@+id/boardactivity_textview_title" />
+
+        <TextView
+            android:id="@+id/boardactivity_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="시간"
+            android:textSize="15dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="20dp"
+            android:layout_below="@+id/boardactivity_writer"/>
+
+        <TextView
+            android:id="@+id/boardactivity_starttime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="2018-11-01 11:00:00"
+            android:textSize="15dp"
+            android:layout_below="@+id/boardactivity_textview_writer"
+            android:layout_toRightOf="@+id/boardactivity_time"
+            android:layout_marginTop="15dp"
+            android:layout_marginLeft="15dp"/>
+
+        <TextView
+            android:id="@+id/boardactivity_temp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="~"
+            android:layout_below="@+id/boardactivity_textview_writer"
+            android:layout_toRightOf="@+id/boardactivity_starttime"
+            android:layout_marginTop="15dp"
+            android:layout_marginLeft="5dp"/>
+
+        <TextView
+            android:id="@+id/boardactivity_endtime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/boardactivity_textview_writer"
+            android:text="2018-11-30 12:00:00"
+            android:textSize="15dp"
+            android:layout_toRightOf="@+id/boardactivity_temp"
+            android:layout_marginTop="15dp"
+            android:layout_marginLeft="5dp"/>
+
+        <TextView
+            android:id="@+id/boardactivity_body"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/boardactivity_time"
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="15dp"
+            android:textSize="15dp"
+            android:text="내용"/>
+
+        <TextView
+            android:id="@+id/boardactivity_textview_description"
+            android:layout_width="match_parent"
+            android:layout_height="170dp"
+            android:layout_below="@+id/boardactivity_body"
+            android:layout_marginHorizontal="10dp"
+            android:layout_marginVertical="5dp"
+            android:text="본문내용"
+            android:layout_marginTop="10dp"
+            android:paddingLeft="10dp"
+            android:paddingTop="10dp"
+            android:background="@drawable/rounded_edittext"
+            android:textSize="15dp"/>
+    </RelativeLayout>
+
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="200dp"
-        android:layout_below="@+id/boardactivity_textview_title"
-        android:text="본문내용"
-        android:paddingLeft="10dp"
-        android:paddingTop="10dp"
-        android:background="#f1e9c5"
-        android:textSize="20dp"/>
+        android:layout_height="fill_parent"
+        android:layout_weight="1">
 
-    <TextView
-        android:id="@+id/boardactivity_textview_reply"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/boardactivity_textview_description"
-        android:textSize="15dp"
-        android:layout_marginTop="15dp"
-        android:layout_marginLeft="15dp"
-        android:layout_marginBottom="5dp"
-        android:text="댓글"/>
+        <TextView
+            android:id="@+id/boardactivity_textview_reply"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:textSize="15dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginBottom="5dp"
+            android:text="댓글"/>
 
 
-    <ListView
-        android:id="@+id/boardactivity_listview"
-        android:layout_below="@+id/boardactivity_textview_reply"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_above="@id/boardactivity_edittext_reply">
-    </ListView>
+        <ListView
+            android:id="@+id/boardactivity_listview"
+            android:layout_below="@+id/boardactivity_textview_reply"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_above="@id/boardactivity_edittext_reply">
+        </ListView>
 
-    <EditText
-        android:id="@+id/boardactivity_edittext_reply"
-        android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:layout_alignParentBottom="true"
-        android:background="@drawable/edit_text_form"
-        android:paddingLeft="10dp"
-        android:hint="댓글 입력"/>
+        <EditText
+            android:id="@+id/boardactivity_edittext_reply"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_alignParentBottom="true"
+            android:background="@drawable/edit_text_form"
+            android:paddingLeft="10dp"
+            android:hint="댓글 입력"/>
 
-    <Button
-        android:id="@+id/boardactivity_button_input"
-        android:layout_width="wrap_content"
-        android:layout_height="40dp"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentBottom="true"
-        android:background="@color/colorButton"
-        android:textSize="17dp"
-        android:text="입력"
-        android:textColor="@android:color/white" />
+        <Button
+            android:id="@+id/boardactivity_button_input"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentBottom="true"
+            android:background="@color/colorButton"
+            android:textSize="17dp"
+            android:text="입력"
+            android:textColor="@android:color/white" />
+    </RelativeLayout>
 
-</RelativeLayout>
+
+
+</LinearLayout>
 

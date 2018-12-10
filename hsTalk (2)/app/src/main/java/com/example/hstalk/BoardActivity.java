@@ -17,6 +17,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -68,6 +69,10 @@ public class BoardActivity extends AppCompatActivity {
         setContentView(R.layout.activity_board);
         TextView titleText = (TextView)findViewById(R.id.boardactivity_textview_title);
         TextView body = (TextView)findViewById(R.id.boardactivity_textview_description);
+        TextView writerText = (TextView)findViewById(R.id.boardactivity_textview_writer);
+        ImageView payImage = (ImageView)findViewById(R.id.boardactivity_imageview_pay);
+        TextView startTimeText = (TextView)findViewById(R.id.boardactivity_starttime);
+        TextView endTimeText = (TextView)findViewById(R.id.boardactivity_endtime);
         listView = (ListView)findViewById(R.id.boardactivity_listview);
         comment = (EditText)findViewById(R.id.boardactivity_edittext_reply);
         Button button = (Button)findViewById(R.id.boardactivity_button_input);
@@ -90,8 +95,14 @@ public class BoardActivity extends AppCompatActivity {
         getComments(postId);
 
         titleText.setText(title);
+        writerText.setText(writer);
+        startTimeText.setText(startTime);
+        endTimeText.setText(endTime);
         body.setText(description);
 
+        if(freeState == 0){
+            payImage.setVisibility(View.VISIBLE);
+        }
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
