@@ -369,7 +369,7 @@ public class ChatActivity extends AppCompatActivity
 
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Select device");
-        builder.setCancelable(false);
+        builder.setCancelable(true);
         builder.setItems(items, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
