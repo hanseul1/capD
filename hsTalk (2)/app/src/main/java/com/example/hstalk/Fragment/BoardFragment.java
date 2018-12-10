@@ -109,7 +109,7 @@ public class BoardFragment extends Fragment {
             @Override
             public void onSuccess(int code, Object receivedData) {
                 List<ResponseGetBoardList> data = (List<ResponseGetBoardList>) receivedData;
-                for(int i=0; i<data.size(); i++){
+                for(int i=data.size()-1; i>=0; i--){
                     title.add(new ListItem(data.get(i).postId,data.get(i).title,data.get(i).description,data.get(i).created_at,data.get(i).started_at,
                             data.get(i).ended_at,data.get(i).writeId,data.get(i).freeState));
                 }
