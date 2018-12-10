@@ -4,128 +4,137 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/sign_language"
     android:orientation="vertical"
-    android:background="#f1e9c5"
     tools:context=".ReserveMatchingActivity">
 
     <RelativeLayout
         android:id="@+id/resmatchingactivity_layout1"
-        android:layout_alignParentTop="true"
-        android:layout_marginTop="50dp"
         android:layout_width="match_parent"
-        android:gravity="center"
-        android:layout_height="60dp">
+        android:layout_height="60dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="32dp"
+        android:gravity="center">
 
-        <ImageView
-            android:id="@+id/resmatchingactivity_logo"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_marginRight="10dp"
-            android:src="@drawable/suhwa_logo"/>
         <TextView
             android:id="@+id/resmatchingactivity_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@+id/resmatchingactivity_logo"
             android:text="00님의 예약 매칭 요청"
-            android:textSize="30dp"
-            android:layout_toRightOf="@+id/resmatchingactivity_logo"/>
+            android:textSize="20dp"
+            android:textStyle="bold"/>
     </RelativeLayout>
 
     <TextView
         android:id="@+id/resmatchingactivity_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textAlignment="center"
         android:layout_below="@+id/resmatchingactivity_layout1"
-        android:layout_marginTop="10dp"
-        android:text="해당 예약 매칭 글에 대한 매칭 신청을 보냈습니다."/>
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="-1dp"
+        android:text="해당 예약 매칭 글에 대한 매칭 신청을 보냈습니다."
+        android:textAlignment="center" />
 
     <RelativeLayout
         android:id="@+id/resmatchingactivity_layout2"
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
         android:layout_below="@id/resmatchingactivity_text"
         android:layout_marginTop="20dp"
-        android:gravity="center"
-        android:layout_width="match_parent"
-        android:layout_height="150dp">
+        android:gravity="center">
 
         <TextView
             android:id="@+id/resmatchingactivity_boardtitle"
-            android:layout_width="350dp"
+            android:layout_width="300dp"
             android:layout_height="wrap_content"
-            android:textSize="25dp"
             android:layout_marginTop="10dp"
-            android:background="@drawable/rounded_edittext"/>
+            android:background="@drawable/reserve_text"
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp"
+            android:textAlignment="center"
+            android:textSize="20dp" />
 
         <TextView
             android:id="@+id/resmatchingactivity_boardbody"
-            android:layout_width="350dp"
+            android:layout_width="300dp"
             android:layout_height="100dp"
-            android:background="@drawable/rounded_edittext"
+            android:layout_below="@+id/resmatchingactivity_boardtitle"
             android:layout_marginTop="10dp"
-            android:textSize="20dp"
-            android:layout_below="@+id/resmatchingactivity_boardtitle"/>
+            android:background="@drawable/reserve_text"
+            android:gravity="center"
+            android:textSize="15dp" />
 
     </RelativeLayout>
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="진행 시간"
         android:layout_below="@+id/resmatchingactivity_layout2"
-        android:textAlignment="center"
-        android:layout_marginTop="15dp"/>
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="41dp"
+        android:text="진행 시간"
+        android:textAlignment="center" />
 
     <RelativeLayout
         android:id="@+id/resmatchingactivity_layout3"
-        android:layout_below="@+id/resmatchingactivity_layout2"
         android:layout_width="match_parent"
-        android:gravity="center"
-        android:layout_height="70dp">
+        android:layout_height="70dp"
+        android:layout_below="@+id/resmatchingactivity_layout2"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="0dp"
+        android:layout_marginTop="29dp"
+        android:gravity="center">
 
         <TextView
             android:id="@+id/resmatchingactivity_starttime"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="40dp"
-            android:textAlignment="center"
-            android:text="시작시간"/>
+            android:text="시작시간"
+            android:textAlignment="center" />
 
         <TextView
             android:id="@+id/resmatchingactivity_temptext"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_toRightOf="@+id/resmatchingactivity_starttime"
             android:layout_marginTop="40dp"
-            android:text="    ~    "/>
+            android:layout_toRightOf="@+id/resmatchingactivity_starttime"
+            android:text="    ~    " />
 
         <TextView
             android:id="@+id/resmatchingactivity_endtime"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="40dp"
-            android:textAlignment="center"
+            android:layout_toRightOf="@+id/resmatchingactivity_temptext"
             android:text="종료시간"
-            android:layout_toRightOf="@+id/resmatchingactivity_temptext"/>
+            android:textAlignment="center" />
     </RelativeLayout>
 
     <RelativeLayout
-        android:layout_below="@+id/resmatchingactivity_layout3"
         android:layout_width="match_parent"
-        android:layout_marginTop="50dp"
-        android:gravity="center"
-        android:layout_height="50dp">
+        android:layout_height="40dp"
+        android:layout_below="@+id/resmatchingactivity_layout3"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="0dp"
+        android:layout_marginTop="132dp"
+        android:gravity="center">
 
         <Button
             android:id="@+id/resmatchingactivity_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="250dp"
+            android:layout_height="match_parent"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="0dp"
+            android:alpha="0.9"
+            android:background="@drawable/reserve_button"
             android:text="매칭 신청 수락"
-            android:background="@drawable/my_button"
-            android:textColor="@color/white"
-            android:layout_alignParentBottom="true"/>
+            android:textColor="@color/white" />
     </RelativeLayout>
-
-
 
 
 </RelativeLayout>
