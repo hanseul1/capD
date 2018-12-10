@@ -54,6 +54,7 @@ public class  MatchingInfoActivity extends AppCompatActivity {
     private Pubnub mPubNub;
     private String user;
     private String stdByChannel;
+    private String uid;
     List<ResponseGetInfoByPI> dataPI;
     List<ResponseGetInfoByRI> dataRI;
     ArrayList<InfoItem> infoitem = new ArrayList<InfoItem>();
@@ -62,7 +63,7 @@ public class  MatchingInfoActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_matchinginfo);
-        String type,uid,date;
+        String type,date;
         SharedPreferences sharedPreferences = getSharedPreferences( Constants.SHARED_PREFS , MODE_PRIVATE);
         type = sharedPreferences.getString("userType","");
         uid = sharedPreferences.getString("uid","");
@@ -149,6 +150,8 @@ public class  MatchingInfoActivity extends AppCompatActivity {
         this.mPubNub.setUUID(user);
         subscribeStdBy();
     }
+
+
     private void subscribeStdBy(){
 
         try {
@@ -184,6 +187,8 @@ public class  MatchingInfoActivity extends AppCompatActivity {
             e.printStackTrace();
         }
     }
+
+
     private void dispatchIncomingCall(String userId){
 
         Intent intent = new Intent(MatchingInfoActivity.this, IncomingCallActivity.class);
@@ -192,6 +197,10 @@ public class  MatchingInfoActivity extends AppCompatActivity {
         intent.putExtra("pushId",this.pushId);
         startActivity(intent);
     }
+
+
+
+
     private void setUserStatus(String status){
         try {
             JSONObject state = new JSONObject();
@@ -206,6 +215,8 @@ public class  MatchingInfoActivity extends AppCompatActivity {
             e.printStackTrace();
         }
     }
+
+
     class PushNotification extends AsyncTask<String,Void,String> {
         @Override
         protected void onPreExecute() {
@@ -288,6 +299,7 @@ public class  MatchingInfoActivity extends AppCompatActivity {
         }
     }
 
+
     private void showResult(){
         try{
             if(mJsonString != null){
@@ -359,15 +371,18 @@ public class  MatchingInfoActivity extends AppCompatActivity {
 
             SimpleDateFormat f = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
             Date nowDate = null;
-            try {
-                nowDate = f.parse(getTime);
-                Date startDate = f.parse(startTime);
-                 diff = startDate.getTime() - nowDate.getTime();
-                 min = diff / 60000;
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
+            if(startTime != null) {
 
+
+                try {
+                    nowDate = f.parse(getTime);
+                    Date startDate = f.parse(startTime);
+                    diff = startDate.getTime() - nowDate.getTime();
+                    min = diff / 60000;
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+            }
 
             if(min<30 && min>-30){
             }
