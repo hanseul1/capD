@@ -5,6 +5,7 @@ import com.example.hstalk.Retrofit.ResponseBody.ResponseGet;
 import com.example.hstalk.Retrofit.ResponseBody.ResponseGetBoard;
 import com.example.hstalk.Retrofit.ResponseBody.ResponseGetBoardList;
 import com.example.hstalk.Retrofit.ResponseBody.ResponseGetComments;
+import com.example.hstalk.Retrofit.ResponseBody.ResponseGetCommentsUserName;
 import com.example.hstalk.Retrofit.ResponseBody.ResponseGetInfoByPI;
 import com.example.hstalk.Retrofit.ResponseBody.ResponseGetInfoByRI;
 import com.example.hstalk.Retrofit.ResponseBody.ResponseGetPush;
@@ -38,6 +39,8 @@ public interface RetroBaseApiService {
     Call<ResponseGetUserInfo> getUserInfo(@Query("user_Id") String id);
     @GET("/getBoardList.php")
     Call<List<ResponseGetBoardList>> getBoardList();
+    @GET("/getCommentsUserName.php")
+    Call<List<ResponseGetCommentsUserName>> getCommentsUserName(@Query("userName") String id);
 
     @GET("/getInfoByPI.php")
     Call<List<ResponseGetInfoByPI>> getInfoByPI(@Query("PI") String id);

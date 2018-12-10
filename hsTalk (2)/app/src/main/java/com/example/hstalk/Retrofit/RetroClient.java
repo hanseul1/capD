@@ -5,6 +5,7 @@ import android.content.Context;
 import com.example.hstalk.Retrofit.ResponseBody.ResponseGetBoard;
 import com.example.hstalk.Retrofit.ResponseBody.ResponseGetBoardList;
 import com.example.hstalk.Retrofit.ResponseBody.ResponseGetComments;
+import com.example.hstalk.Retrofit.ResponseBody.ResponseGetCommentsUserName;
 import com.example.hstalk.Retrofit.ResponseBody.ResponseGetInfoByPI;
 import com.example.hstalk.Retrofit.ResponseBody.ResponseGetInfoByRI;
 import com.example.hstalk.Retrofit.ResponseBody.ResponseGetPush;
@@ -98,6 +99,7 @@ public class RetroClient {
             public void onFailure(Call<Void> call, Throwable t) { callback.onError(t);}
         });
     }
+
     public void getBoardList(final RetroCallback callback){
         apiService.getBoardList().enqueue(new Callback<List<ResponseGetBoardList>>() {
             @Override
@@ -115,6 +117,25 @@ public class RetroClient {
             }
         });
     }
+
+    public void getCommentsUserName(String id, final RetroCallback callback){
+        apiService.getCommentsUserName(id).enqueue(new Callback<List<ResponseGetCommentsUserName>>() {
+            @Override
+            public void onResponse(Call<List<ResponseGetCommentsUserName>> call, Response<List<ResponseGetCommentsUserName>> response) {
+                if (response.isSuccessful()) {
+                    callback.onSuccess(response.code(), response.body());
+                } else {
+                    callback.onFailure(response.code());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<ResponseGetCommentsUserName>> call, Throwable t) {
+
+            }
+        });
+    }
+
     public void commentBoard(HashMap<String, Object> parameters, final RetroCallback callback){
         apiService.commentBoard(parameters).enqueue(new Callback<Void>() {
             @Override
