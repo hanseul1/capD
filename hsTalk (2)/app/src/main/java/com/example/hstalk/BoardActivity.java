@@ -96,8 +96,8 @@ public class BoardActivity extends AppCompatActivity {
 
         titleText.setText(title);
         writerText.setText(writer);
-        startTimeText.setText(startTime);
-        endTimeText.setText(endTime);
+        startTimeText.setText(startTime.substring(2));
+        endTimeText.setText(endTime.substring(2));
         body.setText(description);
 
         if(freeState == 0){
