@@ -19,7 +19,7 @@
             android:id="@+id/chatactivity_back"
             android:layout_width="fill_parent"
             android:layout_height="match_parent"
-            android:src="@drawable/baseline_arrow_back_black_24"
+            android:src="@drawable/left_arrow"
             android:background="@color/colorButton"
             android:layout_weight="5"/>
 
@@ -29,7 +29,7 @@
             android:layout_height="match_parent"
             android:background="@color/colorButton"
             android:layout_weight="1"
-            android:layout_marginLeft="20dp"
+            android:layout_marginLeft="10dp"
             android:layout_marginTop="15dp"
             android:shadowColor="#000000"
             android:text="간단수화번역기"

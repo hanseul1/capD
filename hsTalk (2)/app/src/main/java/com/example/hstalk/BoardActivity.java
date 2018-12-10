@@ -114,7 +114,6 @@ public class BoardActivity extends AppCompatActivity {
             @Override
             public void onSuccess(int code, Object receivedData) {
                 data = (List<ResponseGetComments>) receivedData;
-//                Toast.makeText(BoardActivity.this,userName,Toast.LENGTH_SHORT).show();
                 for (int i = 0; i < data.size(); i++) {
                     listItem.add(new ListItem(data.get(i).writeId, data.get(i).body, data.get(i).created_at));
                 }

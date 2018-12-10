@@ -3,6 +3,7 @@ package com.example.hstalk.Fragment;
 import android.app.Fragment;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -21,6 +22,7 @@ import com.example.hstalk.Retrofit.ResponseBody.ResponseGetBoardList;
 import com.example.hstalk.Retrofit.ResponseBody.ResponseGetComments;
 import com.example.hstalk.Retrofit.RetroCallback;
 import com.example.hstalk.Retrofit.RetroClient;
+import com.example.hstalk.util.Constants;
 import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.ArrayList;
@@ -29,18 +31,21 @@ import java.util.List;
 public class MyReplyFragment extends Fragment {
     private static String IP_ADDRESS = "52.231.69.121";
     private static String TAG ="myreplytest";
-//    String userName = null;
+    private static int myreply;
+
+    String userName = null;
+    String commentUser = null;
     ArrayList<ListItem> title = new ArrayList<ListItem>();
     ListView lv;
 
 
-//    @Override
-//    public void onAttach(Context context){
-//        super.onAttach(context);
-//        if(getActivity() != null && getActivity() instanceof MainActivity){
-//            userName = ((MainActivity)getActivity()).getData();
-//        }
-//    }
+    @Override
+    public void onAttach(Context context){
+        super.onAttach(context);
+        if(getActivity() != null && getActivity() instanceof MainActivity){
+            userName = ((MainActivity)getActivity()).getData();
+        }
+    }
 
     @Nullable
     @Override
@@ -89,6 +94,7 @@ public class MyReplyFragment extends Fragment {
     }
 
     protected void getBoardList(){
+
         RetroClient retroClient = RetroClient.getInstance(getActivity()).createBaseApi();
         retroClient.getBoardList(new RetroCallback() {
             @Override
@@ -98,14 +104,55 @@ public class MyReplyFragment extends Fragment {
 
             @Override
             public void onSuccess(int code, Object receivedData) {
+
+//                SharedPreferences sharedPreferences;
+//                sharedPreferences = getActivity().getSharedPreferences(Constants.SHARED_PREFS , Context.MODE_PRIVATE);
+//                commentUser = sharedPreferences.getString("writeId","");
+//                Toast.makeText(getActivity(), "유저 : " + userName, Toast.LENGTH_SHORT).show();
+
+                //client 객체 새로 선언해서 getcomments로 만들어서 onsuccess랑 그런거 만들어서 비교비교비교비교비교해!
                 List<ResponseGetBoardList> data = (List<ResponseGetBoardList>) receivedData;
-//                BoardActivity ba = new BoardActivity();
-//                ba.setUserName(userName);
+                RetroClient rClient = RetroClient.getInstance(getActivity()).createBaseApi();
+
                 for(int i=0; i<data.size(); i++){
-//                    if(ba.getDidWriteComment()) {
+                    rClient.getComments(data.get(i).postId, new RetroCallback() {
+
+                        @Override
+                        public void onError(Throwable t) {
+                            Toast.makeText(getActivity(),t.toString(),Toast.LENGTH_SHORT).show();
+                        }
+
+                        @Override
+                        public void onSuccess(int code, Object receivedData) {
+                            List<ResponseGetComments> cData = (List<ResponseGetComments>) receivedData;
+                            for(int j = 0; j < cData.size(); j++){
+                                if(cData.get(j).writeId.equals(userName)){
+                                    Toast.makeText(getActivity(), "onSuccess, myreply = 1", Toast.LENGTH_SHORT).show();
+
+                                    myreply = 1;
+                                    //댓글을 두 개 달았으면?
+                                    break;
+                                }
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(int code) {
+                            Toast.makeText(getActivity(),"fail",Toast.LENGTH_SHORT).show();
+                        }
+
+                    });
+
+                    Toast.makeText(getActivity(), "myreply : " + myreply, Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(getActivity(), "chk.check: " + chk.check, Toast.LENGTH_SHORT).show();
+
+//                    int temp = chk.check;
+                    if(myreply == 1) {
+                        Toast.makeText(getActivity(), "뭔데 ㅅㅂ" , Toast.LENGTH_SHORT).show();
                         title.add(new ListItem(data.get(i).postId, data.get(i).title, data.get(i).description, data.get(i).created_at, data.get(i).started_at,
                                 data.get(i).ended_at, data.get(i).writeId, data.get(i).freeState));
-//                    }
+                        myreply = 0;
+                    }
                 }
 
                 //게시글 눌러서 내용확인

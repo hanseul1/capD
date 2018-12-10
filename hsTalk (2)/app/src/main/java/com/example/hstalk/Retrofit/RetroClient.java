@@ -24,7 +24,7 @@ public class RetroClient {
     public static String baseUrl = RetroBaseApiService.Base_URL;
     private static Context mContext;
     private static Retrofit retrofit;
-
+    public int chk;
     private static class SingletonHolder {
         private static RetroClient INSTANCE = new RetroClient(mContext);
     }

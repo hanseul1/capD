@@ -64,6 +64,10 @@ public class MainActivity extends AppCompatActivity
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 int id = item.getItemId();
                 switch(id){
+                    case R.id.action_chat:
+                        Intent intent3 = new Intent(MainActivity.this, ChatActivity.class);
+                        startActivity(intent3);
+                        break;
                     case R.id.action_livematching:
                         getFragmentManager().beginTransaction().replace(R.id.content_main, new LiveMatchingFragment()).commit();
                         break;
@@ -234,10 +238,6 @@ public class MainActivity extends AppCompatActivity
                 break;
             case R.id.nav_action_myReply:
                 fragment = new MyReplyFragment();
-//                Intent i= new Intent(this, MyReplyFragment.class);
-//                String userName = getData();
-//                i.putExtra("userName", userName);
-//                startActivity(i);
                 break;
             case R.id.nav_action_point:
                 Intent intent4 = new Intent(MainActivity.this,PointActivity.class);
