@@ -5,6 +5,7 @@ import android.app.ListActivity;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
+import android.media.AudioManager;
 import android.media.AudioRecord;
 import android.opengl.GLSurfaceView;
 import android.os.Bundle;
@@ -15,6 +16,7 @@ import android.speech.RecognitionListener;
 import android.speech.RecognizerIntent;
 import android.speech.SpeechRecognizer;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -191,6 +193,56 @@ public class VideoChatActivity extends ListActivity {
 
 
     }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        AudioManager mAudioManager = (AudioManager)getSystemService(AUDIO_SERVICE);
+
+        switch(keyCode){
+            case  KeyEvent.KEYCODE_VOLUME_UP :
+                mAudioManager.adjustStreamVolume(AudioManager.STREAM_MUSIC,
+                                                 AudioManager.ADJUST_RAISE,
+                                                 AudioManager.FLAG_SHOW_UI);
+                return true;
+                
+            case KeyEvent.ACTION_DOWN:
+                mAudioManager.adjustStreamVolume(AudioManager.STREAM_MUSIC,
+                                                 AudioManager.ADJUST_LOWER,
+                                                 AudioManager.FLAG_SHOW_UI);
+                return true;
+
+            case KeyEvent.KEYCODE_BACK:
+                return true;
+        }
+
+        return false;
+    }
+
+    @Override
+    public boolean onKeyUp(int keyCode, KeyEvent event) {
+        AudioManager mAudioManager = (AudioManager) getSystemService(AUDIO_SERVICE);
+
+        switch (keyCode) {
+            case KeyEvent.KEYCODE_VOLUME_UP:
+                mAudioManager.adjustStreamVolume(mAudioManager.STREAM_MUSIC,
+                        AudioManager.ADJUST_SAME,
+                        AudioManager.FLAG_SHOW_UI);
+                return true;
+
+            case KeyEvent.KEYCODE_VOLUME_DOWN:
+                mAudioManager.adjustStreamVolume(AudioManager.STREAM_MUSIC,
+                        AudioManager.ADJUST_SAME,
+                        AudioManager.FLAG_SHOW_UI);
+                return true;
+
+            case KeyEvent.KEYCODE_BACK:
+                this.finish();
+                return true;
+
+        }
+        return false;
+    }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
