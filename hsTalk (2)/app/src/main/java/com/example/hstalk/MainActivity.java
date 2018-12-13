@@ -158,6 +158,10 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void onSuccess(int code, Object receivedData) {
                 ResponseGetUserInfo data = (ResponseGetUserInfo) receivedData;
+                SharedPreferences sharedPreferences = getSharedPreferences(Constants.SHARED_PREFS, MODE_PRIVATE);
+                SharedPreferences.Editor ed = sharedPreferences.edit();
+                ed.putInt("point",data.point);
+                ed.commit();
                 userPoint.setText("잔여 포인트 : " + Integer.toString(data.point));
             }
 
