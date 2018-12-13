@@ -39,7 +39,6 @@ public class BoardFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_board,container,false);
         TextView tv1 =(TextView)view.findViewById(R.id.textView1);
         ImageButton create = (ImageButton)view.findViewById(R.id.imageButton1);
-        ImageButton temp = (ImageButton)view.findViewById(R.id.imageButton2);
 
         lv = (ListView)view.findViewById(R.id.listView1);
 
