@@ -385,7 +385,10 @@ public class  MatchingInfoActivity extends AppCompatActivity {
             }
 
             if(min<30 && min>-30){
+                button.setEnabled(true);
+                button.setVisibility(convertView.VISIBLE);
             }
+
             else{
                 button.setEnabled(false);
                 button.setVisibility(convertView.GONE);
