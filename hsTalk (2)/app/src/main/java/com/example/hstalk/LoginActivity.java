@@ -130,7 +130,11 @@ public class LoginActivity extends AppCompatActivity {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if(!task.isSuccessful()){
                             //로그인 실패했을 때
-                            Toast.makeText(LoginActivity.this, task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                            if(task.getException().getMessage() == "The password is invalid or the user does not have a password."){
+                                Toast.makeText(LoginActivity.this, "비밀번호가 틀립니다.",Toast.LENGTH_SHORT).show();
+                            }else{
+                                Toast.makeText(LoginActivity.this, task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                            }
                         }
 
                     }
