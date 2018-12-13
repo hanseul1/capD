@@ -27,6 +27,10 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.hstalk.Retrofit.ResponseBody.ResponseGetBoardList;
+import com.example.hstalk.Retrofit.ResponseBody.ResponsecheckEmail;
+import com.example.hstalk.Retrofit.RetroCallback;
+import com.example.hstalk.Retrofit.RetroClient;
 import com.example.hstalk.model.UserModel;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -46,6 +50,7 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.List;
 
 public class SignupActivity extends AppCompatActivity {
 
@@ -89,6 +94,10 @@ public class SignupActivity extends AppCompatActivity {
         textPwCheck.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+//                String pw = textPassword.getText().toString();
+//                if(pw.length() < 6){
+//                    Toast.makeText(SignupActivity.this,"비밀번호는 6자리 이상 입력해주세요",Toast.LENGTH_SHORT).show();
+//                }
             }
 
             @Override
@@ -110,15 +119,24 @@ public class SignupActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                if(textEmail.getText().toString().length() == 0 || textName.getText().toString().length() == 0 || textPassword.getText().toString().length() == 0){
-                    Toast.makeText(SignupActivity.this,"회원가입 오류",Toast.LENGTH_SHORT).show();
+                if (textEmail.getText().toString().length() == 0 || textName.getText().toString().length() == 0 || textPassword.getText().toString().length() == 0) {
+                    Toast.makeText(SignupActivity.this, "회원가입 오류", Toast.LENGTH_SHORT).show();
+                    return;
+                }else if (textPassword.getText().toString().length() < 6) {
+                    Toast.makeText(SignupActivity.this, "비밀번호는 6자리 이상으로 설정해주세요.", Toast.LENGTH_SHORT).show();
+                    textPassword.setText("");
+                    textPwCheck.setText("");
+                    return;
+                } else if (!textPassword.getText().toString().equals(textPwCheck.getText().toString())) {
+                    Toast.makeText(SignupActivity.this, "비밀번호가 일치하지 않습니다,", Toast.LENGTH_SHORT).show();
+                    textPassword.setText("");
+                    textPwCheck.setText("");
                     return;
                 }
-                if(!textPassword.getText().toString().equals(textPwCheck.getText().toString())){
-                    Toast.makeText(SignupActivity.this,"비밀번호가 일치하지 않습니다,",Toast.LENGTH_SHORT).show();
-                    return;
-                }
-               // final ProgressDialog pd = ProgressDialog.show(SignupActivity.this, "회원가입", "잠시만 기다려주세요...");
+
+
+
+
                 final AppCompatDialog pd = new AppCompatDialog(SignupActivity.this);
                 pd.setCancelable(false);
                 pd.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
@@ -137,36 +155,37 @@ public class SignupActivity extends AppCompatActivity {
                 FirebaseAuth.getInstance()
                         .createUserWithEmailAndPassword(textEmail.getText().toString(), textPassword.getText().toString())
                         .addOnCompleteListener(SignupActivity.this, new OnCompleteListener<AuthResult>() {
-                                    @Override
-                                    public void onComplete(@NonNull Task<AuthResult> task) {
-                                        final String uid = task.getResult().getUser().getUid();
+                            @Override
+                            public void onComplete(@NonNull Task<AuthResult> task) {
+                                final String uid = task.getResult().getUser().getUid();
 
 
-                                                final UserModel userModel = new UserModel();
-                                                userModel.userName = textName.getText().toString();
-                                                userModel.uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
-                                                if(userTypeH.isChecked()){
-                                                    userType = "H";
-                                                }else{
-                                                    userType = "V";
-                                                }
-                                                userModel.userType = userType;
+                                final UserModel userModel = new UserModel();
+                                userModel.userName = textName.getText().toString();
+                                userModel.uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+                                if (userTypeH.isChecked()) {
+                                    userType = "H";
+                                } else {
+                                    userType = "V";
+                                }
+                                userModel.userType = userType;
 
-                                                        //mysql DB 에 회원정보 저장(user table)
-                                                        String email = textEmail.getText().toString();
-                                                        String name = textName.getText().toString();
-                                                        String password = textPassword.getText().toString();
-                                                        String token = FirebaseInstanceId.getInstance().getToken();
+                                //mysql DB 에 회원정보 저장(user table)
+                                String email = textEmail.getText().toString();
+                                String name = textName.getText().toString();
+                                String password = textPassword.getText().toString();
+                                String token = FirebaseInstanceId.getInstance().getToken();
 
-                                                        InsertUserData insertUserData = new InsertUserData();
-                                                        insertUserData.execute("http://"+IP_ADDRESS+"/insertUser.php",email,password,name,uid,token,userType);
-                                                       pd.dismiss();
-                                                        SignupActivity.this.finish();
+                                InsertUserData insertUserData = new InsertUserData();
+                                insertUserData.execute("http://" + IP_ADDRESS + "/insertUser.php", email, password, name, uid, token, userType);
+                                pd.dismiss();
+                                SignupActivity.this.finish();
 
-                                    }
+                            }
 
-                            });
+                        });
             }
+
         });
     }
 

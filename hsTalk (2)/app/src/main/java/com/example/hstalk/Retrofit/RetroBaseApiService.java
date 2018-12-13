@@ -10,6 +10,7 @@ import com.example.hstalk.Retrofit.ResponseBody.ResponseGetInfoByPI;
 import com.example.hstalk.Retrofit.ResponseBody.ResponseGetInfoByRI;
 import com.example.hstalk.Retrofit.ResponseBody.ResponseGetPush;
 import com.example.hstalk.Retrofit.ResponseBody.ResponseGetUserInfo;
+import com.example.hstalk.Retrofit.ResponseBody.ResponsecheckEmail;
 
 import java.util.HashMap;
 import java.util.List;
@@ -52,6 +53,8 @@ public interface RetroBaseApiService {
     Call<ResponseGetBoard> getBoard(@Query("postId") int id);
     @GET("/getPush.php")
     Call<ResponseGetPush> getPush(@Query("pushId") String id);
+    @GET("/checkEmail.php")
+    Call<ResponsecheckEmail> checkEmail(@Query("email") String id);
 
     @FormUrlEncoded
     @POST("/CreateBoard.php")

@@ -10,6 +10,7 @@ import com.example.hstalk.Retrofit.ResponseBody.ResponseGetInfoByPI;
 import com.example.hstalk.Retrofit.ResponseBody.ResponseGetInfoByRI;
 import com.example.hstalk.Retrofit.ResponseBody.ResponseGetPush;
 import com.example.hstalk.Retrofit.ResponseBody.ResponseGetUserInfo;
+import com.example.hstalk.Retrofit.ResponseBody.ResponsecheckEmail;
 
 import java.util.HashMap;
 import java.util.List;
@@ -191,7 +192,23 @@ public class RetroClient {
         });
     }
 
+    public void checkEmail(String id, final RetroCallback callback){
+            apiService.checkEmail(id).enqueue(new Callback<ResponsecheckEmail>() {
+                @Override
+                public void onResponse(Call<ResponsecheckEmail> call, Response<ResponsecheckEmail> response) {
+                    if (response.isSuccessful()) {
+                        callback.onSuccess(response.code(), response.body());
+                    } else {
+                        callback.onFailure(response.code());
+                    }
+                }
 
+                @Override
+                public void onFailure(Call<ResponsecheckEmail> call, Throwable t) {
+
+                }
+            });
+    }
 
 
     public void getComments(int id, final RetroCallback callback){

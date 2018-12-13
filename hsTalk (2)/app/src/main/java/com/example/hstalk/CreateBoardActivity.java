@@ -1,6 +1,7 @@
 package com.example.hstalk;
 
 import android.app.AlertDialog;
+import android.app.Fragment;
 import android.app.TimePickerDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -165,6 +166,8 @@ public class CreateBoardActivity extends AppCompatActivity  {
 
                 createBoard();
                 setResult(RESULT_OK);
+                Fragment fragment = null;
+                fragment = new BoardFragment();
                 CreateBoardActivity.this.finish();
             }
         });

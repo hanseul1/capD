@@ -97,7 +97,7 @@ public class BoardFragment extends Fragment {
     }
 
 
-    protected void getBoardList(){
+    public void getBoardList(){
         RetroClient retroClient = RetroClient.getInstance(getActivity()).createBaseApi();
         retroClient.getBoardList(new RetroCallback() {
             @Override
