@@ -54,10 +54,7 @@
                 android:id="@+id/nav_action_point"
                 android:icon="@drawable/baseline_payment_black_24"
                 android:title="포인트 결제" />
-            <item
-                android:id="@+id/nav_action_setting"
-                android:icon="@drawable/baseline_settings_black_24"
-                android:title="설정" />
+
         </menu>
     </item>
 

@@ -75,7 +75,8 @@ public class MainActivity extends AppCompatActivity
                         getFragmentManager().beginTransaction().replace(R.id.content_main, new BoardFragment()).commit();
                         break;
                     case R.id.action_setting :
-                        getFragmentManager().beginTransaction().replace(R.id.content_main, new SettingPreferenceFragment()).commit();
+                        Intent intent4 = new Intent(MainActivity.this,PointActivity.class);
+                        startActivity(intent4);
                         break;
                 }
                 DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -225,9 +226,6 @@ public class MainActivity extends AppCompatActivity
                 break;
             case R.id.nav_action_board:
                 fragment = new BoardFragment();
-                break;
-            case R.id.nav_action_setting:
-                fragment = new SettingPreferenceFragment();
                 break;
             case R.id.nav_action_matchingInfo:
                 Intent intent2 = new Intent(MainActivity.this, MatchingInfoActivity.class);

@@ -11,7 +11,7 @@
         android:title="예약매칭"/>
     <item
         android:id="@+id/action_setting"
-        android:icon="@drawable/baseline_settings_black_24"
-        android:title="설정"/>
+        android:icon="@drawable/baseline_payment_black_24"
+        android:title="포인트 결제"/>
 
 </menu>

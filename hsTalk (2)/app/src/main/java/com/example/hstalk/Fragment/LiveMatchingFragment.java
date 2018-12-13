@@ -45,6 +45,7 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import android.content.DialogInterface;
 
 public class LiveMatchingFragment extends Fragment {
 
@@ -67,6 +68,7 @@ public class LiveMatchingFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable final ViewGroup container, Bundle savedInstanceState) {
+        final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 
         final SharedPreferences sharedPreferences = getActivity().getSharedPreferences( Constants.SHARED_PREFS , Context.MODE_PRIVATE);
 
@@ -81,7 +83,31 @@ public class LiveMatchingFragment extends Fragment {
             @Override
             public void onClick(View view) {
               payment = "pay";
+                builder.setTitle("서비스 이용료")        // 제목 설정
+
+                        .setMessage("\n통화시간 3분당 500원의 이용료가 차감됩니다.")        // 메세지 설정
+
+                        .setCancelable(false)        // 뒤로 버튼 클릭시 취소 가능 설정
+
+                        .setPositiveButton("확인", new DialogInterface.OnClickListener(){
+
+                            // 확인 버튼 클릭시 설정
+
+                            public void onClick(DialogInterface dialog, int whichButton){
+
+                            }
+
+                        });
+
+
+
+                AlertDialog dialog = builder.create();    // 알림창 객체 생성
+
+                dialog.show();    // 알림창 띄우기
+
             }
+
+
         });
         free.setOnClickListener(new View.OnClickListener(){
             @Override

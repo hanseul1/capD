@@ -1,6 +1,8 @@
 package com.example.hstalk;
 
+import android.app.AlertDialog;
 import android.app.TimePickerDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -60,7 +62,36 @@ public class CreateBoardActivity extends AppCompatActivity  {
 
         final Calendar startCal = Calendar.getInstance();
         final Calendar endCal = Calendar.getInstance();
+        final AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        pay.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view) {
+                builder.setTitle("서비스 이용료")        // 제목 설정
 
+                        .setMessage("\n통화시간 3분당 500원의 이용료가 차감됩니다.")        // 메세지 설정
+
+                        .setCancelable(false)        // 뒤로 버튼 클릭시 취소 가능 설정
+
+                        .setPositiveButton("확인", new DialogInterface.OnClickListener(){
+
+                            // 확인 버튼 클릭시 설정
+
+                            public void onClick(DialogInterface dialog, int whichButton){
+
+                            }
+
+                        });
+
+
+
+                AlertDialog dialog = builder.create();    // 알림창 객체 생성
+
+                dialog.show();    // 알림창 띄우기
+
+            }
+
+
+        });
         date.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
