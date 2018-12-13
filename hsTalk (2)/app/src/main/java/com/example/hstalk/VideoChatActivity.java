@@ -324,22 +324,7 @@ public class VideoChatActivity extends ListActivity {
     }
 
     private void endCall() {
-        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.KOREA);
-        ended_at =  df.format(new Date());
 
-        try {
-            Date startDate = df.parse(started_at);
-            Date endDate = df.parse(ended_at);
-
-            long minute = (endDate.getTime() - startDate.getTime()) / 60000;
-            double i = (double)minute/3;
-            long intPrice = (long)(Math.ceil(i) * 500);
-            this.price = Long.toString(intPrice);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-
-        updateEndCall();
         startActivity(new Intent(VideoChatActivity.this, MainActivity.class));
         finish();
     }
@@ -537,6 +522,26 @@ public class VideoChatActivity extends ListActivity {
                     mCallStatus.setVisibility(View.VISIBLE);
                 }
             });
+            SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.KOREA);
+            ended_at =  df.format(new Date());
+
+            try {
+                Date startDate = df.parse(started_at);
+                Date endDate = df.parse(ended_at);
+                long intPrice;
+                long minute = (endDate.getTime() - startDate.getTime()) / 60000;
+                Log.d("TAG", String.valueOf(minute));
+                double i = (double)minute/3;
+                if(Math.ceil(i) == 0)
+                    intPrice = 500;
+                else
+                    intPrice = (long)(Math.ceil(i) * 500);
+                price = Long.toString(intPrice);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+
+            updateEndCall();
             try {Thread.sleep(1500);} catch (InterruptedException e){e.printStackTrace();}
             Intent intent = new Intent(VideoChatActivity.this, MainActivity.class);
             startActivity(intent);
