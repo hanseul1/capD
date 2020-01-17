@@ -41,6 +41,9 @@
 
 
 
+
+
+
 ## 컴포넌트 설계도
 
 - ‘수화해듀오’는 사용자가 사용하는 클라이언트인 Android application과 어플리케이션 구동에 필요한 Application Server가 존재한다.
@@ -52,6 +55,11 @@
     PHP 상에서 FCM 서버, 즉 Firebase Server로의 데이터 전송이 이루어지게 된다.
 
 
+
+
+
+
+## 사용 기술 및 알고리즘
 
 #### FCM(Firebase Cloud Messaging)
 
