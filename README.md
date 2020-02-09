@@ -46,6 +46,9 @@
 
 ## 컴포넌트 설계도
 
+<img width="403" alt="component" src="https://user-images.githubusercontent.com/33472435/74100328-04ac2680-4b71-11ea-98ed-717998ac4ddf.PNG">
+
+
 - ‘수화해듀오’는 사용자가 사용하는 클라이언트인 Android application과 어플리케이션 구동에 필요한 Application Server가 존재한다.
 
 - Android는 사용자가 회원가입 또는 로그인 할 때 사용자 계정의 Authentication을 위해 FirebaseAuth 객체를 생성하여 Firebase Server와 직접 통신한다.
